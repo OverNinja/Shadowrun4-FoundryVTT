@@ -1,0 +1,62 @@
+<div class="item-sheet-body">
+  <header class="item-sheet-header">
+    <img
+      class="item-sheet-img"
+      data-edit="img"
+      src="{{ item.img }}"
+      alt="{{ item.name }}"
+    />
+    <div class="item-sheet-name">
+      <label>{{localize 'sr4.item.name'}}</label>
+      <input type="text" name="name" value="{{ item.name }}" />
+    </div>
+  </header>
+
+  <table class="item-stats-table">
+    <thead>
+      <tr>
+        <th>{{localize 'sr4.autosoft.type'}}</th>
+        <th>{{localize 'sr4.item.rating'}}</th>
+        <th>{{localize 'sr4.autosoft.target'}}</th>
+        <th>{{localize 'sr4.item.cost'}}</th>
+        <th>{{localize 'sr4.item.legality'}}</th>
+        <th>{{localize 'sr4.item.availability'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <select name="system.autosoftType">
+            <option value="maneuvering" {{#if (eq system.autosoftType 'maneuvering')}}selected{{/if}}>{{localize 'sr4.autosoft.maneuvering'}}</option>
+            <option value="targeting" {{#if (eq system.autosoftType 'targeting')}}selected{{/if}}>{{localize 'sr4.autosoft.targeting'}}</option>
+            <option value="clearsight" {{#if (eq system.autosoftType 'clearsight')}}selected{{/if}}>{{localize 'sr4.autosoft.clearsight'}}</option>
+            <option value="electronic-warfare" {{#if (eq system.autosoftType 'electronic-warfare')}}selected{{/if}}>{{localize 'sr4.autosoft.electronicWarfare'}}</option>
+            <option value="clearsoft" {{#if (eq system.autosoftType 'clearsoft')}}selected{{/if}}>{{localize 'sr4.autosoft.clearsoft'}}</option>
+          </select>
+        </td>
+        <td>
+          <input type="number" name="system.rating" value="{{ system.rating }}" />
+        </td>
+        <td>
+          <input type="text" name="system.target" value="{{ system.target }}" placeholder="e.g. Pistols" />
+        </td>
+        <td>
+          <input type="number" name="system.cost" value="{{ system.cost }}" />
+        </td>
+        <td>
+          <input type="text" name="system.legality" value="{{ system.legality }}" />
+        </td>
+        <td>
+          <input type="text" name="system.availability" value="{{ system.availability }}" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="item-textareas">
+    <div>
+      <label>{{localize 'sr4.item.notes'}}</label>
+      <textarea name="system.notes">{{ system.notes }}</textarea>
+    </div>
+  </div>
+</div>

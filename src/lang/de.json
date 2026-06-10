@@ -80,6 +80,15 @@
       "strength": "STR",
       "willpower": "WIL"
     },
+    "autosoft": {
+      "clearsight": "Weitblick",
+      "clearsoft": "Clearsoft",
+      "electronicWarfare": "Elektronische Kriegsführung",
+      "maneuvering": "Manövrierung",
+      "target": "Ziel",
+      "targeting": "Zielerfassung",
+      "type": "Typ"
+    },
     "bonus": {
       "generalModifier": "Allgemeiner Modifikator",
       "overflowBonus": "Overflow Bonus",
@@ -124,13 +133,13 @@
       "active": "Aktiv",
       "add": "Effekt hinzufügen",
       "attribute": "Attribut",
+      "changeIcon": "Klicken zum Icon ändern",
       "mode": {
         "add": "Bonus / Malus",
         "label": "Modus",
         "multiply": "Multiplikator",
         "override": "Überschreiben"
       },
-      "changeIcon": "Klicken zum Icon ändern",
       "name": "Name",
       "new": "Neuer Effekt",
       "none": "Keine Effekte vorhanden",
@@ -390,6 +399,19 @@
         "physical": "K"
       }
     },
+    "spirit": {
+      "attributes": "Attribute",
+      "dropSummoner": "Akteur ziehen um Beschwörer zu verknüpfen",
+      "force": "Kraft",
+      "name": "Name",
+      "noPowers": "Keine Kräfte",
+      "noSkills": "Keine Fertigkeiten",
+      "ownerUuid": "Beschwörer UUID",
+      "powers": "Kräfte",
+      "services": "Dienste",
+      "summoner": "Beschwörer",
+      "type": "Geisttyp"
+    },
     "stats": {
       "AGILITY": "Geschicklichkeit",
       "ASTRALINITIATIVE": "Astrale Initiative",
@@ -422,6 +444,30 @@
       "modifiers": "Modifikatoren",
       "skills": "Fertigkeiten",
       "weapons": "Waffen"
+    },
+    "vehicle": {
+      "accel": "Beschl.",
+      "armor": "Panzerung",
+      "autonomous": "Autonom",
+      "autosofts": "Autosofts",
+      "availability": "Verf.",
+      "body": "Karosserie",
+      "cost": "Kosten",
+      "dropRigger": "Akteur ziehen um Rigger zu verknüpfen",
+      "handling": "Handhabung",
+      "name": "Name",
+      "noAutosofts": "Keine Autosofts installiert",
+      "noDicePool": "Kein Würfelpool — Autosofts hinzufügen oder Pilot erhöhen",
+      "pilot": "Pilot",
+      "pilotPoolHint": "Autonomer Pool",
+      "pilotRoll": "Pilotenwurf",
+      "rigger": "Rigger",
+      "riggerUuid": "Rigger UUID",
+      "rollAutonomous": "Autonom würfeln",
+      "sensor": "Sensor",
+      "speed": "Geschw.",
+      "stats": "Fahrzeugwerte",
+      "type": "Typ"
     },
     "weapon": {
       "ammo": "Munition",

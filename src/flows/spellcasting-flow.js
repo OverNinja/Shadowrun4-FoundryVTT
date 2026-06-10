@@ -30,6 +30,11 @@ function calculateDrainPool(actor) {
 
 // ─── Main flow ────────────────────────────────────────────────────────────────
 export class SpellcastingFlow {
+  /**
+   * @param {import('@documents/index').SR4Actor} actor
+   * @param {import('@models/index').SR4Spell} spell
+   * @returns {Promise<void>}
+   */
   static async start(actor, spell) {
     if (!actor.system.sheetStats.MAGIC) {
       ui?.notifications?.error(
@@ -47,6 +52,12 @@ export class SpellcastingFlow {
     await SpellcastingFlow.handleDrain(actor, spell, force, hits);
   }
 
+  /**
+   * @param {import('@documents/index').SR4Actor} actor
+   * @param {import('@models/index').SR4Spell} spell
+   * @param {number} force
+   * @returns {Promise<number | null>}
+   */
   static async rollSpellcasting(actor, spell, force) {
     const skillName = 'spellcasting';
     const numDice = getSkillDicePool(actor, skillName);
@@ -54,6 +65,13 @@ export class SpellcastingFlow {
     return openSpellcastingDialog(actor, skillName, numDice, spell, force);
   }
 
+  /**
+   * @param {import('@documents/index').SR4Actor} actor
+   * @param {import('@models/index').SR4Spell} spell
+   * @param {number} force
+   * @param {number} hits
+   * @returns {Promise<void>}
+   */
   static async handleDrain(actor, spell, force, hits) {
     const baseDrainValue = calculateDrainValue(force, spell.system?.dv ?? 0);
     const drainPool = calculateDrainPool(actor);

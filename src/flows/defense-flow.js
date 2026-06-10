@@ -26,6 +26,13 @@ export function emitDefenseTrigger(actor, weapon, successes) {
 }
 
 export class DefenseFlow {
+  /**
+   * @param {import('@documents/index').SR4Actor} defender
+   * @param {string} attackerId
+   * @param {number} successes
+   * @param {import('@models/index').SR4Weapon} weapon
+   * @returns {Promise<void>}
+   */
   static async start(defender, attackerId, successes, weapon) {
     await new DefenseFlow().handleDefenseRequest(
       defender.id,
@@ -35,8 +42,17 @@ export class DefenseFlow {
     );
   }
 
+  /**
+   * @param {string} defenderId
+   * @param {string} attackerId
+   * @param {number} successes
+   * @param {import('@models/index').SR4Weapon} weapon
+   * @returns {Promise<void>}
+   */
   async handleDefenseRequest(defenderId, attackerId, successes, weapon) {
+    /** @type {import('@documents/index').SR4Actor | undefined} */
     const defender = getGame().actors?.get(defenderId);
+    /** @type {import('@documents/index').SR4Actor | undefined} */
     const attacker = getGame().actors?.get(attackerId);
     if (!defender || !attacker) return;
 
@@ -47,6 +63,11 @@ export class DefenseFlow {
     } = await openDefenseDialog(defender, attacker, successes, weapon);
     if (defenseHits === null) return;
     if (defenseHits) return;
+    /**
+     * @param {number} resolvedDefenseHits
+     * @param {boolean} [edgeUsed]
+     * @returns {Promise<void>}
+     */
     const applyAfterDefense = async (resolvedDefenseHits, edgeUsed = false) => {
       const netSuccesses = Math.max(successes - resolvedDefenseHits, 0);
       if (netSuccesses === 0) return;

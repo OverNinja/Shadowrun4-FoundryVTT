@@ -2,6 +2,7 @@ import {
   SR4CharacterData,
   SR4NpcData,
   SR4VehicleData,
+  SR4SpiritData,
   SR4RangedWeaponData,
   SR4MeleeWeaponData,
   SR4ArmorData,
@@ -11,6 +12,7 @@ import {
   SR4CommlinkData,
   SR4ActionData,
   SR4GenericItemData,
+  SR4AutosoftData,
 } from '@models/index';
 
 /**
@@ -34,6 +36,7 @@ export class DataModelRegistrationHook {
       character: SR4CharacterData,
       npc: SR4NpcData,
       vehicle: SR4VehicleData,
+      spirit: SR4SpiritData,
     });
 
     Object.assign(CONFIG.Item.dataModels, {
@@ -45,6 +48,7 @@ export class DataModelRegistrationHook {
       Spell: SR4SpellData,
       Commlink: SR4CommlinkData,
       Action: SR4ActionData,
+      Autosoft: SR4AutosoftData,
       Program: SR4GenericItemData,
       Focus: SR4GenericItemData,
       Fetish: SR4GenericItemData,
@@ -52,5 +56,3 @@ export class DataModelRegistrationHook {
     });
   }
 }
-
-new DataModelRegistrationHook();

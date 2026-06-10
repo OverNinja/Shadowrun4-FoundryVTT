@@ -10,7 +10,7 @@ import {
 /**
  * Opens a two-step dialog asking the player to choose a spell force.
  * Returns null when the dialog is cancelled.
- * @param {import('@models/index').SR4SpellSystem} spell
+ * @param {import('@models/index').SR4Spell} spell
  * @param {import('@documents/index').SR4Actor} actor
  * @returns {Promise<number | null>}
  */
@@ -47,7 +47,7 @@ export async function askSpellForce(spell, actor) {
  * @param {import('@documents/index').SR4Actor} actor
  * @param {string} skillName
  * @param {number} numDice
- * @param {object} spell
+ * @param {import('@models/index').SR4Spell} spell
  * @param {number} force
  * @returns {Promise<{successes: number, isGlitch: boolean}>}
  */

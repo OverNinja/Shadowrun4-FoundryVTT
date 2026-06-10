@@ -6,11 +6,7 @@ import { emitDefenseTrigger } from '@flows/index';
 /** @typedef {import('@models/index').SR4RangedWeaponData} SR4RangedWeaponData */
 /** @typedef {import('@models/index').SR4MeleeWeaponData} SR4MeleeWeaponData */
 /** @typedef {import('@models/index').RollParameters} RollParameters */
-
-/**
- * A Foundry Item document representing a SR4 weapon.
- * @typedef {import('@client/documents/item.mjs').default & {system: SR4RangedWeaponData | SR4MeleeWeaponData}} SR4Weapon
- */
+/** @typedef {import('@models/index').SR4Weapon} SR4Weapon */
 
 // ---------------------------------------------------------------------------
 // Internal helpers
@@ -165,7 +161,6 @@ function determineBoni(rollParameters, smartlink) {
  */
 function resolveSmartlink(weapon) {
   if (!weapon) return false;
-  console.warn(weapon);
   return isRangedWeapon(weapon) && weapon.system.smartlink;
 }
 
@@ -179,6 +174,7 @@ function resolveSmartlink(weapon) {
  * @param {string} rollLabel
  * @param {number} numDice
  * @param {import('@models/index').SR4Weapon} [weapon]
+ * @param {{ emitDefense?: boolean }} [options]
  * @returns {Promise<{successes: number, isGlitch: boolean}>}
  */
 export async function dialogActions(

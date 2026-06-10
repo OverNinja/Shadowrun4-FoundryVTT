@@ -38,7 +38,7 @@ async function drainDialogActions(dialog, actor, drainPool) {
 /**
  *
  * @param {import('@documents/index').SR4Actor} actor
- * @param {object} spell
+ * @param {import('@models/index').SR4Spell} spell
  * @param {number} force
  * @param {number} drainPool
  * @param {number} drainValue

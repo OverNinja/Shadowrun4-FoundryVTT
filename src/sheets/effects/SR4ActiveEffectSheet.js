@@ -5,12 +5,20 @@ const MODE_NAMES = { 1: 'multiply', 2: 'add', 5: 'override' };
 /** @type {Record<string, number>} Maps display key → Foundry AE mode number */
 const MODE_NUMBERS = { multiply: 1, add: 2, override: 5 };
 
+/**
+ * @typedef {object} SR4ActiveEffectSheetOptions
+ * @property {foundry.documents.ActiveEffect} [document] - The ActiveEffect document to edit.
+ */
+
 export default class SR4ActiveEffectSheet extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2
 ) {
   /** @type {foundry.documents.ActiveEffect} */
   document;
 
+  /**
+   * @param {SR4ActiveEffectSheetOptions} [options]
+   */
   constructor(options = {}) {
     if (options.document) {
       options.id = `sr4-effect-${options.document.id}`;
@@ -19,6 +27,7 @@ export default class SR4ActiveEffectSheet extends foundry.applications.api.Handl
     this.document = options.document;
   }
 
+  /** @returns {string} */
   get title() {
     return this.document?.name ?? 'Effect';
   }
@@ -39,6 +48,10 @@ export default class SR4ActiveEffectSheet extends foundry.applications.api.Handl
     },
   };
 
+  /**
+   * @param {object} options
+   * @returns {Promise<object>}
+   */
   async _prepareContext(options) {
     const change = this.document.changes[0] ?? {};
     const modeKey = MODE_NAMES[change.mode] ?? 'add';
@@ -59,6 +72,11 @@ export default class SR4ActiveEffectSheet extends foundry.applications.api.Handl
     };
   }
 
+  /**
+   * @param {Event} event
+   * @param {HTMLImageElement} target
+   * @returns {void}
+   */
   static #onPickImage(event, target) {
     const form = this.element.querySelector('form');
     const imgInput = form?.querySelector('[name="img"]');
@@ -72,6 +90,11 @@ export default class SR4ActiveEffectSheet extends foundry.applications.api.Handl
     }).render(true);
   }
 
+  /**
+   * @param {Event} event
+   * @param {HTMLElement} target
+   * @returns {Promise<void>}
+   */
   static async #onSave(event, target) {
     const form = this.element.querySelector('form');
     if (!form) return;

@@ -15,9 +15,18 @@ export class InitiativeHook {
         const actor = this.actor;
         if (!actor) return '0';
 
-        const base = actor.system?.derivedStats?.initiative?.physical ?? 0;
-        const malus = actor.system?.derivedStats.malus ?? 0;
-        const initiative = base - malus;
+        let base, malus;
+        if (actor.type === 'vehicle') {
+          base = (actor.system?.pilot ?? 0) + (actor.system?.response ?? 0);
+          malus = Math.floor(
+            (actor.system?.conditionMonitor?.physical?.current ?? 0) / 3
+          );
+        } else {
+          base = actor.system?.derivedStats?.initiative?.physical ?? 0;
+          malus = actor.system?.derivedStats?.malus ?? 0;
+        }
+
+        const initiative = Math.max(0, base - malus);
         return `${initiative} + ${initiative}d6cs>=5`;
       };
     });

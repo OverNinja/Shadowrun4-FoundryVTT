@@ -296,6 +296,7 @@ export class SR4CharacterData extends SR4BaseCharacterData {
     return {
       ...super.defineSchema(),
       metaData: characterMetaDataField(),
+      vehicles: new fields.ArrayField(new fields.StringField({ blank: true })),
     };
   }
 }

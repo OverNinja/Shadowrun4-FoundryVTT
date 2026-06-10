@@ -20,8 +20,7 @@ export class ActionClickHook {
   }
 
   /**
-   * @async
-   * @param {JQuery}
+   * @param {JQuery} html
    * @param {import('@documents/index').SR4Actor} actor
    * @returns {Promise<void>}
    */
@@ -48,5 +47,3 @@ export class ActionClickHook {
       });
   }
 }
-
-new ActionClickHook();

@@ -8,6 +8,8 @@ import {
   SR4SkillsSheet,
   SR4ItemSheet,
   SR4NpcSheet,
+  SR4SpiritSheet,
+  SR4VehicleSheet,
   SR4ActiveEffectSheet,
   registerUIPartials,
 } from '@sheets/index.js';
@@ -69,6 +71,18 @@ Hooks.once('init', async function () {
     label: 'SR4 NPC Sheet',
   });
 
+  DocumentSheetConfig.registerSheet(Actor, 'sr4', SR4SpiritSheet, {
+    types: ['spirit'],
+    makeDefault: true,
+    label: 'SR4 Spirit Sheet',
+  });
+
+  DocumentSheetConfig.registerSheet(Actor, 'sr4', SR4VehicleSheet, {
+    types: ['vehicle'],
+    makeDefault: true,
+    label: 'SR4 Vehicle Sheet',
+  });
+
   DocumentSheetConfig.registerSheet(
     foundry.documents.BaseActiveEffect,
     'sr4',
@@ -96,6 +110,7 @@ Hooks.once('init', async function () {
       'Program',
       'Action',
       'Power',
+      'Autosoft',
     ],
     makeDefault: true,
   });

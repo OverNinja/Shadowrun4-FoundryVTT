@@ -57,6 +57,9 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
     power: {
       template: 'systems/shadowrun4e/templates/sheets/items/power.sheet.hbs',
     },
+    autosoft: {
+      template: 'systems/shadowrun4e/templates/sheets/items/autosoft.sheet.hbs',
+    },
   };
 
   _configureRenderOptions(options) {

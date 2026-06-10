@@ -1,12 +1,31 @@
 import { DefenseFlow } from '@flows/index';
 import { getGame } from '@utils/index';
 
+/**
+ * @typedef {object} DefenseSocketPayload
+ * @property {string} defenderId
+ * @property {string} attackerId
+ * @property {number} successes
+ * @property {import('@models/index').SR4Weapon} weapon
+ */
+
+/**
+ * @typedef {object} DefenseSocketMessage
+ * @property {'triggerDefense'} action
+ * @property {DefenseSocketPayload} payload
+ */
+
+/**
+ * Listens on the system socket for incoming defense-trigger messages and
+ * launches the defense flow for the appropriate local player.
+ */
 export class DefenseHook {
   constructor() {
     this._boundHandler = this._onSocketMessage.bind(this);
     this._registerSocketHandler();
   }
 
+  /** @returns {void} */
   _registerSocketHandler() {
     Hooks.once('ready', () => {
       const socket = getGame().socket;
@@ -19,9 +38,14 @@ export class DefenseHook {
     });
   }
 
+  /**
+   * @param {DefenseSocketMessage} data
+   * @returns {Promise<void>}
+   */
   async _onSocketMessage(data) {
     if (data.action !== 'triggerDefense') return;
     const { defenderId, attackerId, successes, weapon } = data.payload ?? {};
+    /** @type {import('@documents/index').SR4Actor | undefined} */
     const defender = getGame().actors?.get(defenderId);
     if (!defender) return;
 
@@ -36,6 +60,9 @@ export class DefenseHook {
   }
 }
 
+/**
+ * @returns {DefenseHook}
+ */
 export function initDefenseHook() {
   return new DefenseHook();
 }

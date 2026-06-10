@@ -8,4 +8,7 @@
 /shadowrun4e
 # environment file
 .env
+#packages
 /packs
+#claude
+.claude

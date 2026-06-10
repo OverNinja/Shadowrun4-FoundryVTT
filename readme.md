@@ -314,15 +314,15 @@ src/lang/de.json
 
 # Scripts
 
-| Script                   | Description             |
-| ------------------------ | ----------------------- |
-| `npm run build`          | Build system            |
-| `npm run build:full`     | Build system + packs    |
-| `npm run build:db`       | Build compendiums       |
-| `npm run watch`          | Watch mode              |
-| `npm run clean`          | Remove build output     |
-| `npm run eslint`         | Run eslint              |
-| `npm run createSymlinks` | Create Foundry symlinks |
+| Script                   | Description                    |
+| ------------------------ | ------------------------------ |
+| `npm run build`          | Build system                   |
+| `npm run build:full`     | Build system + packs           |
+| `npm run build:db`       | Build compendiums              |
+| `npm run watch`          | Watch mode                     |
+| `npm run clean`          | Remove build output            |
+| `npm run eslint`         | Run eslint                     |
+| `npm run createSymlinks` | Create Foundry symlinks        |
 | `npm run release`        | Bump version + changelog + tag |
 
 ---

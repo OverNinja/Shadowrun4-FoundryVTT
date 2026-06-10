@@ -52,7 +52,6 @@
  * @property {number} data.acceleration - Acceleration attribute value.
  * @property {number} data.pilot - Pilot rating (used for autonomous operation).
  * @property {number} data.sensor - Sensor rating.
- * @property {number} data.seats - Number of passenger seats.
  * @property {number} data.handling - Handling attribute value.
  * @property {number} data.armor - Armour rating.
  * @property {SR4VehicleMods[]} data.mods - List of installed vehicle mods.

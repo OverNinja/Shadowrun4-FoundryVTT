@@ -4,25 +4,30 @@ import { computeDerivedStats } from './derivedStats.mapper';
 import { getGame } from '@utils/index';
 import { SR4ActiveEffect } from '@effects/index';
 
+/** @type {import('@models/index').SR4SheetStats} */
+const DEFAULT_STATS = {
+  BODY: 0,
+  AGILITY: 0,
+  REACTION: 0,
+  STRENGTH: 0,
+  CHARISMA: 0,
+  INTUITION: 0,
+  LOGIC: 0,
+  WILLPOWER: 0,
+  MAGIC: 0,
+  RESONANCE: 0,
+  EDGE: 0,
+  CURRENTEDGE: 0,
+  ESSENCE: 0,
+  INITIATIVE: 0,
+  ASTRALINITIATIVE: 0,
+  MATRIXINITIATIVE: 0,
+};
+
 /**
- * @typedef {Object} SR4Actor
+ * @interface SR4Actor
  * @property {import('@models/index').SR4BaseCharacterSystem} system
- * @property {import('@models/index').SR4SheetStats} sheetStats
- * @property {import('@models/index').SR4SheetStats} finalStats
- * @property {string} name
- * @property {any} items
- * @property {string} id
- * @property {() => void} prepareData
- * @property {() => void} applyActiveEffects
- * @property {() => void} prepareBaseData
- * @property {() => void} prepareDerivedData
- * @property {() => Promise<void>} useEdge
- * @property {(newEdge?: number) => Promise<void>} resetEdge
- * @property {(attribute: keyof import('@models/index').SR4SheetStats) => number} getAttribute
- * @property {(skillName: string) => import('@models/index').SR4Skill | null} getSkill
- * @property {(skillKey: string) => import('@models/index').SR4Skill | undefined} findByAttackSkill
- * @property {(skill: import('@models/index').SR4Skill) => string | undefined} getSkillTranslatedLabelOrName
- * @property {() => Promise<void>} updateTokenAppearance
+ * @property {string} type
  */
 export class SR4Actor extends foundry.documents.Actor {
   get actor() {
@@ -30,15 +35,20 @@ export class SR4Actor extends foundry.documents.Actor {
   }
 
   prepareDerivedData() {
-    // @ts-ignore
-    const systemData = this.system;
+    // TODO: Spirits and NPCs also carry sheetStats — extend this when their
+    // derived stats (wound modifier, augmented maximums) need computing too.
+    if (this.type !== 'character') return;
+    /** @type {any} */
+    const self = this;
+    /** @type {import('@models/index').SR4BaseCharacterSystem} */
+    const systemData = self.system;
     if (!systemData?.sheetStats) return;
 
-    // @ts-ignore
-    const equipped = this.items.filter(
+    /** @type {any[]} */
+    const equipped = self.items.filter(
       (i) => i.type === 'Armor' && i.system?.equipped === true
     );
-    // Effects are applied before prepareDerivedData; preserve their contribution
+
     const armorBonus = {
       ballistic: systemData.armor.ballistic,
       impact: systemData.armor.impact,
@@ -56,20 +66,20 @@ export class SR4Actor extends foundry.documents.Actor {
 
   /** @returns {import('@models/index').SR4SheetStats} */
   get sheetStats() {
-    // @ts-ignore
-    return this.system.sheetStats;
-  }
-
-  /** @returns {import('@models/index').SR4SheetStats} */
-  get finalStats() {
-    // @ts-ignore
-    return this.system.sheetStats;
+    /** @type {any} */
+    const self = this;
+    /** @type {import('@models/index').SR4BaseCharacterSystem} */
+    const sys = self.system;
+    return sys.sheetStats ?? DEFAULT_STATS;
   }
 
   /** @returns {number} */
   get dicePoolModifier() {
-    // @ts-ignore
-    return this.system.derivedStats.dicePoolModifier ?? 0;
+    /** @type {any} */
+    const self = this;
+    /** @type {import('@models/index').SR4BaseCharacterSystem} */
+    const sys = self.system;
+    return sys.derivedStats?.dicePoolModifier ?? 0;
   }
 
   /**
@@ -77,13 +87,14 @@ export class SR4Actor extends foundry.documents.Actor {
    * @returns {number}
    */
   getAttribute(attribute) {
-    return this.finalStats[attribute] ?? 0;
+    return this.sheetStats[attribute] ?? 0;
   }
 
   async useEdge() {
     if (this.sheetStats.CURRENTEDGE > 0) {
-      // @ts-ignore
-      await this.update({
+      /** @type {any} */
+      const self = this;
+      await self.update({
         system: {
           sheetStats: { CURRENTEDGE: this.sheetStats.CURRENTEDGE - 1 },
         },
@@ -95,20 +106,22 @@ export class SR4Actor extends foundry.documents.Actor {
    * @param {number} [newEdge]
    */
   async resetEdge(newEdge) {
-    // @ts-ignore
-    await this.update({
+    /** @type {any} */
+    const self = this;
+    await self.update({
       system: { sheetStats: { CURRENTEDGE: newEdge ?? this.sheetStats.EDGE } },
     });
   }
 
   /**
    * @param {string} skillName
-   * @returns {import('@models/index').SR4Skill}
+   * @returns {import('@models/index').SR4Skill | null}
    */
   getSkill(skillName) {
+    /** @type {any} */
+    const self = this;
     return (
-      // @ts-ignore
-      this.items.find(
+      self.items.find(
         (item) =>
           item.type === 'Skill' &&
           item.name.toLowerCase() === skillName.toLowerCase()
@@ -118,12 +131,13 @@ export class SR4Actor extends foundry.documents.Actor {
 
   /**
    * @param {string} skillKey
-   * @returns {import('@models/index').SR4Skill}
+   * @returns {import('@models/index').SR4Skill | undefined}
    */
   findByAttackSkill(skillKey) {
     const label = Attackskill[skillKey];
-    // @ts-ignore
-    return this.items.find(
+    /** @type {any} */
+    const self = this;
+    return self.items.find(
       (item) => item.type === 'Skill' && item.system.label === label
     );
   }
@@ -170,14 +184,16 @@ export class SR4Actor extends foundry.documents.Actor {
   }
 
   async updateTokenAppearance() {
-    // @ts-ignore
-    if (!this.token) return;
+    /** @type {any} */
+    const self = this;
+    const token = self.token;
+    if (!token) return;
     const newEffects = [];
-    // @ts-ignore
-    if (this.system.conditionMonitor.stun.current > 0) {
+    /** @type {import('@models/index').SR4BaseCharacterSystem} */
+    const sys = self.system;
+    if (sys.conditionMonitor.stun.current > 0) {
       newEffects.push('icons/svg/wounded.svg');
     }
-    // @ts-ignore
-    await this.token.update({ effects: newEffects });
+    await token.update({ effects: newEffects });
   }
 }

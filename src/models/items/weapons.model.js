@@ -3,10 +3,24 @@ import { genericItemSchema, genericWeaponSchema } from '@models/shared';
 const fields = foundry.data.fields;
 
 /**
+ * Properties shared by all weapon system data models (from genericWeaponSchema).
+ * @typedef {object} SR4WeaponSystemBase
+ * @property {string} damage
+ * @property {string} damageType
+ * @property {string} ap
+ * @property {string} attackSkill
+ */
+
+/**
+ * @typedef {SR4WeaponSystemBase & SR4RangedWeaponData} SR4RangedWeaponSystem
+ * @typedef {SR4WeaponSystemBase & SR4MeleeWeaponData} SR4MeleeWeaponSystem
+ */
+
+/**
  * @typedef {object} SR4Weapon
  * @property {string} name
  * @property {string} type
- * @property {SR4RangedWeaponData | SR4MeleeWeaponData} system
+ * @property {SR4RangedWeaponSystem | SR4MeleeWeaponSystem} system
  */
 
 /** DataModel for ranged weapons (type: "Ranged Weapon"). */
@@ -57,15 +71,15 @@ export class SR4MeleeWeaponData extends foundry.abstract.TypeDataModel {
   }
 }
 
-export const RANGED_WEAPON_TYPE = 'Ranged Weapon';
+const RANGED_WEAPON_TYPE = 'Ranged Weapon';
 
 /**
  * Returns true when the item is a ranged weapon.
  * Use this to narrow the item type before accessing ranged-only properties
  * like `smartlink`, `mode`, or `ammo`.
  *
- * @param {{ type: string, system: SR4RangedWeaponData | SR4MeleeWeaponData }} item
- * @returns {item is { type: 'Ranged Weapon', system: SR4RangedWeaponData }}
+ * @param {SR4Weapon} item
+ * @returns {item is { type: 'Ranged Weapon', system: SR4RangedWeaponSystem }}
  */
 export function isRangedWeapon(item) {
   return item.type === RANGED_WEAPON_TYPE;

@@ -1,0 +1,177 @@
+<div class="sheet-container vehicle-sheet">
+
+  {{!-- Header --}}
+  <div class="npc-header">
+    <div class="actor-image">
+      <img data-edit="img" name="img" src="{{actor.img}}" alt="{{actor.name}}" />
+    </div>
+    <div class="npc-header-info">
+      <div class="meta-field">
+        <label>{{localize 'sr4.vehicle.name'}}</label>
+        <input type="text" name="name" value="{{actor.name}}" {{#unless editMode}}readonly{{/unless}} />
+      </div>
+      <div class="meta-field">
+        <label>{{localize 'sr4.vehicle.type'}}</label>
+        <input type="text" name="system.vehicleType" value="{{system.vehicleType}}" {{#unless editMode}}readonly{{/unless}} />
+      </div>
+<div class="meta-field">
+        <label>{{localize 'sr4.vehicle.availability'}}</label>
+        <input type="text" name="system.availability" value="{{system.availability}}" {{#unless editMode}}readonly{{/unless}} />
+      </div>
+      <div class="meta-field">
+        <label>{{localize 'sr4.vehicle.cost'}}</label>
+        <input type="number" name="system.cost" value="{{system.cost}}" {{#unless editMode}}readonly{{/unless}} />
+      </div>
+    </div>
+  </div>
+
+  {{!-- Rigger Link --}}
+  <div class="actor-link-row">
+    <label>{{localize 'sr4.vehicle.rigger'}}</label>
+    <div class="actor-drop-zone" data-drop-type="riggerUuid">
+      {{#if riggerName}}
+        <span class="linked-actor-name">{{riggerName}}</span>
+        {{#if editMode}}
+          <button type="button" class="link-clear" data-action="clearRigger"><i class="fas fa-times"></i></button>
+        {{/if}}
+      {{else}}
+        <span class="drop-hint">{{localize 'sr4.vehicle.dropRigger'}}</span>
+      {{/if}}
+    </div>
+  </div>
+
+  <hr />
+
+  {{!-- Vehicle Stats --}}
+  <h3>{{localize 'sr4.vehicle.stats'}}</h3>
+  <div class="grid">
+    <div class="cell">
+      <label>{{localize 'sr4.vehicle.body'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.body" value="{{system.body}}" />
+      {{else}}
+        <span class="stat-display">{{system.body}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.vehicle.pilot'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.pilot" value="{{system.pilot}}" />
+      {{else}}
+        <span class="stat-display">{{system.pilot}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.vehicle.armor'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.armor" value="{{system.armor}}" />
+      {{else}}
+        <span class="stat-display">{{system.armor}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.vehicle.sensor'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sensor" value="{{system.sensor}}" />
+      {{else}}
+        <span class="stat-display">{{system.sensor}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.vehicle.handling'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.handling" value="{{system.handling}}" />
+      {{else}}
+        <span class="stat-display">{{system.handling}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.vehicle.speed'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.speed" value="{{system.speed}}" />
+      {{else}}
+        <span class="stat-display">{{system.speed}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.vehicle.accel'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.accel" value="{{system.accel}}" />
+      {{else}}
+        <span class="stat-display">{{system.accel}}</span>
+      {{/if}}
+    </div>
+  </div>
+
+  <hr />
+
+  {{!-- Physical Condition Monitor --}}
+  <div class="monitor-tracks">
+    <div class="status-track-card">
+      <h4>{{localize 'sr4.conditionMonitor.physical'}}</h4>
+      <div class="monitor-track" data-type="physical">
+        {{#each (range 0 system.conditionMonitor.physical.max)}}
+        <span class="monitor-box {{filledIf ../system.conditionMonitor.physical.current this}}"
+          data-action="monitorBox" data-index="{{this}}"></span>
+        {{/each}}
+      </div>
+    </div>
+    <div class="vehicle-pilot-info">
+      <span class="pilot-label">{{localize 'sr4.vehicle.pilotPoolHint'}}</span>
+      <span class="pilot-value">{{system.pilot}} + autosoft</span>
+    </div>
+  </div>
+
+  <hr />
+
+  {{!-- Autosofts --}}
+  <div class="npc-section">
+    <h3>{{localize 'sr4.vehicle.autosofts'}}</h3>
+    {{#if autosofts}}
+      {{#each autosofts as |autosoft|}}
+      <div class="item-card" data-item-id="{{autosoft._id}}">
+        <div class="item-row">
+          <span class="item-name">{{autosoft.name}}</span>
+          <span class="item-property">{{autosoft.system.autosoftType}}</span>
+          <span class="item-property">{{autosoft.system.rating}}</span>
+          {{#if autosoft.system.target}}
+            <span class="item-property">{{autosoft.system.target}}</span>
+          {{/if}}
+          <button type="button" class="roll-action" data-action="rollAutonomous" data-item-id="{{autosoft._id}}"
+            data-tooltip="{{localize 'sr4.vehicle.rollAutonomous'}}">
+            <i class="fas fa-dice-d6"></i>
+          </button>
+          <button type="button" class="item-edit" data-action="editItem" data-item-id="{{autosoft._id}}"><i class="fas fa-edit"></i></button>
+          <button type="button" class="item-delete" data-action="deleteItem" data-item-id="{{autosoft._id}}"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      {{/each}}
+    {{else}}
+      <p class="empty-list">{{localize 'sr4.vehicle.noAutosofts'}}</p>
+    {{/if}}
+  </div>
+
+  {{!-- Weapons --}}
+  <div class="npc-section">
+    <h3>{{localize 'sr4.tab.weapons'}}</h3>
+    {{#if weapons}}
+      {{#each weapons as |weapon|}}
+      <div class="item-card" data-item-id="{{weapon._id}}">
+        <div class="item-row">
+          <span class="item-name">{{weapon.name}}</span>
+          <span class="item-property">{{weapon.system.damage}}</span>
+          <button type="button" class="roll-action" data-action="attackRoll" data-item-id="{{weapon._id}}"
+            data-tooltip="{{localize 'sr4.vehicle.rollAutonomous'}}">
+            <i class="fas fa-crosshairs"></i>
+          </button>
+          <button type="button" class="item-edit" data-action="editItem" data-item-id="{{weapon._id}}"><i class="fas fa-edit"></i></button>
+          <button type="button" class="item-delete" data-action="deleteItem" data-item-id="{{weapon._id}}"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      {{/each}}
+    {{else}}
+      <p class="empty-list">{{localize 'sr4.weapon.noWeapons'}}</p>
+    {{/if}}
+  </div>
+
+</div>

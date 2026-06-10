@@ -47,7 +47,10 @@ export function computeDerivedStats(actorData) {
   return derivedStats;
 }
 
-/** @param {import('@models/index').SR4SheetStats} stats */
+/**
+ * @param {import('@models/index').SR4SheetStats} stats
+ * @returns {Record<keyof import('@models/index').SR4SheetStats, number>}
+ */
 function computeAugmentedMaximum(stats) {
   return {
     BODY: Math.floor(stats.BODY / 2) + stats.BODY,
@@ -71,6 +74,11 @@ function computeAugmentedMaximum(stats) {
   };
 }
 
+/**
+ * @param {import('@models/index').SR4ConditionMonitor} monitor
+ * @param {number} woundMod
+ * @returns {number}
+ */
 function getWoundModifier(monitor, woundMod) {
   return (
     computeWoundModifier(monitor.physical.current, woundMod ?? 0) +
@@ -78,6 +86,11 @@ function getWoundModifier(monitor, woundMod) {
   );
 }
 
+/**
+ * @param {number} damage
+ * @param {number} woundModifier
+ * @returns {number}
+ */
 function computeWoundModifier(damage, woundModifier) {
   return Math.floor(damage / 3 + woundModifier);
 }

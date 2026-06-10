@@ -1,0 +1,202 @@
+<div class="sheet-container spirit-sheet">
+
+  {{!-- Header --}}
+  <div class="npc-header">
+    <div class="actor-image">
+      <img data-edit="img" name="img" src="{{actor.img}}" alt="{{actor.name}}" />
+    </div>
+    <div class="npc-header-info">
+      <div class="meta-field">
+        <label>{{localize 'sr4.spirit.name'}}</label>
+        <input type="text" name="name" value="{{actor.name}}" {{#unless editMode}}readonly{{/unless}} />
+      </div>
+      <div class="meta-field">
+        <label>{{localize 'sr4.spirit.type'}}</label>
+        <input type="text" name="system.spiritType" value="{{system.spiritType}}" {{#unless editMode}}readonly{{/unless}} />
+      </div>
+      <div class="meta-field">
+        <label>{{localize 'sr4.spirit.force'}}</label>
+        <input type="number" name="system.force" value="{{system.force}}" {{#unless editMode}}readonly{{/unless}} />
+      </div>
+      <div class="meta-field">
+        <label>{{localize 'sr4.spirit.services'}}</label>
+        <input type="number" name="system.services" value="{{system.services}}" />
+      </div>
+    </div>
+  </div>
+
+  {{!-- Summoner Link --}}
+  <div class="actor-link-row">
+    <label>{{localize 'sr4.spirit.summoner'}}</label>
+    <div class="actor-drop-zone" data-drop-type="ownerUuid">
+      {{#if ownerName}}
+        <span class="linked-actor-name">{{ownerName}}</span>
+        {{#if editMode}}
+          <button type="button" class="link-clear" data-action="clearOwner"><i class="fas fa-times"></i></button>
+        {{/if}}
+      {{else}}
+        <span class="drop-hint">{{localize 'sr4.spirit.dropSummoner'}}</span>
+      {{/if}}
+    </div>
+  </div>
+
+  <hr />
+
+  {{!-- Attributes --}}
+  <h3>{{localize 'sr4.spirit.attributes'}}</h3>
+  <div class="grid">
+    <div class="cell">
+      <label>{{localize 'sr4.stats.BODY'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.BODY" value="{{system.sheetStats.BODY}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.BODY}}" data-label="BOD">{{system.sheetStats.BODY}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.AGILITY'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.AGILITY" value="{{system.sheetStats.AGILITY}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.AGILITY}}" data-label="AGI">{{system.sheetStats.AGILITY}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.REACTION'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.REACTION" value="{{system.sheetStats.REACTION}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.REACTION}}" data-label="REA">{{system.sheetStats.REACTION}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.STRENGTH'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.STRENGTH" value="{{system.sheetStats.STRENGTH}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.STRENGTH}}" data-label="STR">{{system.sheetStats.STRENGTH}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.CHARISMA'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.CHARISMA" value="{{system.sheetStats.CHARISMA}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.CHARISMA}}" data-label="CHA">{{system.sheetStats.CHARISMA}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.INTUITION'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.INTUITION" value="{{system.sheetStats.INTUITION}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.INTUITION}}" data-label="INT">{{system.sheetStats.INTUITION}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.LOGIC'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.LOGIC" value="{{system.sheetStats.LOGIC}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.LOGIC}}" data-label="LOG">{{system.sheetStats.LOGIC}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.WILLPOWER'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.WILLPOWER" value="{{system.sheetStats.WILLPOWER}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.WILLPOWER}}" data-label="WIL">{{system.sheetStats.WILLPOWER}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.MAGIC'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.MAGIC" value="{{system.sheetStats.MAGIC}}" />
+      {{else}}
+        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.MAGIC}}" data-label="MAG">{{system.sheetStats.MAGIC}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.EDGE'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.EDGE" value="{{system.sheetStats.EDGE}}" />
+      {{else}}
+        <span class="stat-display">{{system.sheetStats.EDGE}}</span>
+      {{/if}}
+    </div>
+    <div class="cell">
+      <label>{{localize 'sr4.stats.INITIATIVE'}}</label>
+      {{#if editMode}}
+        <input type="number" name="system.sheetStats.INITIATIVE" value="{{system.sheetStats.INITIATIVE}}" />
+      {{else}}
+        <span class="stat-display">{{system.sheetStats.INITIATIVE}}</span>
+      {{/if}}
+    </div>
+  </div>
+
+  <hr />
+
+  {{!-- Condition Monitors --}}
+  <div class="monitor-tracks">
+    <div class="status-track-card">
+      <h4>{{localize 'sr4.conditionMonitor.physical'}}</h4>
+      <div class="monitor-track" data-type="physical">
+        {{#each (range 0 system.conditionMonitor.physical.max)}}
+        <span class="monitor-box {{filledIf ../system.conditionMonitor.physical.current this}}"
+          data-action="monitorBox" data-type="physical" data-index="{{this}}"></span>
+        {{/each}}
+      </div>
+    </div>
+    <div class="status-track-card">
+      <h4>{{localize 'sr4.conditionMonitor.stun'}}</h4>
+      <div class="monitor-track" data-type="stun">
+        {{#each (range 0 system.conditionMonitor.stun.max)}}
+        <span class="monitor-box {{filledIf ../system.conditionMonitor.stun.current this}}"
+          data-action="monitorBox" data-type="stun" data-index="{{this}}"></span>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  {{!-- Powers --}}
+  <div class="npc-section">
+    <h3>{{localize 'sr4.spirit.powers'}}</h3>
+    {{#if powers}}
+      {{#each powers as |power|}}
+      <div class="item-card" data-item-id="{{power._id}}">
+        <div class="item-row">
+          <span class="item-name">{{power.name}}</span>
+          {{#if power.system.cost}}<span class="item-property">{{power.system.cost}} PP</span>{{/if}}
+          <button type="button" class="item-edit" data-action="editItem" data-item-id="{{power._id}}"><i class="fas fa-edit"></i></button>
+          <button type="button" class="item-delete" data-action="deleteItem" data-item-id="{{power._id}}"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      {{/each}}
+    {{else}}
+      <p class="empty-list">{{localize 'sr4.spirit.noPowers'}}</p>
+    {{/if}}
+  </div>
+
+  {{!-- Skills --}}
+  <div class="npc-section">
+    <h3>{{localize 'sr4.tab.skills'}}</h3>
+    {{#if skills}}
+      {{#each skills as |skill|}}
+      <div class="item-card" data-item-id="{{skill._id}}">
+        <div class="item-row">
+          <span class="item-name">{{skill.name}}</span>
+          <span class="item-property">{{skill.system.rating}}</span>
+          <button type="button" class="item-edit" data-action="editItem" data-item-id="{{skill._id}}"><i class="fas fa-edit"></i></button>
+          <button type="button" class="item-delete" data-action="deleteItem" data-item-id="{{skill._id}}"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      {{/each}}
+    {{else}}
+      <p class="empty-list">{{localize 'sr4.spirit.noSkills'}}</p>
+    {{/if}}
+  </div>
+
+</div>

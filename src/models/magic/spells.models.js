@@ -122,11 +122,7 @@ export const DrainAttributes = Object.freeze({
 const fields = foundry.data.fields;
 
 /**
- * @typedef {object} SR4SpellSystem
- * @property {SR4Spell} system - The spell's system data
- */
-/**
- * @typedef {object} SR4Spell
+ * @typedef {object} SR4SpellSystemData
  * @property {string} category  - Spell category (e.g. 'COMBAT', 'DETECTION')
  * @property {string} type      - Spell type (e.g. 'PHYSICAL', 'MANA')
  * @property {string} range     - Spell range (e.g. 'TOUCH', 'LOS')
@@ -134,6 +130,13 @@ const fields = foundry.data.fields;
  * @property {boolean} area     - Whether the spell has an area of effect
  * @property {string} duration  - Spell duration (e.g. 'PERMANENT', 'SUSTAINED')
  * @property {number} dv        - Drain value (integer)
+ */
+
+/**
+ * @typedef {object} SR4Spell
+ * @property {string} name
+ * @property {string} type
+ * @property {SR4SpellSystemData} system
  */
 /** DataModel for spells (type: "Spell"). */
 export class SR4SpellData extends foundry.abstract.TypeDataModel {

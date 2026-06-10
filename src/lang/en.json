@@ -74,6 +74,15 @@
       "strength": "str",
       "willpower": "wil"
     },
+    "autosoft": {
+      "clearsight": "Clearsight",
+      "clearsoft": "Clearsoft",
+      "electronicWarfare": "Electronic Warfare",
+      "maneuvering": "Maneuvering",
+      "target": "Target",
+      "targeting": "Targeting",
+      "type": "Type"
+    },
     "bonus": {
       "generalModifier": "General Modifier",
       "overflowBonus": "Overflow Bonus",
@@ -118,13 +127,13 @@
       "active": "Active",
       "add": "Add Effect",
       "attribute": "Attribute",
+      "changeIcon": "Click to change icon",
       "mode": {
         "add": "Bonus / Malus",
         "label": "Mode",
         "multiply": "Multiplier",
         "override": "Override"
       },
-      "changeIcon": "Click to change icon",
       "name": "Name",
       "new": "New Effect",
       "none": "No effects present",
@@ -370,6 +379,19 @@
         "physical": "P"
       }
     },
+    "spirit": {
+      "attributes": "Attributes",
+      "dropSummoner": "Drop actor to link summoner",
+      "force": "Force",
+      "name": "Name",
+      "noPowers": "No powers",
+      "noSkills": "No skills",
+      "ownerUuid": "Summoner UUID",
+      "powers": "Powers",
+      "services": "Services",
+      "summoner": "Summoner",
+      "type": "Spirit Type"
+    },
     "stats": {
       "AGILITY": "Agility",
       "ASTRALINITIATIVE": "Astral Initiative",
@@ -404,7 +426,28 @@
       "weapons": "Weapons"
     },
     "vehicle": {
-      "notImplemented": "Vehicles are not yet implemented"
+      "accel": "Accel",
+      "armor": "Armor",
+      "autonomous": "Autonomous",
+      "autosofts": "Autosofts",
+      "availability": "Avail.",
+      "body": "Body",
+      "cost": "Cost",
+      "dropRigger": "Drop actor to link rigger",
+      "handling": "Handling",
+      "name": "Name",
+      "noAutosofts": "No autosofts installed",
+      "noDicePool": "No dice — add autosofts or increase Pilot",
+      "pilot": "Pilot",
+      "pilotPoolHint": "Autonomous pool",
+      "pilotRoll": "Pilot Roll",
+      "rigger": "Rigger",
+      "riggerUuid": "Rigger UUID",
+      "rollAutonomous": "Roll autonomous",
+      "sensor": "Sensor",
+      "speed": "Speed",
+      "stats": "Vehicle Stats",
+      "type": "Type"
     },
     "weapon": {
       "ammo": "Ammo",
