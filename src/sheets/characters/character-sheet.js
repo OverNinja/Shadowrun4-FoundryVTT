@@ -396,9 +396,9 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
     this.actor.castSpell(itemId);
   }
 
-  static #onRollSkill(event, target) {
+  static async #onRollSkill(event, target) {
     const skill = target.dataset.skill;
-    if (skill) this.actor.rollSkill?.(skill);
+    if (skill) await handleSkillRoll(this.actor, skill);
   }
 
   static async #onMonitorBox(event, target) {

@@ -1,4 +1,4 @@
-import { openActionDialog } from '@utils/index';
+import { handleSkillRoll, openActionDialog } from '@utils/index';
 import { SR4NpcBaseSheet } from './sr4-npc-base-sheet.js';
 
 export default class SR4SpiritSheet extends SR4NpcBaseSheet {
@@ -8,6 +8,7 @@ export default class SR4SpiritSheet extends SR4NpcBaseSheet {
     actions: {
       monitorBox: SR4SpiritSheet.#onMonitorBox,
       rollAttribute: SR4SpiritSheet.#onRollAttribute,
+      rollSkill: SR4SpiritSheet.#onRollSkill,
       clearOwner: SR4SpiritSheet.#onClearOwner,
     },
   };
@@ -57,6 +58,11 @@ export default class SR4SpiritSheet extends SR4NpcBaseSheet {
     const current = foundry.utils.getProperty(this.actor, path);
     const newValue = index + 1 === current ? index : index + 1;
     await this.actor.update({ [path]: newValue });
+  }
+
+  static async #onRollSkill(event, target) {
+    const skillName = target.dataset.skillName;
+    if (skillName) await handleSkillRoll(this.actor, skillName);
   }
 
   static #onRollAttribute(event, target) {

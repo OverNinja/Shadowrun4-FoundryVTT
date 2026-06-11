@@ -120,6 +120,14 @@
   background: var(--sr4-teal-glow);
 }
 
+.roll-skill {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--sr4-teal);
+  }
+}
+
 .item-delete:hover {
   color: var(--sr4-red);
   border-color: var(--sr4-red);
