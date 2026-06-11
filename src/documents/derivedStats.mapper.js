@@ -107,17 +107,9 @@ export function computeDerivedStats(actorData) {
  * @returns {number}
  */
 function getWoundModifier(monitor, woundMod) {
+  const divisor = 3 + (woundMod ?? 0);
   return (
-    computeWoundModifier(monitor.physical.current, woundMod ?? 0) +
-    computeWoundModifier(monitor.stun.current, woundMod ?? 0)
+    Math.floor(monitor.physical.current / divisor) +
+    Math.floor(monitor.stun.current / divisor)
   );
-}
-
-/**
- * @param {number} damage
- * @param {number} woundModifier
- * @returns {number}
- */
-function computeWoundModifier(damage, woundModifier) {
-  return Math.floor(damage / 3 + woundModifier);
 }

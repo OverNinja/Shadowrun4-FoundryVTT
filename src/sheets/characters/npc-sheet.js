@@ -174,6 +174,27 @@ export default class SR4NpcSheet extends foundry.applications.api.HandlebarsAppl
         input.addEventListener('focus', () => input.select());
       });
     this.element
+      .querySelectorAll('.item-list input, .item-list select')
+      .forEach((el) => {
+        el.addEventListener('change', async (event) => {
+          const target = event.currentTarget;
+          const itemEl = target.closest('.item');
+          if (!itemEl) return;
+          const itemId = itemEl.dataset.itemId;
+          const item = this.actor.items.get(itemId);
+          if (!item) return;
+          const field = target.name;
+          let value = target.value;
+          if (target.type === 'checkbox') {
+            value = target.checked;
+          } else if (target.dataset.dtype === 'Number') {
+            value = Number(value);
+          }
+          await item.update({ [field]: value });
+        });
+      });
+
+    this.element
       .querySelector('[data-edit="img"]')
       ?.addEventListener('click', () => {
         new foundry.applications.apps.FilePicker.implementation({
