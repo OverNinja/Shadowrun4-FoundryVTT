@@ -66,14 +66,14 @@ export function baseDerivedStatsFields() {
 
 /**
  * @typedef {object} SR4Monitor
- * @property {number} current
+ * @property {number} value
  * @property {number} max
  * @returns {foundry.data.fields.SchemaField}
  */
 export function monitorField() {
   return new fields.SchemaField({
     max: new fields.NumberField({ initial: 10, integer: true }),
-    current: new fields.NumberField({ initial: 0, integer: true }),
+    value: new fields.NumberField({ initial: 0, integer: true }),
     bonus: new fields.NumberField({ initial: 0, integer: true }),
     woundMod: new fields.NumberField({ initial: 0, integer: true }),
   });
@@ -108,7 +108,6 @@ export class SR4GenericItemData extends foundry.abstract.TypeDataModel {
 export function genericWeaponSchema() {
   return {
     ap: new fields.NumberField({ initial: 0, integer: true }),
-    apHalf: new fields.BooleanField({ initial: false }),
     attackSkill: new fields.StringField({ initial: '' }),
     damageType: new fields.StringField({ initial: '' }),
     damage: new fields.NumberField({ initial: 0, integer: true }),

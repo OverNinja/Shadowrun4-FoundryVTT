@@ -6,7 +6,7 @@
   {{#if weapons}}
   <ul class="weapon-list">
     {{#each weapons as |weapon|}}
-    {{> weapon-card weapon shootingmodes=../shootingmodes attackskills=../attackskills meleeDmgBonus=../meleeDmgBonus}}
+    {{> "weapon-card"}}
     {{/each}}
   </ul>
   {{else}}

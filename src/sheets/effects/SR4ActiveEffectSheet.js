@@ -59,6 +59,8 @@ export default class SR4ActiveEffectSheet extends foundry.applications.api.Handl
       name: this.document.name,
       img: this.document.img ?? 'icons/svg/aura.svg',
       active: !this.document.disabled,
+      durationTurns: this.document.duration?.turns ?? 0,
+      showOnToken: !!this.document.flags?.sr4?.showOnToken,
       changeKey: change.key ?? 'system.modifiers.generalModifier',
       changeMode: modeKey,
       changeValue: Number(change.value ?? 0),
@@ -102,6 +104,11 @@ export default class SR4ActiveEffectSheet extends foundry.applications.api.Handl
     const img =
       form.querySelector('[name="img"]')?.value ?? 'icons/svg/aura.svg';
     const active = form.querySelector('[name="active"]')?.checked ?? true;
+    const durationTurns = Number(
+      form.querySelector('[name="durationTurns"]')?.value ?? 0
+    );
+    const showOnToken =
+      form.querySelector('[name="showOnToken"]')?.checked ?? false;
     const changeKey =
       form.querySelector('[name="changeKey"]')?.value ??
       'system.modifiers.generalModifier';
@@ -114,6 +121,8 @@ export default class SR4ActiveEffectSheet extends foundry.applications.api.Handl
       name,
       img,
       disabled: !active,
+      'flags.sr4.showOnToken': showOnToken,
+      duration: { turns: durationTurns > 0 ? durationTurns : undefined },
       description,
       changes: [
         {

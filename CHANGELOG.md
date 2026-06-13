@@ -1,5 +1,29 @@
 # Changelog
 
+# [0.2.0](https://github.com/Tarislowatsch/sr4foundry/compare/v0.1.32...v0.2.0) (2026-06-13)
+
+
+### Bug Fixes
+
+* **dialogutility:** don't emit defensetrigger if attack is a glitch ([2e56a92](https://github.com/Tarislowatsch/sr4foundry/commit/2e56a928ee761705dd382dfef3bc7953bc943145))
+* **initiative:** sync sheetStats from computed values + rework passes semantics ([e10b85c](https://github.com/Tarislowatsch/sr4foundry/commit/e10b85ca5a16986baf5b988ce60849caa5946618))
+* **sheets:** repair implant card context bug and unify card call conventions ([b4f99b8](https://github.com/Tarislowatsch/sr4foundry/commit/b4f99b8d52761769711ee4086455ffe975085c8c))
+
+
+### Features
+
+* **ammo:** SR4AmmoData model + Ammo item type registration ([ba03e2f](https://github.com/Tarislowatsch/sr4foundry/commit/ba03e2f31032584fda9f685da2e4c5a7be356085))
+* **attack:** ammo quantity depletion as batch update ([88a7bb7](https://github.com/Tarislowatsch/sr4foundry/commit/88a7bb7b3ae8f360d3cc98fb118020affb80a26b))
+* **damage:** composure hint on electricity damage ([04b116a](https://github.com/Tarislowatsch/sr4foundry/commit/04b116aefef7790d95f7c52491654c5ed5671084))
+* **damage:** electricity disorientation effect + correct rule hint ([8550d2e](https://github.com/Tarislowatsch/sr4foundry/commit/8550d2e578aca8cd932de3dd0d4867191e8f5397))
+* **defense:** weapon snapshot with effective values + isPhysicalDamageType ([c52bd37](https://github.com/Tarislowatsch/sr4foundry/commit/c52bd37ef721910d2a9e0691011796fe24a2c237))
+* **effects:** show SR4 active effects as token icons, add duration + showOnToken to effect editor ([e5be3df](https://github.com/Tarislowatsch/sr4foundry/commit/e5be3df997b3e48026ab7fd6c4044949a47d5166))
+* **matrix:** add Living Persona, Complex Forms and Threading for Technomancers ([cb8863d](https://github.com/Tarislowatsch/sr4foundry/commit/cb8863d40414641b3350f4baf3b40d472a2fcc0c))
+* **matrix:** add Matrix tab, Commlink item type and sheet ([7e5967d](https://github.com/Tarislowatsch/sr4foundry/commit/7e5967da7302354327367b6a8c8eb3e8cb52f442))
+* **monitor:** rename conditionMonitor.current to .value, add setMonitorValue/resetMonitor API, shorten electricityHint ([6fbd4b6](https://github.com/Tarislowatsch/sr4foundry/commit/6fbd4b698004b063438f7afce5ef44a2ab19a1e1))
+* **ui:** ammo display on weapon card + buildWeaponContext ([b9b81c7](https://github.com/Tarislowatsch/sr4foundry/commit/b9b81c73af403e8eca729e11b8edb55429035413))
+* **ui:** ammo selector in item sheet + melee cleanup ([5a797ed](https://github.com/Tarislowatsch/sr4foundry/commit/5a797ed323489407762c3a4720cec9908c332899))
+
 ## [0.1.32](https://github.com/Tarislowatsch/sr4foundry/compare/v0.1.31...v0.1.32) (2026-06-11)
 
 ## [0.1.31](https://github.com/Tarislowatsch/sr4foundry/compare/v0.1.30...v0.1.31) (2026-06-11)

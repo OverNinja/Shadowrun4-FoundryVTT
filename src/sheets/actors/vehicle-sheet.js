@@ -28,6 +28,21 @@ export default class SR4VehicleSheet extends SR4NpcBaseSheet {
     const actorData = this.document.toObject(false);
     const items = actorData.items || [];
 
+    const s = actorData.system;
+    const vehicleStats = [
+      { label: 'sr4.vehicle.body', name: 'system.body', value: s.body },
+      { label: 'sr4.vehicle.pilot', name: 'system.pilot', value: s.pilot },
+      { label: 'sr4.vehicle.armor', name: 'system.armor', value: s.armor },
+      { label: 'sr4.vehicle.sensor', name: 'system.sensor', value: s.sensor },
+      {
+        label: 'sr4.vehicle.handling',
+        name: 'system.handling',
+        value: s.handling,
+      },
+      { label: 'sr4.vehicle.speed', name: 'system.speed', value: s.speed },
+      { label: 'sr4.vehicle.accel', name: 'system.accel', value: s.accel },
+    ];
+
     return {
       editMode: this.editMode,
       actor: {
@@ -44,6 +59,7 @@ export default class SR4VehicleSheet extends SR4NpcBaseSheet {
       weapons: items.filter(
         (i) => i.type === 'Ranged Weapon' || i.type === 'Melee Weapon'
       ),
+      vehicleStats,
     };
   }
 
@@ -83,7 +99,7 @@ export default class SR4VehicleSheet extends SR4NpcBaseSheet {
 
   static async #onMonitorBox(event, target) {
     const index = Number(target.dataset.index);
-    const path = 'system.conditionMonitor.physical.current';
+    const path = 'system.conditionMonitor.physical.value';
     const current = foundry.utils.getProperty(this.actor, path);
     const newValue = index + 1 === current ? index : index + 1;
     await this.actor.update({ [path]: newValue });

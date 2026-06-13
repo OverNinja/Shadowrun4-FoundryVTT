@@ -29,6 +29,21 @@ export function standardTemplatePath() {
 }
 
 /** @returns {string} */
+export function attackTemplatePath() {
+  return 'systems/shadowrun4e/templates/dicerolls/attack-roll-dialog.hbs';
+}
+
+/** @returns {string} */
+export function defenseTemplatePath() {
+  return 'systems/shadowrun4e/templates/dicerolls/defense-dialog.hbs';
+}
+
+/** @returns {string} */
+export function soakTemplatePath() {
+  return 'systems/shadowrun4e/templates/dicerolls/soak-dialog.hbs';
+}
+
+/** @returns {string} */
 function freeRollTemplatePath() {
   return 'systems/shadowrun4e/templates/dicerolls/roll-button.hbs';
 }
@@ -48,6 +63,7 @@ export async function renderTemplate(path, data) {
  * @property {string} content
  * @property {number} [dice]
  * @property {(dialog: HTMLElement) => Promise<{successes: number, isGlitch: boolean, [key: string]: unknown}>} onRoll
+ * @property {(html: HTMLElement, updateLabel: () => void) => void} [onRender]
  */
 
 /**
@@ -74,21 +90,28 @@ export async function createRollDialog(config) {
       const updateLabel = () => {
         const bonus = parseInt(html.querySelector('#bonus')?.value ?? '0') || 0;
         const malus = parseInt(html.querySelector('#malus')?.value ?? '0') || 0;
+        const recoilMalus =
+          parseInt(html.querySelector('#recoilMalus')?.value ?? '0') || 0;
         const spec = html.querySelector('#specialization')?.checked ? 2 : 0;
         const sl = html.querySelector('#smartlink')?.checked ? 2 : 0;
         const edge = html.querySelector('#edge')?.checked
           ? parseInt(html.querySelector('#maxEdge')?.value ?? '0') || 0
           : 0;
 
-        const total = config.dice + bonus - malus + spec + sl + edge;
+        const total =
+          config.dice + bonus - malus - recoilMalus + spec + sl + edge;
         const okBtn = html.querySelector('button[data-action="ok"]');
         if (okBtn)
           okBtn.textContent = `${localize('sr4.roll.rollButton')} (${total})`;
       };
 
       html
-        .querySelectorAll('input')
+        .querySelectorAll('input:not([type="radio"])')
         .forEach((el) => el.addEventListener('input', updateLabel));
+      html
+        .querySelectorAll('input[type="radio"], select')
+        .forEach((el) => el.addEventListener('change', updateLabel));
+      if (config.onRender) config.onRender(html, updateLabel);
       updateLabel();
     },
   });
@@ -185,18 +208,18 @@ export async function dialogActions(
   weapon,
   { emitDefense = true } = {}
 ) {
-  const rollParameters = getRollParameters(
-    actor,
-    dialog,
-    resolveSmartlink(weapon)
-  );
+  const smartlink = resolveSmartlink(weapon);
+  const rollParameters = getRollParameters(actor, dialog, smartlink);
+  const recoilMalus = getInt(dialog, 'recoilMalus');
+  const wideDefenseMalus = getInt(dialog, 'wideDefenseMalus');
+  const burstDamageBonus = getInt(dialog, 'burstBonus');
   const finalRoll =
     numDice +
     rollParameters.bonus -
-    rollParameters.malus +
-    determineBoni(rollParameters, resolveSmartlink(weapon));
+    rollParameters.malus -
+    recoilMalus +
+    determineBoni(rollParameters, smartlink);
   if (rollParameters.explode) await actor.useEdge();
-  if (typeof finalRoll !== 'number') return { successes: 0, isGlitch: false };
   const { successes, isGlitch } = await DiceUtility.rollAndShow({
     numDice: finalRoll,
     explode: rollParameters.explode,
@@ -205,8 +228,14 @@ export async function dialogActions(
     skillName: rollLabel,
     extended: rollParameters.extended,
   });
-  if (weapon && emitDefense && successes > 0)
-    emitDefenseTrigger(actor, weapon, successes);
+  if (weapon && emitDefense && successes > 0 && !isGlitch)
+    emitDefenseTrigger(
+      actor,
+      weapon,
+      successes,
+      wideDefenseMalus,
+      burstDamageBonus
+    );
 
   return { successes, isGlitch };
 }
@@ -219,7 +248,6 @@ export async function dialogActions(
  * @property {boolean} smartlinkAvailable
  * @property {boolean} smartlinkChecked
  * @property {number} numDice
- * @property {number} dicePoolModifier
  * @property {number} malus
  */
 
@@ -237,7 +265,7 @@ export function createDialogParameters(
   { ignoreModifiers = false } = {}
 ) {
   const hasSmartlink = weapon ? resolveSmartlink(weapon) : false;
-  const dicePoolModifier = ignoreModifiers
+  const malus = ignoreModifiers
     ? 0
     : (actor.system.derivedStats.dicePoolModifier ?? 0);
   return {
@@ -247,8 +275,7 @@ export function createDialogParameters(
     smartlinkAvailable: weapon ? isRangedWeapon(weapon) : false,
     smartlinkChecked: hasSmartlink,
     numDice,
-    dicePoolModifier,
-    malus: dicePoolModifier,
+    malus,
   };
 }
 

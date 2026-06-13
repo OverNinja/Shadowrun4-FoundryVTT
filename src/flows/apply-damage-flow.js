@@ -104,11 +104,11 @@ export class ApplyDamageFlow {
     reason
   ) {
     const phys = cm.physical;
-    const afterPhys = phys.current + damage;
+    const afterPhys = phys.value + damage;
     const max = phys.max;
     const cap = phys.max + (overflow ?? 0);
 
-    phys.current = Math.min(afterPhys, cap);
+    phys.value = Math.min(afterPhys, cap);
 
     if (afterPhys >= cap) {
       messages.push({
@@ -142,7 +142,7 @@ export class ApplyDamageFlow {
    */
   static applyStunDamage(cm, damage, messages, name, overflow, reason) {
     const stun = cm.stun;
-    const afterStun = stun.current + damage;
+    const afterStun = stun.value + damage;
     const spillover = afterStun - stun.max;
     if (spillover > 0) {
       damage = damage - spillover;
@@ -153,11 +153,11 @@ export class ApplyDamageFlow {
     );
 
     if (afterStun < stun.max) {
-      stun.current = afterStun;
+      stun.value = afterStun;
       return;
     }
 
-    stun.current = stun.max;
+    stun.value = stun.max;
 
     messages.push({
       type: 'unconscious',
@@ -208,7 +208,7 @@ export class ApplyDamageFlow {
    * @param {number} amount
    * @param {boolean} isPhysical
    * @param {string} context
-   * @param {{ onReroll?: () => Promise<void>, edgeUsed?: boolean }} [options]
+   * @param {{ onReroll?: () => Promise<void>, edgeUsed?: boolean, hint?: string, onApply?: () => Promise<void> }} [options]
    * @returns {Promise<void>}
    */
   static async sendDecisionMessage(
@@ -216,7 +216,7 @@ export class ApplyDamageFlow {
     amount,
     isPhysical,
     context,
-    { onReroll, edgeUsed = false } = {}
+    { onReroll, edgeUsed = false, hint, onApply } = {}
   ) {
     const damageType = isPhysical
       ? getGame().i18n.localize('sr4.damage.physical')
@@ -242,13 +242,14 @@ export class ApplyDamageFlow {
       });
     }
 
+    const hintHtml = hint ? `<p><em>${hint}</em></p>` : '';
     const action = await foundry.applications.api.DialogV2.wait({
       window: { title: getGame().i18n.localize('sr4.damage.decisiontitle') },
       content: `<p>${getGame().i18n.format('sr4.damage.pending', {
         name: actor.name,
         amount,
         type: damageType,
-      })}</p>`,
+      })}</p>${hintHtml}`,
       buttons,
     });
 
@@ -261,6 +262,7 @@ export class ApplyDamageFlow {
       );
       if (messages.length > 0)
         await ApplyDamageFlow.sendMessages(messages, actor);
+      if (onApply) await onApply();
     } else if (action === 'modify') {
       const finalAmount = await openModifyDamageDialog(
         actor,
@@ -276,6 +278,7 @@ export class ApplyDamageFlow {
       );
       if (messages.length > 0)
         await ApplyDamageFlow.sendMessages(messages, actor);
+      if (onApply) await onApply();
     } else if (action === 'reroll' && onReroll) {
       await onReroll();
     }

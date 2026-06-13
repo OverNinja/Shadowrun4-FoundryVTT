@@ -7,6 +7,8 @@ import { getGame } from '@utils/index';
  * @property {string} attackerId
  * @property {number} successes
  * @property {import('@models/index').SR4Weapon} weapon
+ * @property {number} [wideDefenseMalus]
+ * @property {number} [burstDamageBonus]
  */
 
 /**
@@ -44,7 +46,14 @@ export class DefenseHook {
    */
   async _onSocketMessage(data) {
     if (data.action !== 'triggerDefense') return;
-    const { defenderId, attackerId, successes, weapon } = data.payload ?? {};
+    const {
+      defenderId,
+      attackerId,
+      successes,
+      weapon,
+      wideDefenseMalus = 0,
+      burstDamageBonus = 0,
+    } = data.payload ?? {};
     /** @type {import('@documents/index').SR4Actor | undefined} */
     const defender = getGame().actors?.get(defenderId);
     if (!defender) return;
@@ -56,6 +65,13 @@ export class DefenseHook {
     const isGM = getGame().user?.isGM;
     if (!isAssignedUser && !(isGM && !hasAssignedUser)) return;
 
-    await DefenseFlow.start(defender, attackerId, successes, weapon);
+    await DefenseFlow.start(
+      defender,
+      attackerId,
+      successes,
+      weapon,
+      wideDefenseMalus,
+      burstDamageBonus
+    );
   }
 }

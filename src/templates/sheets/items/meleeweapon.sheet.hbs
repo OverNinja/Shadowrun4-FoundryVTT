@@ -1,16 +1,5 @@
 <div class="item-sheet-body">
-  <header class="item-sheet-header">
-    <img
-      class="item-sheet-img"
-      data-edit="img"
-      src="{{ item.img }}"
-      alt="{{ item.name }}"
-    />
-    <div class="item-sheet-name">
-      <label>{{localize 'sr4.weapon.name'}}</label>
-      <input type="text" name="name" value="{{ item.name }}" />
-    </div>
-  </header>
+  {{> "item-sheet-header" nameKey="sr4.weapon.name"}}
 
   <table class="item-stats-table">
     <thead>
@@ -31,7 +20,7 @@
       <tr>
         <td>
           <select name="system.attackSkill">
-            {{selectOptions attackskills selected=system.attackSkill localize=true}}
+            {{selectOptions meleeattackskills selected=system.attackSkill localize=true}}
           </select>
         </td>
         <td>
@@ -47,10 +36,7 @@
           </select>
         </td>
         <td>
-          <input type="number" name="system.ap" value="{{ system.ap }}" {{#if system.apHalf}}disabled{{/if}} />
-          <label title="{{localize 'sr4.weapon.apHalf'}}">
-            <input type="checkbox" data-field="system.apHalf" {{#if system.apHalf}}checked{{/if}} /> ½
-          </label>
+          <input type="number" name="system.ap" value="{{ system.ap }}" />
         </td>
         <td>
           <select name="system.armorType">
@@ -85,14 +71,5 @@
     </tbody>
   </table>
 
-  <div class="item-textareas">
-    <div>
-      <label>{{localize 'sr4.weapon.notes'}}</label>
-      <textarea name="system.notes">{{ system.notes }}</textarea>
-    </div>
-    <div>
-      <label>{{localize 'sr4.weapon.description'}}</label>
-      <textarea name="system.description">{{ system.description }}</textarea>
-    </div>
-  </div>
+  {{> "item-textareas"}}
 </div>

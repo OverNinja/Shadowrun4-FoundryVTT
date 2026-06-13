@@ -3,6 +3,7 @@ import {
   SR4NpcData,
   SR4VehicleData,
   SR4SpiritData,
+  SR4AmmoData,
   SR4RangedWeaponData,
   SR4MeleeWeaponData,
   SR4ArmorData,
@@ -41,6 +42,7 @@ export class DataModelRegistrationHook {
     });
 
     Object.assign(CONFIG.Item.dataModels, {
+      Ammo: SR4AmmoData,
       'Ranged Weapon': SR4RangedWeaponData,
       'Melee Weapon': SR4MeleeWeaponData,
       Armor: SR4ArmorData,

@@ -1,10 +1,8 @@
-<div class="sheet-container spirit-sheet">
+<div class="sheet-container">
 
   {{!-- Header --}}
   <div class="npc-header">
-    <div class="actor-image">
-      <img data-edit="img" name="img" src="{{actor.img}}" alt="{{actor.name}}" />
-    </div>
+    {{> "actor-image"}}
     <div class="npc-header-info">
       <div class="meta-field">
         <label>{{localize 'sr4.spirit.name'}}</label>
@@ -45,142 +43,25 @@
   {{!-- Attributes --}}
   <h3>{{localize 'sr4.spirit.attributes'}}</h3>
   <div class="grid">
-    <div class="cell">
-      <label>{{localize 'sr4.stats.BODY'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.BODY" value="{{system.sheetStats.BODY}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.BODY}}" data-label="BOD">{{system.sheetStats.BODY}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.AGILITY'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.AGILITY" value="{{system.sheetStats.AGILITY}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.AGILITY}}" data-label="AGI">{{system.sheetStats.AGILITY}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.REACTION'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.REACTION" value="{{system.sheetStats.REACTION}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.REACTION}}" data-label="REA">{{system.sheetStats.REACTION}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.STRENGTH'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.STRENGTH" value="{{system.sheetStats.STRENGTH}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.STRENGTH}}" data-label="STR">{{system.sheetStats.STRENGTH}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.CHARISMA'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.CHARISMA" value="{{system.sheetStats.CHARISMA}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.CHARISMA}}" data-label="CHA">{{system.sheetStats.CHARISMA}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.INTUITION'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.INTUITION" value="{{system.sheetStats.INTUITION}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.INTUITION}}" data-label="INT">{{system.sheetStats.INTUITION}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.LOGIC'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.LOGIC" value="{{system.sheetStats.LOGIC}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.LOGIC}}" data-label="LOG">{{system.sheetStats.LOGIC}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.WILLPOWER'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.WILLPOWER" value="{{system.sheetStats.WILLPOWER}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.WILLPOWER}}" data-label="WIL">{{system.sheetStats.WILLPOWER}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.MAGIC'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.MAGIC" value="{{system.sheetStats.MAGIC}}" />
-      {{else}}
-        <span class="stat-display attr-roll" data-action="rollAttribute" data-value="{{system.sheetStats.MAGIC}}" data-label="MAG">{{system.sheetStats.MAGIC}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.EDGE'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.EDGE" value="{{system.sheetStats.EDGE}}" />
-      {{else}}
-        <span class="stat-display">{{system.sheetStats.EDGE}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.CURRENTEDGE'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.CURRENTEDGE" value="{{system.sheetStats.CURRENTEDGE}}" />
-      {{else}}
-        <span class="stat-display">{{system.sheetStats.CURRENTEDGE}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.ESSENCE'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.ESSENCE" value="{{system.sheetStats.ESSENCE}}" />
-      {{else}}
-        <span class="stat-display">{{system.sheetStats.ESSENCE}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.INITIATIVE'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.INITIATIVE" value="{{system.sheetStats.INITIATIVE}}" />
-      {{else}}
-        <span class="stat-display">{{system.sheetStats.INITIATIVE}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.stats.ASTRALINITIATIVE'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sheetStats.ASTRALINITIATIVE" value="{{system.sheetStats.ASTRALINITIATIVE}}" />
-      {{else}}
-        <span class="stat-display">{{system.sheetStats.ASTRALINITIATIVE}}</span>
-      {{/if}}
-    </div>
+    {{#each sheetStats as |stat|}}
+      {{> "attribute-cell" label=stat.label name=stat.name value=stat.value rollLabel=stat.rollLabel}}
+    {{/each}}
   </div>
 
   <hr />
 
   {{!-- Condition Monitors --}}
   <div class="monitor-tracks">
-    <div class="status-track-card">
-      <h4>{{localize 'sr4.conditionMonitor.physical'}}</h4>
-      <div class="monitor-track" data-type="physical">
-        {{#each (range 0 system.conditionMonitor.physical.max)}}
-        <span class="monitor-box {{filledIf ../system.conditionMonitor.physical.current this}}"
-          data-action="monitorBox" data-type="physical" data-index="{{this}}"></span>
-        {{/each}}
-      </div>
-    </div>
-    <div class="status-track-card">
-      <h4>{{localize 'sr4.conditionMonitor.stun'}}</h4>
-      <div class="monitor-track" data-type="stun">
-        {{#each (range 0 system.conditionMonitor.stun.max)}}
-        <span class="monitor-box {{filledIf ../system.conditionMonitor.stun.current this}}"
-          data-action="monitorBox" data-type="stun" data-index="{{this}}"></span>
-        {{/each}}
-      </div>
-    </div>
+    {{> "status-track-card"
+        title="sr4.conditionMonitor.physical"
+        type="physical"
+        max=system.conditionMonitor.physical.max
+        current=system.conditionMonitor.physical.value}}
+    {{> "status-track-card"
+        title="sr4.conditionMonitor.stun"
+        type="stun"
+        max=system.conditionMonitor.stun.max
+        current=system.conditionMonitor.stun.value}}
   </div>
 
   <hr />

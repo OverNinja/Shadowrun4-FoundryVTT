@@ -1,4 +1,4 @@
-import { getGame, handleSkillRoll, openActionDialog } from '@utils/index';
+import { handleSkillRoll, openActionDialog } from '@utils/index';
 import {
   ActionType,
   Attackskill,
@@ -10,30 +10,23 @@ import {
 } from '@models/index';
 import { SR4EffectTargets } from '@effects/index';
 import SR4ActiveEffectSheet from '@sheets/effects/SR4ActiveEffectSheet';
+import { buildWeaponContext } from './weapon-context.js';
+import { buildComputedStats, sortSkillsByLabel } from './actor-context.js';
+import SR4BaseActorSheet from './sr4-base-actor-sheet.js';
 
-export default class SR4CharacterSheet extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.sheets.ActorSheetV2
-) {
+export default class SR4CharacterSheet extends SR4BaseActorSheet {
   static DEFAULT_OPTIONS = {
     classes: ['shadowrun4e', 'sheet', 'actor', 'character', 'sheet-container'],
     position: { width: 1400, height: 800 },
     window: {
       resizable: true,
     },
-    form: {
-      submitOnChange: true,
-      closeOnSubmit: false,
-    },
     actions: {
       editToggle: SR4CharacterSheet.#onEditToggle,
-      deleteItem: SR4CharacterSheet.#onDeleteItem,
-      editItem: SR4CharacterSheet.#onEditItem,
-      toggleEquip: SR4CharacterSheet.#onToggleEquip,
       castSpell: SR4CharacterSheet.#onCastSpell,
       rollSkill: SR4CharacterSheet.#onRollSkill,
-      monitorBox: SR4CharacterSheet.#onMonitorBox,
-      attackRoll: SR4CharacterSheet.#onAttackRoll,
       rollAction: SR4CharacterSheet.#onRollAction,
+      threadComplexForm: SR4CharacterSheet.#onThreadComplexForm,
       createEffect: SR4CharacterSheet.#onCreateEffect,
       toggleEffect: SR4CharacterSheet.#onToggleEffect,
       editEffect: SR4CharacterSheet.#onEditEffect,
@@ -75,6 +68,11 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
         'systems/shadowrun4e/templates/sheets/characters/partials/tabs/magic.tab.hbs',
       scrollable: [''],
     },
+    matrix: {
+      template:
+        'systems/shadowrun4e/templates/sheets/characters/partials/tabs/matrix.tab.hbs',
+      scrollable: [''],
+    },
     actions: {
       template:
         'systems/shadowrun4e/templates/sheets/characters/partials/tabs/actions.tab.hbs',
@@ -104,6 +102,7 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
           label: 'sr4.tab.inventory',
         },
         { id: 'magic', icon: 'fas fa-book', label: 'sr4.tab.magic' },
+        { id: 'matrix', icon: 'fas fa-wifi', label: 'sr4.tab.matrix' },
         {
           id: 'actions',
           icon: 'fas fa-clipboard-list',
@@ -120,9 +119,6 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
     },
   };
 
-  /** @type {boolean} */
-  editMode = false;
-
   // ---------------------------------------------------------------------------
   // Context
   // ---------------------------------------------------------------------------
@@ -136,7 +132,8 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
       ...this._getStaticContext(actorData),
       ...this._getItemContext(items),
       ...this._getMagicContext(actorData),
-      ...this._getComputedStats(actorData),
+      ...this._getMatrixContext(actorData),
+      ...buildComputedStats(actorData, this.document.system.derivedStats),
       ...this._getEffectsContext(),
     };
   }
@@ -149,6 +146,7 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
       case 'defense':
       case 'inventory':
       case 'magic':
+      case 'matrix':
       case 'actions':
       case 'modifiers':
       case 'effects':
@@ -193,20 +191,8 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
   _getItemContext(items) {
     const powers = items.filter((i) => i.type === 'Power');
     return {
-      weapons: items.filter(
-        (i) => i.type === 'Ranged Weapon' || i.type === 'Melee Weapon'
-      ),
-      skills: items
-        .filter((i) => i.type === 'Skill')
-        .sort((a, b) => {
-          const labelA = a.system.label
-            ? getGame().i18n?.localize(a.system.label)
-            : a.name;
-          const labelB = b.system.label
-            ? getGame().i18n?.localize(b.system.label)
-            : b.name;
-          return labelA.localeCompare(labelB);
-        }),
+      weapons: buildWeaponContext(items),
+      skills: sortSkillsByLabel(items),
       items: items.filter((i) => i.type === 'Item'),
       implants: items.filter((i) => i.type === 'Implant'),
       spells: items.filter((i) => i.type === 'Spell'),
@@ -215,6 +201,11 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
       armor: items.filter((i) => i.type === 'Armor'),
       actions: items.filter((i) => i.type === 'Action'),
       foci: items.filter((i) => i.type === 'Focus' || i.type === 'Fetish'),
+      commlinks: items.filter((i) => i.type === 'Commlink'),
+      programs: items.filter((i) => i.type === 'Program'),
+      complexForms: items.filter(
+        (i) => i.type === 'Skill' && i.system.type === 'complexForm'
+      ),
     };
   }
 
@@ -235,6 +226,25 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
     };
   }
 
+  _getMatrixContext(actorData) {
+    if (!actorData.system.technomancer) return {};
+    const stats = actorData.system.sheetStats;
+    const bonuses = actorData.system.livingPersona;
+    return {
+      livingPersona: {
+        response: (stats.INTUITION ?? 0) + (bonuses.responseBonus ?? 0),
+        signal:
+          Math.ceil((stats.RESONANCE ?? 0) / 2) + (bonuses.signalBonus ?? 0),
+        firewall: (stats.WILLPOWER ?? 0) + (bonuses.firewallBonus ?? 0),
+        system: (stats.LOGIC ?? 0) + (bonuses.systemBonus ?? 0),
+        biofeedbackFilter:
+          (stats.CHARISMA ?? 0) + (bonuses.biofeedbackFilterBonus ?? 0),
+        vrMatrixInitiative: (stats.INTUITION ?? 0) * 2 + 1,
+        vrMatrixInitiativePasses: 3,
+      },
+    };
+  }
+
   _getMagicContext(actorData) {
     const sheetStats = actorData.system.sheetStats;
     const drainAttr = actorData.system.magic?.drainAttribute ?? 'LOGIC';
@@ -247,109 +257,33 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
     };
   }
 
-  _getComputedStats(actorData) {
-    const derived = this.document.system.derivedStats;
-    return {
-      computedStats: {
-        ...actorData.system.sheetStats,
-        INITIATIVE: derived?.initiative?.physical ?? 0,
-        MATRIXINITIATIVE: derived?.initiative?.matrix ?? 0,
-        ASTRALINITIATIVE: derived?.initiative?.astral ?? 0,
-      },
-      derivedKeys: ['INITIATIVE', 'MATRIXINITIATIVE', 'ASTRALINITIATIVE'],
-    };
-  }
-
-  // ---------------------------------------------------------------------------
-  // Rendering
-  // ---------------------------------------------------------------------------
-
-  async _renderFrame(options) {
-    const frame = await super._renderFrame(options);
-
-    const headerControls = frame.querySelector(
-      '.window-header .header-control'
-    );
-
-    const toggle = document.createElement('label');
-    toggle.className = 'switch edit-mode-switch';
-    toggle.dataset.tooltip = 'Edit Mode';
-    toggle.innerHTML = `
-      <input type="checkbox" ${this.editMode ? 'checked' : ''}>
-      <span class="slider"></span>
-    `;
-
-    toggle.querySelector('input')?.addEventListener('change', (ev) => {
-      this.editMode = ev.currentTarget.checked;
-      this.render();
-    });
-
-    if (headerControls?.parentElement) {
-      headerControls.parentElement.prepend(toggle);
-    }
-
-    return frame;
-  }
-
   // ---------------------------------------------------------------------------
   // Listeners
   // ---------------------------------------------------------------------------
 
   _onRender(context, options) {
-    super._onRender?.(context, options);
+    super._onRender(context, options);
+
+    const { signal } = this._listenerAbort;
 
     this.element
       .querySelectorAll('input[type="number"], input[type="text"]')
       .forEach((input) => {
-        input.addEventListener('focus', () => input.select());
+        input.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              this._saveActorForm();
+            }
+          },
+          { signal }
+        );
       });
 
-    this.element
-      .querySelectorAll('input[type="number"], input[type="text"]')
-      .forEach((input) => {
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            this._saveActorForm();
-          }
-        });
-      });
-
-    this.element
-      .querySelectorAll('.item-list input, .item-list select')
-      .forEach((el) => {
-        el.addEventListener('change', async (event) => {
-          const target = event.currentTarget;
-          const itemEl = target.closest('.item');
-          if (!itemEl) return;
-          const itemId = itemEl.dataset.itemId;
-          const item = this.actor.items.get(itemId);
-          if (!item) return;
-          const field = target.name;
-          let value = target.value;
-
-          if (target.type === 'checkbox') {
-            value = target.checked;
-          } else if (target.dataset.dtype === 'Number') {
-            value = Number(value);
-          }
-          await item.update({ [field]: value });
-        });
-      });
-
-    this.element
-      .querySelector('[data-edit="img"]')
-      ?.addEventListener('click', () => {
-        new foundry.applications.apps.FilePicker.implementation({
-          type: 'image',
-          current: this.actor.img,
-          callback: (path) => this.actor.update({ img: path }),
-        }).browse();
-      });
-
-    this.element
-      .querySelector('#skill-search')
-      ?.addEventListener('input', (event) => {
+    this.element.querySelector('#skill-search')?.addEventListener(
+      'input',
+      (event) => {
         const query = event.currentTarget.value.toLowerCase().trim();
         this.element.querySelectorAll('.skill').forEach((el) => {
           const name = (el.dataset.skillName || '').toLowerCase();
@@ -358,7 +292,9 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
             query.length > 0 && !name.includes(query)
           );
         });
-      });
+      },
+      { signal }
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -370,56 +306,28 @@ export default class SR4CharacterSheet extends foundry.applications.api.Handleba
     this.render();
   }
 
-  static async #onDeleteItem(event, target) {
-    const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    if (!itemId) return;
-    await this.actor.deleteEmbeddedDocuments('Item', [itemId]);
-  }
-
-  static async #onEditItem(event, target) {
-    const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    if (!itemId) return;
-    this.actor.items.get(itemId)?.sheet?.render(true);
-  }
-
-  static async #onToggleEquip(event, target) {
-    const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    if (!itemId) return;
-    const item = this.actor.items.get(itemId);
-    if (!item) return;
-    await item.update({ 'system.equipped': !item.system.equipped });
-  }
-
   static #onCastSpell(event, target) {
     const itemId = target.closest('[data-item-id]')?.dataset.itemId;
     if (!itemId) return;
     this.actor.castSpell(itemId);
   }
 
+  static async #onThreadComplexForm(event, target) {
+    const softwareSkill = this.actor.items.find(
+      (i) => i.type === 'Skill' && i.name === 'Software'
+    );
+    const softwareRating = softwareSkill?.system.rating ?? 0;
+    const resonance = this.actor.system.sheetStats.RESONANCE ?? 0;
+    openActionDialog(
+      this.actor,
+      game.i18n.localize('sr4.matrix.threading'),
+      softwareRating + resonance
+    );
+  }
+
   static async #onRollSkill(event, target) {
     const skill = target.dataset.skill;
     if (skill) await handleSkillRoll(this.actor, skill);
-  }
-
-  static async #onMonitorBox(event, target) {
-    const index = Number(target.dataset.index);
-    const type =
-      target.dataset.type ?? target.closest('.monitor-track')?.dataset.type;
-    if (!type) return;
-    const path = `system.conditionMonitor.${type}.current`;
-    const current = foundry.utils.getProperty(this.actor, path);
-    const newValue = index + 1 === current ? index : index + 1;
-    await this.actor.update({ [path]: newValue });
-  }
-
-  static async #onAttackRoll(event, target) {
-    const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    const skillKey = target.dataset.attackSkill;
-    if (!itemId || !skillKey) return;
-    const weapon = foundry.utils.deepClone(this.actor.items.get(itemId));
-    const skillName = this.actor.findByAttackSkill(skillKey)?.name;
-    if (!skillName || !weapon) return;
-    await handleSkillRoll(this.actor, skillName, weapon);
   }
 
   static async #onRollAction(event, target) {

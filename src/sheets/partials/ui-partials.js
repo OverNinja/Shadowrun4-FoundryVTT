@@ -9,6 +9,8 @@ export async function registerUIPartials() {
     { path: `${basePath}/bonus-input.hbs`, name: 'bonus-input' },
     { path: `${basePath}/malus-input.hbs`, name: 'malus-input' },
     { path: `${basePath}/smartlink-checkbox.hbs`, name: 'smartlink-checkbox' },
+    { path: `${basePath}/tooltip.hbs`, name: 'tooltip' },
+    { path: `${basePath}/fire-mode-selector.hbs`, name: 'fire-mode-selector' },
   ];
   await Promise.all(
     templatePaths.map(async ({ path, name }) => {

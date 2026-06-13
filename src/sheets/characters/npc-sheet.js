@@ -1,33 +1,14 @@
-import { getGame, handleSkillRoll } from '@utils/index';
-import {
-  ActionType,
-  Attackskill,
-  Shootingmodes,
-  SR4Attributes,
-} from '@models/index';
+import { ActionType, Shootingmodes, SR4Attributes } from '@models/index';
+import { buildWeaponContext } from './weapon-context.js';
+import { buildComputedStats, sortSkillsByLabel } from './actor-context.js';
+import SR4BaseActorSheet from './sr4-base-actor-sheet.js';
 
-export default class SR4NpcSheet extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.sheets.ActorSheetV2
-) {
-  /** @type {boolean} */
-  editMode = false;
-
+export default class SR4NpcSheet extends SR4BaseActorSheet {
   static DEFAULT_OPTIONS = {
-    classes: ['shadowrun4e', 'sheet', 'actor', 'npc'],
+    classes: ['shadowrun4e', 'sheet', 'actor', 'npc', 'sheet-container'],
     position: { width: 1400, height: 800 },
     window: {
       resizable: true,
-    },
-    form: {
-      submitOnChange: true,
-      closeOnSubmit: false,
-    },
-    actions: {
-      deleteItem: SR4NpcSheet.#onDeleteItem,
-      editItem: SR4NpcSheet.#onEditItem,
-      toggleEquip: SR4NpcSheet.#onToggleEquip,
-      monitorBox: SR4NpcSheet.#onMonitorBox,
-      attackRoll: SR4NpcSheet.#onAttackRoll,
     },
   };
 
@@ -88,30 +69,12 @@ export default class SR4NpcSheet extends foundry.applications.api.HandlebarsAppl
       attributes: SR4Attributes,
       shootingmodes: Shootingmodes,
       actiontypes: ActionType,
-      attackskills: Attackskill,
-      weapons: items.filter(
-        (i) => i.type === 'Ranged Weapon' || i.type === 'Melee Weapon'
-      ),
-      skills: items
-        .filter((i) => i.type === 'Skill')
-        .sort((a, b) => {
-          const labelA = a.system.label
-            ? getGame().i18n?.localize(a.system.label)
-            : a.name;
-          const labelB = b.system.label
-            ? getGame().i18n?.localize(b.system.label)
-            : b.name;
-          return labelA.localeCompare(labelB);
-        }),
+      weapons: buildWeaponContext(items),
+      skills: sortSkillsByLabel(items),
       armor: items.filter((i) => i.type === 'Armor'),
       critterPowers: items.filter((i) => i.type === 'CritterPower'),
-      computedStats: {
-        ...actorData.system.sheetStats,
-        INITIATIVE: derived?.initiative?.physical ?? 0,
-        MATRIXINITIATIVE: derived?.initiative?.matrix ?? 0,
-        ASTRALINITIATIVE: derived?.initiative?.astral ?? 0,
-      },
-      derivedKeys: ['INITIATIVE', 'MATRIXINITIATIVE', 'ASTRALINITIATIVE'],
+      isTechnomancer: actorData.system.technomancer,
+      ...buildComputedStats(actorData, derived),
     };
   }
 
@@ -127,126 +90,5 @@ export default class SR4NpcSheet extends foundry.applications.api.HandlebarsAppl
       context.showSimpleHpToggle = true;
     }
     return context;
-  }
-
-  // ---------------------------------------------------------------------------
-  // Rendering
-  // ---------------------------------------------------------------------------
-
-  async _renderFrame(options) {
-    const frame = await super._renderFrame(options);
-
-    const headerControls = frame.querySelector(
-      '.window-header .header-control'
-    );
-
-    const toggle = document.createElement('label');
-    toggle.className = 'switch edit-mode-switch';
-    toggle.dataset.tooltip = 'Edit Mode';
-    toggle.innerHTML = `
-      <input type="checkbox" ${this.editMode ? 'checked' : ''}>
-      <span class="slider"></span>
-    `;
-
-    toggle.querySelector('input')?.addEventListener('change', (ev) => {
-      // @ts-ignore — checked exists on HTMLInputElement at runtime
-      this.editMode = ev.currentTarget.checked;
-      this.render();
-    });
-
-    if (headerControls?.parentElement) {
-      headerControls.parentElement.prepend(toggle);
-    }
-
-    return frame;
-  }
-
-  // ---------------------------------------------------------------------------
-  // Listeners
-  // ---------------------------------------------------------------------------
-
-  _onRender(context, options) {
-    super._onRender?.(context, options);
-
-    this.element
-      .querySelectorAll('input[type="number"], input[type="text"]')
-      .forEach((input) => {
-        input.addEventListener('focus', () => input.select());
-      });
-    this.element
-      .querySelectorAll('.item-list input, .item-list select')
-      .forEach((el) => {
-        el.addEventListener('change', async (event) => {
-          const target = event.currentTarget;
-          const itemEl = target.closest('.item');
-          if (!itemEl) return;
-          const itemId = itemEl.dataset.itemId;
-          const item = this.actor.items.get(itemId);
-          if (!item) return;
-          const field = target.name;
-          let value = target.value;
-          if (target.type === 'checkbox') {
-            value = target.checked;
-          } else if (target.dataset.dtype === 'Number') {
-            value = Number(value);
-          }
-          await item.update({ [field]: value });
-        });
-      });
-
-    this.element
-      .querySelector('[data-edit="img"]')
-      ?.addEventListener('click', () => {
-        new foundry.applications.apps.FilePicker.implementation({
-          type: 'image',
-          current: this.actor.img,
-          callback: (path) => this.actor.update({ img: path }),
-        }).browse();
-      });
-  }
-
-  // ---------------------------------------------------------------------------
-  // Actions
-  // ---------------------------------------------------------------------------
-
-  static async #onDeleteItem(event, target) {
-    const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    if (!itemId) return;
-    await this.actor.deleteEmbeddedDocuments('Item', [itemId]);
-  }
-
-  static async #onEditItem(event, target) {
-    const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    if (!itemId) return;
-    this.actor.items.get(itemId)?.sheet?.render(true);
-  }
-
-  static async #onToggleEquip(event, target) {
-    const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    if (!itemId) return;
-    const item = this.actor.items.get(itemId);
-    if (!item) return;
-    await item.update({ 'system.equipped': !item.system.equipped });
-  }
-
-  static async #onMonitorBox(event, target) {
-    const index = Number(target.dataset.index);
-    const type =
-      target.dataset.type ?? target.closest('.monitor-track')?.dataset.type;
-    if (!type) return;
-    const path = `system.conditionMonitor.${type}.current`;
-    const current = foundry.utils.getProperty(this.actor, path);
-    const newValue = index + 1 === current ? index : index + 1;
-    await this.actor.update({ [path]: newValue });
-  }
-
-  static async #onAttackRoll(event, target) {
-    const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    const skillKey = target.dataset.attackSkill;
-    if (!itemId || !skillKey) return;
-    const weapon = this.actor.items.get(itemId);
-    const skillName = this.actor.findByAttackSkill(skillKey)?.name;
-    if (!skillName || !weapon) return;
-    await handleSkillRoll(this.actor, skillName, weapon);
   }
 }

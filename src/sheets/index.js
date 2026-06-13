@@ -1,4 +1,5 @@
 export { default as SR4ItemSheet } from './items/item-sheet';
+export { default as SR4BaseActorSheet } from './characters/sr4-base-actor-sheet';
 export { default as SR4CharacterSheet } from './characters/character-sheet';
 export { default as SR4NpcSheet } from './characters/npc-sheet';
 export { default as SR4SpiritSheet } from './actors/spirit-sheet';

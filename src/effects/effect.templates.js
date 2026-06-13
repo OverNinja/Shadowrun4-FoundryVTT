@@ -7,6 +7,7 @@ export const EFFECT_TEMPLATES = Object.freeze({
   sustain: {
     name: 'sr4.effect.templates.sustain',
     img: 'icons/svg/aura.svg',
+    statuses: ['sr4-sustain'],
     changes: [
       {
         key: 'system.modifiers.generalModifier',
@@ -14,6 +15,21 @@ export const EFFECT_TEMPLATES = Object.freeze({
         value: '-2',
       },
     ],
+    disabled: false,
+  },
+  /** Disoriented by electricity: -2 to all dice pools for 2 + net hits Combat Turns */
+  disoriented: {
+    name: 'sr4.effect.templates.disoriented',
+    img: 'icons/svg/stoned.svg',
+    statuses: ['sr4-disoriented'],
+    changes: [
+      {
+        key: 'system.modifiers.generalModifier',
+        mode: 2,
+        value: '-2',
+      },
+    ],
+    duration: { turns: 2 },
     disabled: false,
   },
 });

@@ -14,6 +14,14 @@
     >
   </div>
 
+  {{#if wideDefenseMalus}}
+  <div class="form-group">
+    <span class="defense-stat defense-malus"
+      >{{localize "sr4.defense.wideBurstMalus"}}: -{{ wideDefenseMalus }}</span
+    >
+  </div>
+  {{/if}}
+
   {{#if isMelee}}
   {{#if meleeSkills.length}}
   <div class="form-group">

@@ -35,6 +35,17 @@
       "source": "Quelle",
       "type": "Typ"
     },
+    "ammo": {
+      "apBonus": "AP Bonus",
+      "damageBonus": "Schadensbonus",
+      "damageTypeOverride": "Schadenstyp",
+      "effective": "Effektiv",
+      "loaded": "Geladene Munition",
+      "name": "Munitionsname",
+      "none": "Keine",
+      "quantity": "Patronen",
+      "type": "Munition"
+    },
     "armor": {
       "armor": "Panzerung",
       "armoravailability": "Verfügbarkeit",
@@ -100,6 +111,10 @@
       "simpleHp": "Einfache HP (nur physisch)",
       "stun": "Geistiger Zustandsmonitor"
     },
+    "critterPower": {
+      "noPowers": "Keine Kritterkräfte",
+      "powers": "Kritterkräfte"
+    },
     "damage": {
       "PHYSICAL": "Körperlich (K)",
       "STUN": "Geistig (G)",
@@ -110,6 +125,8 @@
       "damagesummary": "{name} erleidet {amount} {type}-Schaden durch {reason}.",
       "decisiontitle": "Schaden modifizieren?",
       "electricity": "Elektrizität",
+      "fire": "Feuer",
+      "laser": "Laser",
       "modify": "Schaden modifizieren",
       "pending": "Erwarteter Schaden",
       "result": "Ergebnis",
@@ -118,8 +135,10 @@
         "combat": "Kampf",
         "drain": "Entzug"
       },
+      "electricityHint": "Elektrizität: –2 auf alle Würfelpools für 2 + Nettoerfolge Runden. KON + WIL (3) gegen Bewusstlosigkeit.",
       "resisted": "{name} hat dem Schaden Widerstanden",
-      "stun": "Geistig (G)"
+      "stun": "Geistig (G)",
+      "stun_half": "Geistig (Halbiert)"
     },
     "defense": {
       "attackSuccesses": "Erfolge des Angriffs",
@@ -128,15 +147,18 @@
       "hits": "Treffer",
       "netDamage": "Schaden",
       "result": "Verteidigungsprobe Ergebnis",
+      "skill": "Verteidigungsfertigkeit",
       "skill1": "Verteidigungsfertigkeit 1",
       "skill2": "Verteidigungsfertigkeit 2",
-      "title": "Verteidigungsprobe"
+      "title": "Verteidigungsprobe",
+      "wideBurstMalus": "Streufeuer"
     },
     "effect": {
       "active": "Aktiv",
       "add": "Effekt hinzufügen",
       "attribute": "Attribut",
       "changeIcon": "Klicken zum Icon ändern",
+      "duration": "Dauer (Runden)",
       "mode": {
         "add": "Bonus / Malus",
         "label": "Modus",
@@ -147,8 +169,10 @@
       "new": "Neuer Effekt",
       "none": "Keine Effekte vorhanden",
       "notes": "Notizen",
+      "showOnToken": "Am Token anzeigen",
       "source": "Quelle",
       "templates": {
+        "disoriented": "Desorientiert (Elektrizität)",
         "sustain": "Aufrechterhalten"
       },
       "value": "Wert"
@@ -156,9 +180,18 @@
     "effectTarget": {
       "generalModifier": "Allgemeiner Würfelpool-Modifikator"
     },
+    "commlink": {
+      "firewall": "Firewall",
+      "noCommlinks": "Kein Commlink vorhanden",
+      "os": "System",
+      "response": "Reaktion",
+      "signal": "Signal"
+    },
     "inventory": {
       "armor": "Panzerung",
+      "commlinks": "Commlinks",
       "cyberware": "Cyberware",
+      "foci": "Foki / Fetische",
       "gear": "Gear",
       "implants": "Cyberware / Bioware",
       "items": "Items",
@@ -167,6 +200,26 @@
       "programs": "Programme",
       "vehicles": "Fahrzeuge",
       "weapons": "Waffen"
+    },
+    "matrix": {
+      "attribute": "Attribut",
+      "biofeedbackFilter": "Biofeedback-Filter",
+      "bonus": "Bonus",
+      "commlinks": "Commlinks",
+      "complexForms": "Komplexe Formen",
+      "firewall": "Firewall",
+      "livingPersona": "Living Persona",
+      "noComplexForms": "Keine komplexen Formen vorhanden",
+      "noSoftware": "Keine Software vorhanden",
+      "response": "Reaktion",
+      "signal": "Signal",
+      "software": "Software",
+      "system": "System",
+      "technomancer": "Technomancer",
+      "threading": "Threading",
+      "threadingHint": "Software + Resonanz würfeln",
+      "vrMatrixInitiative": "VR Matrix-Initiative",
+      "vrMatrixInitiativePasses": "VR Matrix-Ini-Pässe"
     },
     "item": {
       "actionPart1": "Aktion Teil 1",
@@ -288,13 +341,35 @@
       "extendTest": "Erweiterte Probe fortsetzen",
       "successes": "Erfolge",
       "useEdge": "Edge einsetzen",
-      "useEdgeButton": "Edge einsetzen?"
+      "useEdgeButton": "Edge einsetzen?",
+      "fireMode": "Feuermodus",
+      "shots": "Schuss",
+      "recoil": "Rückstoß",
+      "burstType": "Burst-Typ",
+      "narrow": "Konzentriert",
+      "wide": "Gestreut"
     },
-    "soak": {
-      "armor": "Rüstung (effektiv)",
-      "incomingDamage": "Eingehender Schaden",
-      "soakBonus": "Widerstandsbonus",
-      "title": "Schadenswiderstand"
+    "settings": {
+      "autoSustainEffect": {
+        "name": "Automatische Aufrechterhaltung",
+        "hint": "Erstellt automatisch einen Aufrechterhaltungs-Effekt wenn ein aufrechtzuerhaltender Zauber gewirkt wird."
+      },
+      "combatDefenseWorkflow": {
+        "name": "Kampf: Ausweichen-Workflow",
+        "hint": "Wenn aktiv, werden gezielte Tokens nach einem Angriff automatisch zum Ausweichen aufgefordert. Deaktivieren schaltet auch den Schadenswiderstand-Workflow aus."
+      },
+      "combatSoakWorkflow": {
+        "name": "Kampf: Schadenswiderstand-Workflow",
+        "hint": "Wenn aktiv, werden Verteidiger nach dem Ausweichen zum Schadenswiderstand aufgefordert. Erfordert aktiven Ausweichen-Workflow."
+      },
+      "liveInitiativeReduction": {
+        "name": "Live-Initiativreduktion",
+        "hint": "Reduziert den Initiativwert eines Kämpfers automatisch wenn sein Wundmodifikator steigt."
+      },
+      "spellWorkflow": {
+        "name": "Zauber-Workflow",
+        "hint": "Aktiviert den mehrstufigen Zauber-Workflow (Kraftwahl, Wurf, Entzug)."
+      }
     },
     "shooting": {
       "burst": "SF",
@@ -306,6 +381,7 @@
     },
     "skills": {
       "active": "Aktive Fertigkeiten",
+      "knowledgeAndComplexForms": "Wissen / Komplexe Formen",
       "attribute": "Attribut",
       "categories": {
         "Fahrzeug": "Fahrzeug",
@@ -324,12 +400,19 @@
         "vehicle": "Fahrzeug"
       },
       "category": "Kategorie",
+      "complexForm": "Komplexe Form",
       "knowledge": "Wissensfertigkeit",
       "name": "Name",
       "rating": "Stufe",
       "search": "Skillsuche",
       "source": "Quelle",
       "specializations": "Spezialisation"
+    },
+    "soak": {
+      "armor": "Rüstung (effektiv)",
+      "incomingDamage": "Eingehender Schaden",
+      "soakBonus": "Widerstandsbonus",
+      "title": "Schadenswiderstand"
     },
     "spell": {
       "cast": "Zaubern",
@@ -411,10 +494,6 @@
         "physical": "K"
       }
     },
-    "critterPower": {
-      "noPowers": "Keine Kritterkräfte",
-      "powers": "Kritterkräfte"
-    },
     "spirit": {
       "attributes": "Attribute",
       "dropSummoner": "Akteur ziehen um Beschwörer zu verknüpfen",
@@ -457,9 +536,19 @@
       "inventory": "Inventar",
       "magic": "Magie",
       "main": "Übersicht",
+      "matrix": "Matrix",
       "modifiers": "Modifikatoren",
       "skills": "Fertigkeiten",
       "weapons": "Waffen"
+    },
+    "tooltip": {
+      "specialization": "+2 Würfel, wenn die Fertigkeitsspezialisierung auf diesen Wurf zutrifft.",
+      "smartlink": "+2 Würfel. Erfordert ein implantiertes Smartlink-System und eine kompatible Waffe.",
+      "edge": "1 Edge ausgeben. Fügt den maximalen Edge-Wert zum Würfelpool hinzu; 6er werden einmal neu gewürfelt.",
+      "shots": "Anzahl der verschossenen Patronen. Jede Patrone nach der ersten erhöht den Rückstoß um 1, reduziert durch den RC-Wert der Waffe.",
+      "burstNarrow": "+N Schaden, abhängig von der Schussanzahl (3→+2, 6→+4, 10→+6).",
+      "burstWide": "-N Würfel auf den Verteidigungswurf des Verteidigers, abhängig von der Schussanzahl (3→−2, 6→−5, 10→−9).",
+      "ammoInsufficient": "Aktueller Munitionsstand. Reicht die Munition nicht für die gewählte Schussanzahl, wird der Angriff trotzdem normal durchgeführt."
     },
     "vehicle": {
       "accel": "Beschl.",
@@ -487,6 +576,10 @@
     },
     "weapon": {
       "ammo": "Munition",
+      "ammoFeed": "Zuführung",
+      "reload": "Nachladen",
+      "currentAmmo": "Mun.",
+      "maxAmmo": "Max",
       "ap": "PB",
       "apHalf": "½ Rüstung (effektive Rüstung halbieren)",
       "armorType": {
@@ -511,28 +604,6 @@
       "recoil": "RK",
       "smartlink": "Smartlink",
       "source": "Quelle"
-    },
-    "settings": {
-      "autoSustainEffect": {
-        "name": "Automatische Aufrechterhaltung",
-        "hint": "Erstellt automatisch einen Aufrechterhaltungs-Effekt wenn ein aufrechtzuerhaltender Zauber gewirkt wird."
-      },
-      "combatDefenseWorkflow": {
-        "name": "Kampf: Ausweichen-Workflow",
-        "hint": "Wenn aktiv, werden gezielte Tokens nach einem Angriff automatisch zum Ausweichen aufgefordert. Deaktivieren schaltet auch den Schadenswiderstand-Workflow aus."
-      },
-      "combatSoakWorkflow": {
-        "name": "Kampf: Schadenswiderstand-Workflow",
-        "hint": "Wenn aktiv, werden Verteidiger nach dem Ausweichen zum Schadenswiderstand aufgefordert. Erfordert aktiven Ausweichen-Workflow."
-      },
-      "liveInitiativeReduction": {
-        "name": "Live-Initiativreduktion",
-        "hint": "Reduziert den Initiativwert eines Kämpfers automatisch wenn sein Wundmodifikator steigt."
-      },
-      "spellWorkflow": {
-        "name": "Zauber-Workflow",
-        "hint": "Aktiviert den mehrstufigen Zauber-Workflow (Kraftwahl, Wurf, Entzug)."
-      }
     }
   }
 }

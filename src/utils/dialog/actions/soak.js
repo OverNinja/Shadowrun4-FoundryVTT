@@ -5,6 +5,7 @@ import {
   getChecked,
   localize,
   renderTemplate,
+  soakTemplatePath,
 } from '../dialogutility';
 
 /**
@@ -29,18 +30,23 @@ export async function openSoakDialog(
     ? localize('sr4.damage.physical')
     : localize('sr4.damage.stun');
 
-  const content = await renderTemplate(
-    'systems/shadowrun4e/templates/dicerolls/soak-dialog.hbs',
-    { ...params, incomingDamage, damageType, body, effectiveArmor, soakBonus }
-  );
+  const content = await renderTemplate(soakTemplatePath(), {
+    ...params,
+    incomingDamage,
+    damageType,
+    body,
+    effectiveArmor,
+    soakBonus,
+  });
 
+  let edgeUsed = false;
   const result = await createRollDialog({
     title: localize('sr4.soak.title'),
     content,
     dice: soakPool,
     onRoll: async (dialog) => {
-      const edgeUsed = getChecked(dialog, 'edge');
-      const { successes, isGlitch } = await dialogActions(
+      edgeUsed = getChecked(dialog, 'edge');
+      return dialogActions(
         dialog,
         defender,
         localize('sr4.soak.title'),
@@ -48,7 +54,6 @@ export async function openSoakDialog(
         undefined,
         { emitDefense: false }
       );
-      return { successes, isGlitch, edgeUsed };
     },
   });
 
@@ -57,6 +62,6 @@ export async function openSoakDialog(
     hits: result.successes,
     isGlitch: result.isGlitch,
     rolledDice: soakPool,
-    edgeUsed: /** @type {any} */ (result).edgeUsed ?? false,
+    edgeUsed,
   };
 }

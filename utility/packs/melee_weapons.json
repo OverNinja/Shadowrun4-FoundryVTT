@@ -679,13 +679,12 @@
         "attackSkill": "BLADES",
         "category": "Blades",
         "damage": 5,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.ares_sierra_stun_baton",
         "mods": [],
         "reach": 1,
         "source": "WAR p. 154",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -701,13 +700,12 @@
         "attackSkill": "CLUBS",
         "category": "Clubs",
         "damage": 7,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.az150_stun_baton",
         "mods": [],
         "reach": 1,
         "source": "AR p. 16",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1080,13 +1078,12 @@
         "attackSkill": "CLUBS",
         "category": "Clubs",
         "damage": 6,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.stun_baton",
         "mods": [],
         "reach": 1,
         "source": "SR4 p. 315",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1102,13 +1099,12 @@
         "attackSkill": "CLUBS",
         "category": "Clubs",
         "damage": 6,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.stun_staff",
         "mods": [],
         "reach": 2,
         "source": "AR p. 17",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1397,13 +1393,12 @@
         "attackSkill": "EXOTIC_MELEE",
         "category": "Exotic Melee Weapons",
         "damage": 2,
-        "damageType": "PHYSICAL",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.goblin_stompers",
         "mods": [],
         "reach": 0,
         "source": "AT p. 155",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1587,13 +1582,12 @@
         "attackSkill": "EXOTIC_RANGED",
         "category": "Exotic Ranged Weapons",
         "damage": 4,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.tesla_gloves",
         "mods": [],
         "reach": 0,
         "source": "AT p. 154",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1609,13 +1603,12 @@
         "attackSkill": "UNARMED",
         "category": "Unarmed",
         "damage": 5,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.shock_glove",
         "mods": [],
         "reach": 0,
         "source": "SR4 p. 315",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1631,13 +1624,12 @@
         "attackSkill": "UNARMED",
         "category": "Unarmed",
         "damage": 4,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.pocket_frills",
         "mods": [],
         "reach": 0,
         "source": "SG p. 160",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1653,13 +1645,12 @@
         "attackSkill": "PISTOLS",
         "category": "Tasers",
         "damage": 8,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.defiance_ex_shocker_melee",
         "mods": [],
         "reach": 0,
         "source": "SR4 p. 316",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1675,13 +1666,12 @@
         "attackSkill": "CLUBS",
         "category": "Clubs",
         "damage": 6,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.jupiter_taser_club",
         "mods": [],
         "reach": 0,
         "source": "AR p. 20",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -1760,13 +1750,12 @@
         "attackSkill": "NONE",
         "category": "Cyberware Clubs",
         "damage": 6,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.shock_hand",
         "mods": [],
         "reach": 0,
         "source": "SR4 p. 345",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },
@@ -2349,13 +2338,12 @@
         "attackSkill": "UNARMED",
         "category": "Unarmed",
         "damage": 5,
-        "damageType": "STUN",
+        "damageType": "ELECTRICITY",
         "label": "sr4.melee_weapons.shock_glove_2050",
         "mods": [],
         "reach": 0,
         "source": "2050 p. 167",
-        "type": "Melee",
-        "apHalf": true
+        "type": "Melee"
       },
       "type": "Melee Weapon"
     },

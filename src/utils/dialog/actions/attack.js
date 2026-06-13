@@ -1,0 +1,272 @@
+import { isRangedWeapon, Shootingmodes } from '@models/index';
+import {
+  attackTemplatePath,
+  createDialogParameters,
+  createRollDialog,
+  dialogActions,
+  getInt,
+  getSkillDicePool,
+  localize,
+  renderTemplate,
+} from '../dialogutility';
+import { handleSkillRoll } from './skills';
+
+/** @typedef {import('@models/index').SR4Weapon} SR4Weapon */
+
+/** @type {Record<string, number[]>} */
+const SHOTS_BY_MODE = {
+  [Shootingmodes.SINGLE_SHOT]: [1],
+  [Shootingmodes.SEMI_AUTOMATIC]: [1],
+  [Shootingmodes.BURST_FIRE]: [3],
+  [Shootingmodes.FULL_AUTO]: [6, 10],
+};
+
+/** @type {Record<string, string[]>} */
+const MODES_BY_WEAPON_MODE = {
+  SINGLE_SHOT: [Shootingmodes.SINGLE_SHOT],
+  SEMI_AUTOMATIC: [Shootingmodes.SEMI_AUTOMATIC],
+  BURST_FIRE: [Shootingmodes.BURST_FIRE],
+  FULL_AUTO: [Shootingmodes.FULL_AUTO],
+  SEMI_BURST: [Shootingmodes.SEMI_AUTOMATIC, Shootingmodes.BURST_FIRE],
+  SEMI_BURST_FULL_AUTO: [
+    Shootingmodes.SEMI_AUTOMATIC,
+    Shootingmodes.BURST_FIRE,
+    Shootingmodes.FULL_AUTO,
+  ],
+};
+
+const SIMPLE_MODES = new Set([
+  Shootingmodes.SINGLE_SHOT,
+  Shootingmodes.SEMI_AUTOMATIC,
+]);
+
+/** @type {Record<number, {narrow: number, wide: number}>} */
+const BURST_MODIFIERS = {
+  3: { narrow: 2, wide: 2 },
+  6: { narrow: 5, wide: 5 },
+  10: { narrow: 9, wide: 9 },
+};
+
+const MODES_WITH_BURST_OPTION = new Set([
+  Shootingmodes.BURST_FIRE,
+  Shootingmodes.FULL_AUTO,
+]);
+
+/**
+ * @param {SR4Weapon} weapon
+ * @returns {{ showFireModeUI: boolean, showModeRadios?: boolean, hasBurstModes: boolean, fireModes: string[], shotOptions: number[] }}
+ */
+function getFireModeParams(weapon) {
+  const weaponMode = weapon.system.mode;
+  const modes = MODES_BY_WEAPON_MODE[weaponMode] ?? [];
+  const hasComplex = modes.some((m) => !SIMPLE_MODES.has(m));
+
+  if (!hasComplex) {
+    return {
+      showFireModeUI: false,
+      hasBurstModes: false,
+      fireModes: [],
+      shotOptions: [],
+    };
+  }
+
+  const firstMode = modes[0];
+  return {
+    showFireModeUI: true,
+    showModeRadios: modes.length > 1,
+    hasBurstModes: modes.some((m) => MODES_WITH_BURST_OPTION.has(m)),
+    fireModes: modes,
+    shotOptions: SHOTS_BY_MODE[firstMode] ?? [1],
+  };
+}
+
+/**
+ * @param {import('@documents/index').SR4Actor} actor
+ * @param {string} skillName
+ * @param {SR4Weapon} weapon
+ * @returns {Promise<void>}
+ */
+export async function handleAttackRoll(actor, skillName, weapon) {
+  if (isRangedWeapon(weapon)) {
+    await openAttackDialog(actor, skillName, weapon);
+  } else {
+    await handleSkillRoll(actor, skillName, weapon);
+  }
+}
+
+/**
+ * @param {import('@documents/index').SR4Actor} actor
+ * @param {string} skillName
+ * @param {SR4Weapon} weapon
+ * @returns {Promise<void>}
+ */
+export async function openAttackDialog(actor, skillName, weapon) {
+  const dice = getSkillDicePool(actor, skillName);
+  if (dice === undefined) return;
+
+  const params = createDialogParameters(actor, dice, weapon);
+  const fireModeParams = getFireModeParams(weapon);
+  const skill = actor.getSkill(skillName);
+
+  const rangedAmmo =
+    isRangedWeapon(weapon) && weapon.system.maxAmmo > 0
+      ? {
+          currentAmmo: weapon.system.currentAmmo,
+          maxAmmo: weapon.system.maxAmmo,
+          ammoInsufficient:
+            !fireModeParams.showFireModeUI && weapon.system.currentAmmo < 1,
+        }
+      : {};
+
+  const content = await renderTemplate(attackTemplatePath(), {
+    ...params,
+    ...fireModeParams,
+    ...rangedAmmo,
+  });
+
+  await createRollDialog({
+    title: `${localize('sr4.roll.rolling')} ${localize(skill.system.label)} ${skill.system.specialization ?? ''}`,
+    content,
+    dice,
+    onRender: fireModeParams.showFireModeUI
+      ? (html, updateLabel) => {
+          const rc = weapon.system.rc ?? 0;
+
+          const getSelectedMode = () =>
+            /** @type {HTMLInputElement|null} */ (
+              html.querySelector('input[name="fireMode"]:checked')
+            )?.value ?? fireModeParams.fireModes[0];
+
+          /**
+           * @param {string} modeKey
+           * @param {number} shots
+           */
+          const updateBurstModifiers = (modeKey, shots) => {
+            const isBurst = MODES_WITH_BURST_OPTION.has(modeKey);
+            const selector = /** @type {HTMLElement|null} */ (
+              html.querySelector('#burstModeSelector')
+            );
+            if (selector) selector.hidden = !isBurst;
+            const bonusEl = /** @type {HTMLInputElement|null} */ (
+              html.querySelector('#burstBonus')
+            );
+            const malusEl = /** @type {HTMLInputElement|null} */ (
+              html.querySelector('#wideDefenseMalus')
+            );
+            if (!isBurst) {
+              if (bonusEl) bonusEl.value = '0';
+              if (malusEl) malusEl.value = '0';
+              updateLabel();
+              return;
+            }
+            const isNarrow =
+              /** @type {HTMLInputElement|null} */ (
+                html.querySelector('input[name="burstMode"]:checked')
+              )?.value !== 'wide';
+            const mods = BURST_MODIFIERS[shots] ?? { narrow: 0, wide: 0 };
+            if (bonusEl) bonusEl.value = String(isNarrow ? mods.narrow : 0);
+            if (malusEl) malusEl.value = String(isNarrow ? 0 : mods.wide);
+            updateLabel();
+          };
+
+          const updateAmmoDisplay = (/** @type {number} */ shots) => {
+            const el = /** @type {HTMLElement|null} */ (
+              html.querySelector('#ammoDisplay')
+            );
+            if (!el || !isRangedWeapon(weapon)) return;
+            el.style.color =
+              weapon.system.currentAmmo < shots ? 'var(--sr4-red)' : '';
+          };
+
+          const updateRecoil = () => {
+            const shots = getInt(html, 'shotCount');
+            const recoil = Math.max(0, shots - 1 - rc);
+            const display = html.querySelector('#recoilDisplay');
+            const hidden = html.querySelector('#recoilMalus');
+            if (display) display.textContent = String(recoil);
+            if (hidden) hidden.value = String(recoil);
+            updateBurstModifiers(getSelectedMode(), shots);
+            updateAmmoDisplay(shots);
+          };
+
+          const updateShotOptions = (modeKey) => {
+            const shots = SHOTS_BY_MODE[modeKey] ?? [1];
+            const select = /** @type {HTMLSelectElement|null} */ (
+              html.querySelector('#shotCount')
+            );
+            if (!select) return;
+            select.innerHTML = shots
+              .map((s) => `<option value="${s}">${s}</option>`)
+              .join('');
+            updateRecoil();
+          };
+
+          html
+            .querySelectorAll('input[name="fireMode"]')
+            .forEach((el) =>
+              el.addEventListener('change', (e) =>
+                updateShotOptions(
+                  /** @type {HTMLInputElement} */ (e.target).value
+                )
+              )
+            );
+          html
+            .querySelectorAll('input[name="burstMode"]')
+            .forEach((el) =>
+              el.addEventListener('change', () =>
+                updateBurstModifiers(
+                  getSelectedMode(),
+                  getInt(html, 'shotCount')
+                )
+              )
+            );
+          html
+            .querySelector('#shotCount')
+            ?.addEventListener('change', updateRecoil);
+
+          updateShotOptions(getSelectedMode());
+        }
+      : undefined,
+    onRoll: async (dialog) => {
+      const shots = getInt(dialog, 'shotCount') || 1;
+      const result = await dialogActions(
+        dialog,
+        actor,
+        skillName,
+        dice,
+        weapon
+      );
+      if (isRangedWeapon(weapon)) {
+        const w = /** @type {any} */ (weapon);
+        const a = /** @type {any} */ (actor);
+        /** @type {Record<string, Record<string, unknown>>} */
+        const byId = {};
+        if (weapon.system.maxAmmo > 0) {
+          byId[w.id] = {
+            'system.currentAmmo': Math.max(
+              0,
+              weapon.system.currentAmmo - shots
+            ),
+          };
+        }
+        if (weapon.system.loadedAmmoId) {
+          const ammo = a.items?.get(weapon.system.loadedAmmoId);
+          if (ammo) {
+            const newQty = Math.max(0, ammo.system.quantity - shots);
+            byId[ammo.id] = { 'system.quantity': newQty };
+            if (newQty === 0) {
+              byId[w.id] ??= {};
+              byId[w.id]['system.loadedAmmoId'] = '';
+            }
+          }
+        }
+        const batch = Object.entries(byId).map(([id, data]) => ({
+          _id: id,
+          ...data,
+        }));
+        if (batch.length) await a.updateEmbeddedDocuments('Item', batch);
+      }
+      return result;
+    },
+  });
+}

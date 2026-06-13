@@ -1,0 +1,36 @@
+
+  <div class="item-sheet-body">
+    {{> "item-sheet-header" nameKey="sr4.ammo.name"}}
+
+    <table class="item-stats-table">
+      <thead>
+        <tr>
+          <th>{{localize 'sr4.ammo.damageBonus'}}</th>
+          <th>{{localize 'sr4.ammo.apBonus'}}</th>
+          <th>{{localize 'sr4.ammo.damageTypeOverride'}}</th>
+          <th>{{localize 'sr4.ammo.quantity'}}</th>
+          <th>{{localize 'sr4.weapon.avail'}}</th>
+          <th>{{localize 'sr4.weapon.legality'}}</th>
+          <th>{{localize 'sr4.weapon.cost'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="number" name="system.damageBonus" value="{{ system.damageBonus }}" /></td>
+          <td><input type="number" name="system.apBonus" value="{{ system.apBonus }}" /></td>
+          <td>
+            <select name="system.damageTypeOverride">
+              <option value="" {{#unless system.damageTypeOverride}}selected{{/unless}}>—</option>
+              {{selectOptions damagetypes selected=system.damageTypeOverride localize=true}}
+            </select>
+          </td>
+          <td><input type="number" name="system.quantity" value="{{ system.quantity }}" /></td>
+          <td><input type="number" name="system.avail" value="{{ system.avail }}" /></td>
+          <td><input type="text" name="system.legality" value="{{ system.legality }}" /></td>
+          <td><input type="number" name="system.cost" value="{{ system.cost }}" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    {{> "item-textareas"}}
+  </div>

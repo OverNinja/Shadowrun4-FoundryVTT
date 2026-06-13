@@ -1,0 +1,17 @@
+{{#if readonly}}
+<div class="modifier-field readonly">
+  <label>{{localize label}}</label>
+  <span>{{value}}</span>
+</div>
+{{else}}
+<div class="modifier-field">
+  <label>{{localize label}}</label>
+  <input
+    type="number"
+    name="{{name}}"
+    value="{{value}}"
+    {{#if min}}min="{{min}}"{{/if}}
+    {{#unless editMode}}readonly{{/unless}}
+  />
+</div>
+{{/if}}

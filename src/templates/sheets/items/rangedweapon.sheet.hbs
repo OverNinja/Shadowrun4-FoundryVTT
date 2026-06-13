@@ -25,7 +25,9 @@
           <th>{{localize 'sr4.weapon.mode'}}</th>
           <th>{{localize 'sr4.weapon.recoil'}}</th>
           <th>{{localize 'sr4.weapon.range'}}</th>
-          <th>{{localize 'sr4.weapon.ammo'}}</th>
+          <th>{{localize 'sr4.weapon.currentAmmo'}}</th>
+          <th>{{localize 'sr4.weapon.maxAmmo'}}</th>
+          <th>{{localize 'sr4.weapon.ammoFeed'}}</th>
           <th>{{localize 'sr4.weapon.avail'}}</th>
           <th>{{localize 'sr4.weapon.legality'}}</th>
           <th>{{localize 'sr4.weapon.cost'}}</th>
@@ -35,7 +37,7 @@
         <tr>
           <td>
             <select name="system.attackSkill">
-              {{selectOptions attackskills selected=system.attackSkill localize=true}}
+              {{selectOptions rangedattackskills selected=system.attackSkill localize=true}}
             </select>
           </td>
           <td><input type="number" name="system.damage" value="{{ system.damage }}" /></td>
@@ -45,10 +47,7 @@
             </select>
           </td>
           <td>
-            <input type="number" name="system.ap" value="{{ system.ap }}" {{#if system.apHalf}}disabled{{/if}} />
-            <label title="{{localize 'sr4.weapon.apHalf'}}">
-              <input type="checkbox" data-field="system.apHalf" {{#if system.apHalf}}checked{{/if}} /> ½
-            </label>
+            <input type="number" name="system.ap" value="{{ system.ap }}" />
           </td>
           <td>
             <select name="system.armorType">
@@ -67,7 +66,9 @@
           </td>
           <td><input type="number" name="system.rc" value="{{ system.rc }}" /></td>
           <td><input type="text" name="system.range" value="{{ system.range }}" /></td>
-          <td><input type="text" name="system.ammo" value="{{ system.ammo }}" /></td>
+          <td><input type="number" name="system.currentAmmo" value="{{ system.currentAmmo }}" /></td>
+          <td><input type="number" name="system.maxAmmo" value="{{ system.maxAmmo }}" /></td>
+          <td><input type="text" name="system.ammoFeed" value="{{ system.ammoFeed }}" /></td>
           <td><input type="number" name="system.avail" value="{{ system.avail }}" /></td>
           <td><input type="text" name="system.legality" value="{{ system.legality }}" /></td>
           <td><input type="number" name="system.cost" value="{{ system.cost }}" /></td>
@@ -75,15 +76,21 @@
       </tbody>
     </table>
 
-    <div class="item-textareas">
-      <div>
-        <label>{{localize 'sr4.weapon.notes'}}</label>
-        <textarea name="system.notes" placeholder="{{localize 'sr4.weapon.notes'}}">{{ system.notes }}</textarea>
-      </div>
-      <div>
-        <label>{{localize 'sr4.weapon.description'}}</label>
-        <textarea name="system.description" placeholder="{{localize 'sr4.weapon.description'}}">{{ system.description }}</textarea>
-      </div>
+    <div class="ammo-section">
+      <label>{{localize 'sr4.ammo.loaded'}}</label>
+      <select name="system.loadedAmmoId">
+        <option value="">— {{localize 'sr4.ammo.none'}} —</option>
+        {{#each availableAmmo as |a|}}
+        <option value="{{ a.id }}" {{#if (eq ../system.loadedAmmoId a.id)}}selected{{/if}}>
+          {{ a.name }}
+        </option>
+        {{/each}}
+      </select>
+      {{#if system.loadedAmmoName}}
+      <small>({{localize 'sr4.ammo.effective'}}: {{localize 'sr4.weapon.damage'}} {{ system.effectiveDamage }} / {{localize 'sr4.weapon.ap'}} {{ system.effectiveAP }}{{#if (ne system.effectiveArmorType system.armorType)}} / {{localize 'sr4.weapon.armorType.label'}}: {{#if (eq system.effectiveArmorType "impact")}}{{localize "sr4.weapon.armorType.impact"}}{{else}}{{localize "sr4.weapon.armorType.ballistic"}}{{/if}}{{/if}})</small>
+      {{/if}}
     </div>
+
+    {{> "item-textareas"}}
 
   </div>

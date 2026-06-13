@@ -14,8 +14,11 @@ export async function registerCharacterPartials() {
     { path: `${basePath}/item-cards/spell.card.hbs`, name: 'spell-card' },
     { path: `${basePath}/item-cards/power.card.hbs`, name: 'power-card' },
     { path: `${basePath}/item-cards/action.card.hbs`, name: 'action-card' },
+    { path: `${basePath}/item-cards/commlink.card.hbs`, name: 'commlink-card' },
     { path: `${basePath}/tabs/inventory.tab.hbs`, name: 'inventory-tab' },
     { path: `${basePath}/tabs/magic.tab.hbs`, name: 'magic-tab' },
+    { path: `${basePath}/tabs/matrix.tab.hbs`, name: 'matrix-tab' },
+    { path: `${basePath}/modifier-field.hbs`, name: 'modifier-field' },
   ];
 
   await Promise.all(

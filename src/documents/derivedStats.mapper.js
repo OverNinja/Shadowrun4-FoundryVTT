@@ -11,8 +11,7 @@ export function computeSpiritDerivedStats(systemData) {
   monitor.stun.max = Math.ceil(8 + sheetStats.WILLPOWER / 2);
 
   derivedStats.woundModifier =
-    Math.floor(monitor.physical.current / 3) +
-    Math.floor(monitor.stun.current / 3);
+    Math.floor(monitor.physical.value / 3) + Math.floor(monitor.stun.value / 3);
   derivedStats.dicePoolModifier = derivedStats.woundModifier;
 
   derivedStats.initiative.physical = sheetStats.INTUITION + sheetStats.REACTION;
@@ -35,7 +34,7 @@ export function computeVehicleDerivedStats(systemData) {
 
   monitor.physical.max = Math.ceil(8 + systemData.body / 2);
 
-  derivedStats.woundModifier = Math.floor(monitor.physical.current / 3);
+  derivedStats.woundModifier = Math.floor(monitor.physical.value / 3);
   derivedStats.dicePoolModifier = derivedStats.woundModifier;
 
   derivedStats.initiative.physical =
@@ -78,14 +77,22 @@ export function computeDerivedStats(actorData) {
 
   initiative.physical =
     sheetStats.INTUITION + sheetStats.REACTION + initiativeBonus.physical;
-  initiative.astral = sheetStats.INTUITION * 2 + initiativeBonus.astral;
   initiative.matrix = sheetStats.INTUITION + initiativeBonus.matrix;
 
+  const isMagician = actorData.magic?.magician === true;
+  initiative.astral = isMagician
+    ? sheetStats.INTUITION * 2 + initiativeBonus.astral
+    : 0;
+
   derivedStats.passesString = [
-    initiativePasses.physical,
-    initiativePasses.astral,
+    1 + initiativePasses.physical,
+    isMagician ? 1 + initiativePasses.astral : 0,
     initiativePasses.matrix,
   ].join('/');
+
+  sheetStats.INITIATIVE = initiative.physical;
+  sheetStats.MATRIXINITIATIVE = initiative.matrix;
+  sheetStats.ASTRALINITIATIVE = initiative.astral;
 
   // derivedStats.augmentedMaximum = computeAugmentedMaximum(sheetStats);
   derivedStats.judgeIntentions = sheetStats.CHARISMA + sheetStats.WILLPOWER;
@@ -109,7 +116,7 @@ export function computeDerivedStats(actorData) {
 function getWoundModifier(monitor, woundMod) {
   const divisor = 3 + (woundMod ?? 0);
   return (
-    Math.floor(monitor.physical.current / divisor) +
-    Math.floor(monitor.stun.current / divisor)
+    Math.floor(monitor.physical.value / divisor) +
+    Math.floor(monitor.stun.value / divisor)
   );
 }

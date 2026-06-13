@@ -2,7 +2,10 @@ export async function registerActorPartials() {
   const basePath = 'systems/shadowrun4e/templates/sheets/actors/partials';
 
   const templatePaths = [
+    { path: `${basePath}/actor-image.hbs`, name: 'actor-image' },
     { path: `${basePath}/critter-powers.hbs`, name: 'critter-powers' },
+    { path: `${basePath}/attribute-cell.hbs`, name: 'attribute-cell' },
+    { path: `${basePath}/status-track-card.hbs`, name: 'status-track-card' },
   ];
 
   await Promise.all(

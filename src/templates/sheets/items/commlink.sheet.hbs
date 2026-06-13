@@ -1,0 +1,44 @@
+<div class="item-sheet-body">
+  {{> "item-sheet-header" nameKey="sr4.item.name"}}
+
+  <table class="item-stats-table">
+    <thead>
+      <tr>
+        <th>{{localize 'sr4.commlink.response'}}</th>
+        <th>{{localize 'sr4.commlink.signal'}}</th>
+        <th>{{localize 'sr4.commlink.firewall'}}</th>
+        <th>{{localize 'sr4.commlink.os'}}</th>
+        <th>{{localize 'sr4.item.avail'}}</th>
+        <th>{{localize 'sr4.item.legality'}}</th>
+        <th>{{localize 'sr4.item.cost'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <input type="number" name="system.response" value="{{ system.response }}" />
+        </td>
+        <td>
+          <input type="number" name="system.signal" value="{{ system.signal }}" />
+        </td>
+        <td>
+          <input type="number" name="system.firewall" value="{{ system.firewall }}" />
+        </td>
+        <td>
+          <input type="number" name="system.os" value="{{ system.os }}" />
+        </td>
+        <td>
+          <input type="text" name="system.avail" value="{{ system.avail }}" />
+        </td>
+        <td>
+          <input type="text" name="system.legality" value="{{ system.legality }}" />
+        </td>
+        <td>
+          <input type="number" name="system.cost" value="{{ system.cost }}" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  {{> "item-textareas"}}
+</div>

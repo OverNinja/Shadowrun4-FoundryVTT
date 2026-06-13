@@ -1,0 +1,13 @@
+<div class="status-track-card">
+  <h4>{{localize title}}</h4>
+  <div class="monitor-track" data-type="{{type}}">
+    {{#each (range 0 max)}}
+    <span
+      class="monitor-box{{#if (gte this ../overflowStart)}} overflow{{/if}}{{#if (filledIf ../current this)}} filled{{/if}}"
+      data-action="monitorBox"
+      data-type="{{../type}}"
+      data-index="{{this}}"
+    ></span>
+    {{/each}}
+  </div>
+</div>

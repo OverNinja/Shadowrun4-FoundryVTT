@@ -4,6 +4,8 @@ import {
   openSoakDialog,
   showEdgeDialog,
 } from '@utils/index';
+import { isPhysicalDamageType } from '@models/index';
+import { SR4ActiveEffect } from '@effects/index';
 import { ApplyDamageFlow } from './apply-damage-flow';
 import { createEdgeRerollHandler } from './util/edge-reroll.handler';
 
@@ -11,10 +13,38 @@ import { createEdgeRerollHandler } from './util/edge-reroll.handler';
  * @param {import('@documents/index').SR4Actor} actor
  * @param {import('@models/index').SR4Weapon} weapon
  * @param {number} successes
+ * @param {number} [wideDefenseMalus]
+ * @param {number} [burstDamageBonus]
  * @returns {void}
  */
-export function emitDefenseTrigger(actor, weapon, successes) {
-  if (!weapon?.type || !getGame().user?.targets) return;
+export function emitDefenseTrigger(
+  actor,
+  weapon,
+  successes,
+  wideDefenseMalus = 0,
+  burstDamageBonus = 0
+) {
+  if (
+    !weapon?.type ||
+    !getGame().user?.targets ||
+    (getGame().user.targets.actor.type !== 'character' &&
+      getGame().user.targets.actor.type !== 'npc')
+  )
+    return;
+  /** @type {any} */
+  const sys = weapon.system;
+  const base = weapon.toObject();
+  const weaponSnapshot = {
+    ...base,
+    system: {
+      ...base.system,
+      damage: sys.effectiveDamage ?? sys.damage,
+      ap: sys.effectiveAP ?? sys.ap,
+      damageType: sys.effectiveDamageType ?? sys.damageType,
+      armorType: sys.effectiveArmorType ?? sys.armorType,
+      apHalf: sys.effectiveApHalf ?? false,
+    },
+  };
   for (const target of getGame().user.targets) {
     const defenderId = target.actor?.id;
     if (!defenderId) continue;
@@ -24,7 +54,9 @@ export function emitDefenseTrigger(actor, weapon, successes) {
         defenderId,
         attackerId: actor.id,
         successes,
-        weapon,
+        weapon: weaponSnapshot,
+        wideDefenseMalus,
+        burstDamageBonus,
       },
     });
   }
@@ -52,14 +84,25 @@ export class DefenseFlow {
    * @param {string} attackerId
    * @param {number} successes
    * @param {import('@models/index').SR4Weapon} weapon
+   * @param {number} [wideDefenseMalus]
+   * @param {number} [burstDamageBonus]
    * @returns {Promise<void>}
    */
-  static async start(defender, attackerId, successes, weapon) {
+  static async start(
+    defender,
+    attackerId,
+    successes,
+    weapon,
+    wideDefenseMalus = 0,
+    burstDamageBonus = 0
+  ) {
     await new DefenseFlow().handleDefenseRequest(
       defender.id,
       attackerId,
       successes,
-      weapon
+      weapon,
+      wideDefenseMalus,
+      burstDamageBonus
     );
   }
 
@@ -68,9 +111,18 @@ export class DefenseFlow {
    * @param {string} attackerId
    * @param {number} successes
    * @param {import('@models/index').SR4Weapon} weapon
+   * @param {number} [wideDefenseMalus]
+   * @param {number} [burstDamageBonus]
    * @returns {Promise<void>}
    */
-  async handleDefenseRequest(defenderId, attackerId, successes, weapon) {
+  async handleDefenseRequest(
+    defenderId,
+    attackerId,
+    successes,
+    weapon,
+    wideDefenseMalus = 0,
+    burstDamageBonus = 0
+  ) {
     if (!game.settings.get('shadowrun4e', 'combatDefenseWorkflow')) return;
 
     /** @type {import('@documents/index').SR4Actor | undefined} */
@@ -84,7 +136,13 @@ export class DefenseFlow {
       isGlitch,
       rolledDice,
       edgeUsed: defenseRollEdgeUsed,
-    } = await openDefenseDialog(defender, attacker, successes, weapon);
+    } = await openDefenseDialog(
+      defender,
+      attacker,
+      successes,
+      weapon,
+      wideDefenseMalus
+    );
     if (rawDefenseHits === null) return;
 
     // Offer defense Edge reroll if Edge wasn't spent in the roll and actor still has Edge
@@ -110,17 +168,31 @@ export class DefenseFlow {
       const netSuccesses = Math.max(successes - resolvedDefenseHits, 0);
       if (netSuccesses === 0) return;
 
-      const baseDamage = weapon.system.damage + netSuccesses;
+      const baseDamage = weapon.system.damage + netSuccesses + burstDamageBonus;
       const effectiveArmor = getEffectiveArmor(defender, weapon);
-      let isPhysical = weapon.system.damageType === 'physical';
+      const dt = weapon.system.damageType;
+      let isPhysical = isPhysicalDamageType(dt);
       if (isPhysical && baseDamage <= effectiveArmor) isPhysical = false;
+      const electricityHint =
+        dt === 'ELECTRICITY'
+          ? getGame().i18n.localize('sr4.damage.electricityHint')
+          : undefined;
+      const electricityOnApply =
+        dt === 'ELECTRICITY'
+          ? async () => {
+              await SR4ActiveEffect.fromTemplate('disoriented', defender, {
+                duration: { turns: 2 + netSuccesses },
+              });
+            }
+          : undefined;
 
       if (!game.settings.get('shadowrun4e', 'combatSoakWorkflow')) {
         await ApplyDamageFlow.sendDecisionMessage(
           defender,
           baseDamage,
           isPhysical,
-          'combat'
+          'combat',
+          { hint: electricityHint, onApply: electricityOnApply }
         );
         return;
       }
@@ -175,6 +247,7 @@ export class DefenseFlow {
               );
               if (msgs.length > 0)
                 await ApplyDamageFlow.sendMessages(msgs, defender);
+              if (electricityOnApply) await electricityOnApply();
             }
           );
 
@@ -183,7 +256,12 @@ export class DefenseFlow {
         finalDamage,
         isPhysical,
         'combat',
-        { onReroll, edgeUsed: soakResult.edgeUsed }
+        {
+          onReroll,
+          edgeUsed: soakResult.edgeUsed,
+          hint: electricityHint,
+          onApply: electricityOnApply,
+        }
       );
     };
 

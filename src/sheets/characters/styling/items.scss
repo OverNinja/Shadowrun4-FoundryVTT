@@ -85,6 +85,11 @@
   color: var(--sr4-label);
 }
 
+.item-property--empty {
+  border-color: transparent;
+  background: transparent;
+}
+
 /* ---------------- ACTIONS ---------------- */
 
 .item-actions {
@@ -95,6 +100,7 @@
 /* buttons unified */
 .item-edit,
 .item-delete,
+.item-reload,
 .roll-action,
 .attack {
   width: 22px;
@@ -113,6 +119,7 @@
 }
 
 .item-edit:hover,
+.item-reload:hover,
 .roll-action:hover,
 .attack:hover {
   color: var(--sr4-teal);
@@ -140,6 +147,26 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 0.4rem;
+}
+
+.weapon-card:has(.weapon-ammo) {
+  .weapon-stats,
+  .weapon-ammo {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.4rem;
+  }
+}
+
+.weapon-ammo {
+  position: relative;
+  margin-top: 0.6rem;
+}
+
+.weapon-ammo-edit {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .weapon-smartlink {

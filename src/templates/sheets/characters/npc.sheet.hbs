@@ -1,8 +1,6 @@
 <div class="npc-main-tab tab {{ tab.cssClass }}" data-group="primary" data-tab="main">
   <div class="npc-header">
-    <div class="actor-image">
-      <img data-edit="img" name="img" src="{{actor.img}}" alt="{{actor.name}}" />
-    </div>
+    {{> "actor-image"}}
     <div class="npc-header-info">
       <div class="meta-field">
         <label>{{localize 'sr4.metadata.characterName'}}</label>
@@ -35,7 +33,7 @@
     {{#if weapons}}
       <ul class="weapon-list">
         {{#each weapons as |weapon|}}
-          {{> "weapon-card" weapon shootingmodes=../shootingmodes attackskills=../attackskills}}
+          {{> "weapon-card"}}
         {{/each}}
       </ul>
     {{else}}

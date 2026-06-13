@@ -94,7 +94,7 @@ export const modifiersField = () =>
   new foundry.data.fields.SchemaField({
     initiative: new foundry.data.fields.SchemaField({
       bonuses: realmField(),
-      passes: realmField(1),
+      passes: realmField(0),
     }),
     overflowBonus: new fields.NumberField({ initial: 0, integer: true }),
     woundModBonus: new fields.NumberField({ initial: 0, integer: true }),
@@ -259,6 +259,7 @@ export const magicField = () =>
  * @property {SR4MagicData}           magic
  * @property {boolean}                simpleHp
  * @property {boolean}                technomancer
+ * @property {{ firewallBonus: number, responseBonus: number, signalBonus: number, systemBonus: number, biofeedbackFilterBonus: number }} livingPersona
  */
 
 export class SR4BaseCharacterData extends foundry.abstract.TypeDataModel {
@@ -274,6 +275,16 @@ export class SR4BaseCharacterData extends foundry.abstract.TypeDataModel {
       magic: magicField(),
       simpleHp: new fields.BooleanField({ initial: false }),
       technomancer: new fields.BooleanField({ initial: false }),
+      livingPersona: new fields.SchemaField({
+        firewallBonus: new fields.NumberField({ initial: 0, integer: true }),
+        responseBonus: new fields.NumberField({ initial: 0, integer: true }),
+        signalBonus: new fields.NumberField({ initial: 0, integer: true }),
+        systemBonus: new fields.NumberField({ initial: 0, integer: true }),
+        biofeedbackFilterBonus: new fields.NumberField({
+          initial: 0,
+          integer: true,
+        }),
+      }),
     };
   }
 }

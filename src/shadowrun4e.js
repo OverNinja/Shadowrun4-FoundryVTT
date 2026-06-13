@@ -5,6 +5,7 @@ import {
   SR4CharacterSheet,
   registerCharacterPartials,
   registerActorPartials,
+  registerItemPartials,
   registerHelpers,
   SR4SkillsSheet,
   SR4ItemSheet,
@@ -16,6 +17,7 @@ import {
 } from '@sheets/index.js';
 import { registerHooks } from '@hooks/index.js';
 import {
+  handleAttackRoll,
   handleSkillRoll,
   handleFreeRoll,
   openActionDialog,
@@ -27,6 +29,7 @@ import { SpellcastingFlow } from '@flows/spellcasting-flow.js';
  * @typedef {object} SR4Global
  * @property {import('./config').SR4Config} config
  * @property {{
+ *   handleAttackRoll: Function,
  *   handleSkillRoll: Function,
  *   handleFreeRoll: Function,
  *   openActionDialog: Function,
@@ -35,7 +38,12 @@ import { SpellcastingFlow } from '@flows/spellcasting-flow.js';
  */
 globalThis.sr4 = {
   config: SR4,
-  dialogUtility: { handleSkillRoll, handleFreeRoll, openActionDialog },
+  dialogUtility: {
+    handleAttackRoll,
+    handleSkillRoll,
+    handleFreeRoll,
+    openActionDialog,
+  },
   SpellcastingFlow,
 };
 
@@ -44,6 +52,7 @@ registerHooks();
 Hooks.once('init', async function () {
   await registerCharacterPartials();
   await registerActorPartials();
+  await registerItemPartials();
   await registerUIPartials();
 
   globalThis.sr4 = game.sr4 = Object.assign(game.system, globalThis.sr4);
@@ -51,6 +60,18 @@ Hooks.once('init', async function () {
   CONFIG.SR4 = SR4;
   CONFIG.Actor.documentClass = SR4Actor;
   CONFIG.ActiveEffect.documentClass = SR4ActiveEffect;
+  CONFIG.statusEffects.push(
+    {
+      id: 'sr4-sustain',
+      label: 'sr4.effect.templates.sustain',
+      img: 'icons/svg/aura.svg',
+    },
+    {
+      id: 'sr4-disoriented',
+      label: 'sr4.effect.templates.disoriented',
+      img: 'icons/svg/stoned.svg',
+    }
+  );
   CONFIG.Actor.prototypeToken = {
     actorLink: true,
   };
@@ -100,21 +121,25 @@ Hooks.once('init', async function () {
     'core',
     foundry.appv1.sheets.ItemSheet
   );
+  const SR4_ITEM_SHEET_TYPES = [
+    'Ammo',
+    'Commlink',
+    'Ranged Weapon',
+    'Melee Weapon',
+    'Implant',
+    'Item',
+    'Gear',
+    'Armor',
+    'Spell',
+    'Program',
+    'Action',
+    'Power',
+    'CritterPower',
+    'Autosoft',
+  ];
+
   DocumentSheetConfig.registerSheet(Item, 'sr4', SR4ItemSheet, {
-    types: [
-      'Ranged Weapon',
-      'Melee Weapon',
-      'Implant',
-      'Item',
-      'Gear',
-      'Armor',
-      'Spell',
-      'Program',
-      'Action',
-      'Power',
-      'CritterPower',
-      'Autosoft',
-    ],
+    types: SR4_ITEM_SHEET_TYPES,
     makeDefault: true,
   });
   DocumentSheetConfig.registerSheet(Item, 'sr4', SR4SkillsSheet, {

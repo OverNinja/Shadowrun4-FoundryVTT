@@ -1,10 +1,8 @@
-<div class="sheet-container vehicle-sheet">
+<div class="sheet-container">
 
   {{!-- Header --}}
   <div class="npc-header">
-    <div class="actor-image">
-      <img data-edit="img" name="img" src="{{actor.img}}" alt="{{actor.name}}" />
-    </div>
+    {{> "actor-image"}}
     <div class="npc-header-info">
       <div class="meta-field">
         <label>{{localize 'sr4.vehicle.name'}}</label>
@@ -14,7 +12,7 @@
         <label>{{localize 'sr4.vehicle.type'}}</label>
         <input type="text" name="system.vehicleType" value="{{system.vehicleType}}" {{#unless editMode}}readonly{{/unless}} />
       </div>
-<div class="meta-field">
+      <div class="meta-field">
         <label>{{localize 'sr4.vehicle.availability'}}</label>
         <input type="text" name="system.availability" value="{{system.availability}}" {{#unless editMode}}readonly{{/unless}} />
       </div>
@@ -45,77 +43,20 @@
   {{!-- Vehicle Stats --}}
   <h3>{{localize 'sr4.vehicle.stats'}}</h3>
   <div class="grid">
-    <div class="cell">
-      <label>{{localize 'sr4.vehicle.body'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.body" value="{{system.body}}" />
-      {{else}}
-        <span class="stat-display">{{system.body}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.vehicle.pilot'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.pilot" value="{{system.pilot}}" />
-      {{else}}
-        <span class="stat-display">{{system.pilot}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.vehicle.armor'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.armor" value="{{system.armor}}" />
-      {{else}}
-        <span class="stat-display">{{system.armor}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.vehicle.sensor'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.sensor" value="{{system.sensor}}" />
-      {{else}}
-        <span class="stat-display">{{system.sensor}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.vehicle.handling'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.handling" value="{{system.handling}}" />
-      {{else}}
-        <span class="stat-display">{{system.handling}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.vehicle.speed'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.speed" value="{{system.speed}}" />
-      {{else}}
-        <span class="stat-display">{{system.speed}}</span>
-      {{/if}}
-    </div>
-    <div class="cell">
-      <label>{{localize 'sr4.vehicle.accel'}}</label>
-      {{#if editMode}}
-        <input type="number" name="system.accel" value="{{system.accel}}" />
-      {{else}}
-        <span class="stat-display">{{system.accel}}</span>
-      {{/if}}
-    </div>
+    {{#each vehicleStats as |stat|}}
+      {{> "attribute-cell" label=stat.label name=stat.name value=stat.value}}
+    {{/each}}
   </div>
 
   <hr />
 
   {{!-- Physical Condition Monitor --}}
   <div class="monitor-tracks">
-    <div class="status-track-card">
-      <h4>{{localize 'sr4.conditionMonitor.physical'}}</h4>
-      <div class="monitor-track" data-type="physical">
-        {{#each (range 0 system.conditionMonitor.physical.max)}}
-        <span class="monitor-box {{filledIf ../system.conditionMonitor.physical.current this}}"
-          data-action="monitorBox" data-index="{{this}}"></span>
-        {{/each}}
-      </div>
-    </div>
+    {{> "status-track-card"
+        title="sr4.conditionMonitor.physical"
+        type="physical"
+        max=system.conditionMonitor.physical.max
+        current=system.conditionMonitor.physical.value}}
     <div class="vehicle-pilot-info">
       <span class="pilot-label">{{localize 'sr4.vehicle.pilotPoolHint'}}</span>
       <span class="pilot-value">{{system.pilot}} + autosoft</span>

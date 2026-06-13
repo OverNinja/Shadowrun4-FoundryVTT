@@ -13,7 +13,7 @@
   <div class="full-width">
     <span class="cell3">{{localize "sr4.skills.active"}}</span>
     <span class="cell3">{{localize "sr4.skills.active"}}</span>
-    <span class="cell3">{{localize "sr4.skills.knowledge"}}</span>
+    <span class="cell3">{{localize "sr4.skills.knowledgeAndComplexForms"}}</span>
   </div>
 
   {{!-- Header Row: Spaltenbezeichnungen --}}
@@ -77,10 +77,10 @@
   {{!-- Knowledge Skills Spalte --}}
   <div class="column column-1 item-list">
     {{#each skills}}
-      {{#if (eq this.system.type "knowledge")}}
+      {{#if (or (eq this.system.type "knowledge") (eq this.system.type "complexForm"))}}
         <div
           id="{{this._id}}"
-          class="cell3 item skill knowledge-skill"
+          class="cell3 item skill {{#if (eq this.system.type 'complexForm')}}complex-form-skill{{else}}knowledge-skill{{/if}}"
           data-item-id="{{this._id}}"
           data-skill-name="{{this.name}}"
         >

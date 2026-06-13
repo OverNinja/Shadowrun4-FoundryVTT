@@ -1,7 +1,8 @@
 import {
   ImplantGrades,
   ImplantTypes,
-  Attackskill,
+  RangedAttackskill,
+  MeleeAttackskill,
   DamageTypes,
   Shootingmodes,
   SpellTypes,
@@ -28,6 +29,9 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
   };
 
   static PARTS = {
+    ammo: {
+      template: 'systems/shadowrun4e/templates/sheets/items/ammo.sheet.hbs',
+    },
     action: {
       template: 'systems/shadowrun4e/templates/sheets/items/action.sheet.hbs',
     },
@@ -60,6 +64,9 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
     autosoft: {
       template: 'systems/shadowrun4e/templates/sheets/items/autosoft.sheet.hbs',
     },
+    commlink: {
+      template: 'systems/shadowrun4e/templates/sheets/items/commlink.sheet.hbs',
+    },
   };
 
   _configureRenderOptions(options) {
@@ -79,7 +86,8 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
     context.implantgrades = ImplantGrades;
     context.implanttypes = ImplantTypes;
     context.damagetypes = DamageTypes;
-    context.attackskills = Attackskill;
+    context.rangedattackskills = RangedAttackskill;
+    context.meleeattackskills = MeleeAttackskill;
     context.shootingmodes = Shootingmodes;
     context.actiontypes = ActionType;
     context.spelltypes = SpellTypes;
@@ -87,6 +95,24 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
     context.spellranges = SpellRanges;
     context.spellelements = SpellElements;
     context.spelldurations = SpellDurations;
+
+    if (this.item.type === 'Ranged Weapon' && this.item.parent) {
+      context.availableAmmo = this.item.parent.items
+        .filter((i) => i.type === 'Ammo')
+        .map((i) => ({ id: i.id, name: i.name }));
+    } else {
+      context.availableAmmo = [];
+    }
+
+    if (this.item.type === 'Ranged Weapon') {
+      /** @type {any} */
+      const live = this.document.system;
+      context.system.effectiveDamage = live.effectiveDamage;
+      context.system.effectiveAP = live.effectiveAP;
+      context.system.effectiveArmorType = live.effectiveArmorType;
+      context.system.loadedAmmoName = live.loadedAmmoName;
+    }
+
     return context;
   }
 

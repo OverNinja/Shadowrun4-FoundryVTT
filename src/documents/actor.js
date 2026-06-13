@@ -36,6 +36,7 @@ const DEFAULT_STATS = {
  * @interface SR4Actor
  * @property {SR4ActorType} type
  * @property {import('@models/index').SR4BaseCharacterSystem | import('@models/index').SR4VehicleSystem | import('@models/index').SR4SpiritSystem} system
+ * @property {foundry.utils.Collection<foundry.documents.Item>} items
  */
 export class SR4Actor extends foundry.documents.Actor {
   get actor() {
@@ -156,6 +157,7 @@ export class SR4Actor extends foundry.documents.Actor {
    */
   findByAttackSkill(skillKey) {
     const label = Attackskill[skillKey];
+    if (!label) return undefined;
     /** @type {any} */
     const self = this;
     return self.items.find(
@@ -318,6 +320,25 @@ export class SR4Actor extends foundry.documents.Actor {
     await actor.createEmbeddedDocuments('Item', skillData);
   }
 
+  /**
+   * @param {'physical'|'stun'} track
+   * @param {number} amount
+   */
+  async dealMonitorDamage(track, amount) {
+    const monitor = this.system.conditionMonitor?.[track];
+    if (!monitor) return;
+    const clamped = Math.clamp(monitor.value + amount, 0, monitor.max);
+    await this.update({ [`system.conditionMonitor.${track}.value`]: clamped });
+  }
+
+  /** @param {'physical'|'stun'} track */
+  async resetMonitor(track) {
+    /** @type {any} */
+    const self = this;
+    if (!self.system.conditionMonitor?.[track]) return;
+    await self.update({ [`system.conditionMonitor.${track}.value`]: 0 });
+  }
+
   async updateTokenAppearance() {
     /** @type {any} */
     const self = this;
@@ -327,7 +348,7 @@ export class SR4Actor extends foundry.documents.Actor {
     const newEffects = [];
     /** @type {import('@models/index').SR4BaseCharacterSystem} */
     const sys = self.system;
-    if (sys.conditionMonitor.stun.current > 0) {
+    if (sys.conditionMonitor.stun.value > 0) {
       newEffects.push('icons/svg/wounded.svg');
     }
     await token.update({ effects: newEffects });

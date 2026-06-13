@@ -1,12 +1,9 @@
 <div class="metadata-container">
   <div class="character-row">
-    <div class="actor-image">
-      <img data-edit="img" name="img" src="{{actor.img}}" alt="{{actor.name}}" />
-    </div>
+    {{> "actor-image"}}
 
     <div class="info-columns">
       <div class="meta-field">
-        {{log this}}
         <label>{{localize 'sr4.metadata.characterName'}}</label>
         <input type="text" name="name" value="{{actor.name}}" data-dtype="String"/>
       </div>

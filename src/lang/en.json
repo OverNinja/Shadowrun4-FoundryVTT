@@ -29,6 +29,17 @@
       "source": "Source",
       "type": "Type"
     },
+    "ammo": {
+      "apBonus": "AP Bonus",
+      "damageBonus": "Damage Bonus",
+      "damageTypeOverride": "Damage Type Override",
+      "effective": "Effective",
+      "loaded": "Loaded Ammo",
+      "name": "Ammo Name",
+      "none": "None",
+      "quantity": "Rounds",
+      "type": "Ammo"
+    },
     "armor": {
       "armor": "Armor",
       "armoravailability": "Armor Availability",
@@ -94,6 +105,10 @@
       "simpleHp": "Simple HP (physical only)",
       "stun": "Stun Condition Monitor"
     },
+    "critterPower": {
+      "noPowers": "No critter powers",
+      "powers": "Critter Powers"
+    },
     "damage": {
       "PHYSICAL": "Physical",
       "STUN": "Stun",
@@ -104,6 +119,8 @@
       "damagesummary": "{name} takes {amount} {type} damage from {reason}.",
       "decisiontitle": "Modify Damage?",
       "electricity": "Electricity",
+      "fire": "Fire",
+      "laser": "Laser",
       "modify": "Modify Damage",
       "pending": "Pending Damage",
       "result": "Result",
@@ -112,8 +129,10 @@
         "combat": "Combat",
         "drain": "Drain"
       },
+      "electricityHint": "Electricity: –2 to all dice pools for 2 + net hits turns. Body + Willpower (3) vs. incapacitation.",
       "resisted": "{name} resisted all damage",
-      "stun": "Stun"
+      "stun": "Stun",
+      "stun_half": "Stun (Armor Half)"
     },
     "defense": {
       "attackSuccesses": "Attack Successes",
@@ -123,15 +142,18 @@
       "netDamage": "Net Damage",
       "resisted": "{name} resisted all damage",
       "result": "Defense Roll Result",
+      "skill": "Defense Skill",
       "skill1": "Defense Skill 1",
       "skill2": "Defense Skill 2",
-      "title": "Defense Roll"
+      "title": "Defense Roll",
+      "wideBurstMalus": "Wide Burst"
     },
     "effect": {
       "active": "Active",
       "add": "Add Effect",
       "attribute": "Attribute",
       "changeIcon": "Click to change icon",
+      "duration": "Duration (Turns)",
       "mode": {
         "add": "Bonus / Malus",
         "label": "Mode",
@@ -142,8 +164,10 @@
       "new": "New Effect",
       "none": "No effects present",
       "notes": "Notes",
+      "showOnToken": "Show on Token",
       "source": "Source",
       "templates": {
+        "disoriented": "Disoriented (Electricity)",
         "sustain": "Sustained Spell"
       },
       "value": "Value"
@@ -151,8 +175,16 @@
     "effectTarget": {
       "generalModifier": "General Dice Pool Modifier"
     },
+    "commlink": {
+      "firewall": "Firewall",
+      "noCommlinks": "This is where I keep my commlinks, if I had any",
+      "os": "System",
+      "response": "Response",
+      "signal": "Signal"
+    },
     "inventory": {
       "armor": "Armor",
+      "commlinks": "Commlinks",
       "cyberware": "Cyberware",
       "foci": "Foci & Fetishes",
       "gear": "Gear",
@@ -163,6 +195,26 @@
       "programs": "Programs",
       "vehicles": "Vehicles",
       "weapons": "Weapons"
+    },
+    "matrix": {
+      "attribute": "Attribute",
+      "biofeedbackFilter": "Biofeedback Filter",
+      "bonus": "Bonus",
+      "commlinks": "Commlinks",
+      "complexForms": "Complex Forms",
+      "firewall": "Firewall",
+      "livingPersona": "Living Persona",
+      "noComplexForms": "This is where I keep my complex forms, if I had any",
+      "noSoftware": "This is where I keep my software, if I had any",
+      "response": "Response",
+      "signal": "Signal",
+      "software": "Software",
+      "system": "System",
+      "technomancer": "Technomancer",
+      "threading": "Threading",
+      "threadingHint": "Roll Software + Resonance",
+      "vrMatrixInitiative": "VR Matrix Initiative",
+      "vrMatrixInitiativePasses": "VR Matrix Init. Passes"
     },
     "item": {
       "actionPart1": "Action part 1",
@@ -287,13 +339,35 @@
       "specialization": "Specialization",
       "successes": "Successes",
       "useEdge": "Use edge?",
-      "useEdgeButton": "Want to use Edge?"
+      "useEdgeButton": "Want to use Edge?",
+      "fireMode": "Fire Mode",
+      "shots": "Shots",
+      "recoil": "Recoil",
+      "burstType": "Burst Type",
+      "narrow": "Narrow",
+      "wide": "Wide"
     },
-    "soak": {
-      "armor": "Effective Armor",
-      "incomingDamage": "Incoming Damage",
-      "soakBonus": "Soak Bonus",
-      "title": "Soak Roll"
+    "settings": {
+      "autoSustainEffect": {
+        "name": "Auto Sustain Effect",
+        "hint": "Automatically create a sustain active effect when a sustained spell is cast."
+      },
+      "combatDefenseWorkflow": {
+        "name": "Combat: Defense Workflow",
+        "hint": "When enabled, targeted tokens are automatically prompted to roll defense after an attack. Disabling this also disables the Soak Workflow."
+      },
+      "combatSoakWorkflow": {
+        "name": "Combat: Soak Workflow",
+        "hint": "When enabled, defenders are prompted to roll soak after defense. Requires Combat: Defense Workflow to be active."
+      },
+      "liveInitiativeReduction": {
+        "name": "Live Initiative Reduction",
+        "hint": "Automatically reduce a combatant's initiative score when their wound modifier increases."
+      },
+      "spellWorkflow": {
+        "name": "Spell Workflow",
+        "hint": "Enable the multi-step spellcasting workflow (force selection, roll, drain)."
+      }
     },
     "shooting": {
       "burst": "BF",
@@ -305,6 +379,7 @@
     },
     "skills": {
       "active": "Active",
+      "knowledgeAndComplexForms": "Knowledge / Complex Forms",
       "attribute": "attribute",
       "categories": {
         "academic": "Academic",
@@ -322,6 +397,7 @@
         "vehicle": "vehicle"
       },
       "category": "Category",
+      "complexForm": "Complex Form",
       "group": "Skillgroup",
       "knowledge": "Knowledge",
       "name": "Name",
@@ -329,6 +405,12 @@
       "search": "Skill search",
       "source": "Source",
       "specialization": "Specialization"
+    },
+    "soak": {
+      "armor": "Effective Armor",
+      "incomingDamage": "Incoming Damage",
+      "soakBonus": "Soak Bonus",
+      "title": "Soak Roll"
     },
     "spell": {
       "cast": "Cast",
@@ -392,10 +474,6 @@
         "physical": "P"
       }
     },
-    "critterPower": {
-      "noPowers": "No critter powers",
-      "powers": "Critter Powers"
-    },
     "spirit": {
       "attributes": "Attributes",
       "dropSummoner": "Drop actor to link summoner",
@@ -438,9 +516,19 @@
       "inventory": "Inventory",
       "magic": "Spells",
       "main": "Main",
+      "matrix": "Matrix",
       "modifiers": "Modifiers",
       "skills": "Skills",
       "weapons": "Weapons"
+    },
+    "tooltip": {
+      "specialization": "+2 dice when the skill specialization applies to this roll.",
+      "smartlink": "+2 dice. Requires an implanted smartlink and a smartlink-compatible weapon.",
+      "edge": "Spend 1 Edge. Adds your maximum Edge rating to the dice pool; 6s are rerolled once.",
+      "shots": "Number of rounds fired. Each shot beyond the first adds 1 recoil, reduced by the weapon's RC value.",
+      "burstNarrow": "+N damage based on rounds fired (3→+2, 6→+4, 10→+6).",
+      "burstWide": "-N dice to the defender's defense roll based on rounds fired (3→−2, 6→−5, 10→−9).",
+      "ammoInsufficient": "Current ammo count. If ammo is insufficient for the selected shot count, the attack is still resolved normally."
     },
     "vehicle": {
       "accel": "Accel",
@@ -468,6 +556,10 @@
     },
     "weapon": {
       "ammo": "Ammo",
+      "ammoFeed": "Feed",
+      "reload": "Reload",
+      "currentAmmo": "Ammo",
+      "maxAmmo": "Max",
       "ap": "AP",
       "apHalf": "½ Armor (halve effective armor)",
       "armorType": {
@@ -492,28 +584,6 @@
       "recoil": "RC",
       "smartlink": "Smartlink",
       "source": "Source"
-    },
-    "settings": {
-      "autoSustainEffect": {
-        "name": "Auto Sustain Effect",
-        "hint": "Automatically create a sustain active effect when a sustained spell is cast."
-      },
-      "combatDefenseWorkflow": {
-        "name": "Combat: Defense Workflow",
-        "hint": "When enabled, targeted tokens are automatically prompted to roll defense after an attack. Disabling this also disables the Soak Workflow."
-      },
-      "combatSoakWorkflow": {
-        "name": "Combat: Soak Workflow",
-        "hint": "When enabled, defenders are prompted to roll soak after defense. Requires Combat: Defense Workflow to be active."
-      },
-      "liveInitiativeReduction": {
-        "name": "Live Initiative Reduction",
-        "hint": "Automatically reduce a combatant's initiative score when their wound modifier increases."
-      },
-      "spellWorkflow": {
-        "name": "Spell Workflow",
-        "hint": "Enable the multi-step spellcasting workflow (force selection, roll, drain)."
-      }
     }
   }
 }

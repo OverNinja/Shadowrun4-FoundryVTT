@@ -1,3 +1,4 @@
+export * from './ammo.model';
 export * from './armor.model';
 export * from './autosoft.model';
 export * from './commlink.model';

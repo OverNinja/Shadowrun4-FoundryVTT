@@ -1,6 +1,9 @@
 {{#if smartlinkAvailable}}
 <div class="form-group">
-  <label for="smartlink">{{localize "sr4.roll.smartlink"}}</label>
+  <label for="smartlink">
+    {{localize "sr4.roll.smartlink"}}
+    {{> tooltip text=(localize "sr4.tooltip.smartlink")}}
+  </label>
   <input type="checkbox" id="smartlink" name="smartlink" {{#if smartlinkChecked}}checked{{/if}} />
 </div>
 {{/if}}

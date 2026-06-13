@@ -6,41 +6,18 @@
   </label>
   {{/if}}
 
-  <div class="status-track-card">
-    <h4>{{localize 'sr4.conditionMonitor.physical'}}</h4>
-    <div class="monitor-track" data-type="physical">
-      {{#each (range 0 system.conditionMonitor.physical.max)}}
-      <span
-        class="monitor-box {{filledIf ../system.conditionMonitor.physical.current this}}"
-        data-action="monitorBox"
-        data-type="physical"
-        data-index="{{this}}"
-      ></span>
-      {{/each}}
-      {{#each (range 0 system.derivedStats.overflow)}}
-      <span
-        class="monitor-box overflow {{filledIf ../system.conditionMonitor.physical.current (add ../system.conditionMonitor.physical.max this)}}"
-        data-action="monitorBox"
-        data-type="physical"
-        data-index="{{add ../system.conditionMonitor.physical.max this}}"
-      ></span>
-      {{/each}}
-    </div>
-  </div>
+  {{> "status-track-card"
+      title="sr4.conditionMonitor.physical"
+      type="physical"
+      max=(add system.conditionMonitor.physical.max system.derivedStats.overflow)
+      overflowStart=system.conditionMonitor.physical.max
+      current=system.conditionMonitor.physical.value}}
 
   {{#unless system.simpleHp}}
-  <div class="status-track-card">
-    <h4>{{localize 'sr4.conditionMonitor.stun'}}</h4>
-    <div class="monitor-track" data-type="stun">
-      {{#each (range 0 system.conditionMonitor.stun.max)}}
-      <span
-        class="monitor-box {{filledIf ../system.conditionMonitor.stun.current this}}"
-        data-action="monitorBox"
-        data-type="stun"
-        data-index="{{this}}"
-      ></span>
-      {{/each}}
-    </div>
-  </div>
+  {{> "status-track-card"
+      title="sr4.conditionMonitor.stun"
+      type="stun"
+      max=system.conditionMonitor.stun.max
+      current=system.conditionMonitor.stun.value}}
   {{/unless}}
 </div>

@@ -17,6 +17,13 @@
       >
         <i class="fas fa-bullseye"></i>
       </button>
+      {{#if (eq this.type 'Ranged Weapon')}}
+        {{#if this.system.maxAmmo}}
+        <button class="item-reload" data-action="reloadWeapon" title="{{localize 'sr4.weapon.reload'}}">
+          <i class="fas fa-rotate-right"></i>
+        </button>
+        {{/if}}
+      {{/if}}
       <button class="item-edit" data-action="editItem">
         <i class="fas fa-edit"></i>
       </button>
@@ -29,34 +36,90 @@
   <div class="item-body weapon-stats">
     <span class="item-property">
       <strong>{{localize "sr4.weapon.attackSkill"}}</strong>
-      {{localize (lookup attackskills this.system.attackSkill)}}
+      {{localize this.displayAttackSkill}}
     </span>
 
     <span class="item-property">
       <strong>{{localize "sr4.weapon.damage"}}</strong>
-      {{ this.system.damage }}
+      {{#if (eq this.system.effectiveDamage this.system.damage)}}
+        {{ this.system.damage }}
+      {{else}}
+        <span title="{{localize 'sr4.weapon.damage'}}: {{ this.system.damage }}">{{ this.system.effectiveDamage }}</span>
+      {{/if}}
     </span>
 
     <span class="item-property">
       <strong>{{localize "sr4.weapon.damageType"}}</strong>
-      {{localize (lookup damageTypes this.system.damageType)}}
+      {{localize this.displayDamageType}}
     </span>
 
     <span class="item-property">
       <strong>{{localize "sr4.weapon.ap"}}</strong>
-      {{ this.system.ap }}
+      {{#if (eq this.system.effectiveAP this.system.ap)}}
+        {{ this.system.ap }}
+      {{else}}
+        <span title="{{localize 'sr4.weapon.ap'}}: {{ this.system.ap }}">{{ this.system.effectiveAP }}</span>
+      {{/if}}
     </span>
 
     {{#if (eq this.type 'Ranged Weapon')}}
     <span class="item-property">
-      <strong>{{localize "sr4.weapon.range"}}</strong>
-      {{ this.system.range }}
+      <strong>{{localize "sr4.weapon.mode"}}</strong>
+      {{localize this.displayMode}}
     </span>
 
+    {{#if this.system.maxAmmo}}
     <span class="item-property">
       <strong>{{localize "sr4.weapon.ammo"}}</strong>
-      {{ this.system.ammo }}
+      {{ this.system.currentAmmo }}/{{ this.system.maxAmmo }}{{#if this.system.ammoFeed}} ({{ this.system.ammoFeed }}){{/if}}
     </span>
     {{/if}}
+    {{/if}}
   </div>
+
+  {{#if (eq this.type 'Ranged Weapon')}}
+  {{#if this.system.maxAmmo}}
+  <div class="item-body weapon-ammo">
+    {{#if this.loadedAmmo}}
+    <button class="item-edit weapon-ammo-edit" data-action="editAmmo" data-ammo-id="{{ this.system.loadedAmmoId }}">
+      <i class="fas fa-edit"></i>
+    </button>
+    {{/if}}
+    <span class="item-property">
+      <strong>{{localize "sr4.ammo.loaded"}}</strong>
+      <select name="system.loadedAmmoId">
+        <option value="">—</option>
+        {{#each this.availableAmmo as |a|}}
+        <option value="{{ a.id }}" {{#if (eq ../system.loadedAmmoId a.id)}}selected{{/if}}>{{ a.name }}</option>
+        {{/each}}
+      </select>
+    </span>
+    <span class="item-property{{#unless this.loadedAmmo}} item-property--empty{{/unless}}">
+      {{#if this.loadedAmmo}}
+      <strong>{{localize "sr4.ammo.damageBonus"}}</strong>
+      {{#if (gte this.loadedAmmo.damageBonus 0)}}+{{/if}}{{ this.loadedAmmo.damageBonus }}
+      {{/if}}
+    </span>
+    <span class="item-property{{#unless this.loadedAmmo.displayDamageTypeOverride}} item-property--empty{{/unless}}">
+      {{#if this.loadedAmmo.displayDamageTypeOverride}}
+      <strong>{{localize "sr4.ammo.damageTypeOverride"}}</strong>
+      {{localize this.loadedAmmo.displayDamageTypeOverride}}
+      {{/if}}
+    </span>
+    <span class="item-property{{#unless this.loadedAmmo}} item-property--empty{{/unless}}">
+      {{#if this.loadedAmmo}}
+      <strong>{{localize "sr4.ammo.apBonus"}}</strong>
+      {{#if (gte this.loadedAmmo.apBonus 0)}}+{{/if}}{{ this.loadedAmmo.apBonus }}
+      {{/if}}
+    </span>
+    <span class="item-property item-property--empty"></span>
+    <span class="item-property{{#unless this.loadedAmmo}} item-property--empty{{/unless}}">
+      {{#if this.loadedAmmo}}
+      <strong>{{localize "sr4.ammo.quantity"}}</strong>
+      {{ this.loadedAmmo.quantity }}
+      {{/if}}
+    </span>
+  </div>
+  {{/if}}
+  {{/if}}
 </div>

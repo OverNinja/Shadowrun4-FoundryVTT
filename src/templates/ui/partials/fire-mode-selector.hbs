@@ -1,0 +1,70 @@
+{{#if showModeRadios}}
+<div class="form-group fire-mode-selector">
+  <label>{{localize "sr4.roll.fireMode"}}</label>
+  <div class="fire-mode-radios">
+    {{#each fireModes}}
+    <label class="radio-label">
+      <input type="radio" name="fireMode" value="{{this}}" {{#if @first}}checked{{/if}} />
+      {{localize this}}
+    </label>
+    {{/each}}
+  </div>
+</div>
+{{/if}}
+
+<div class="form-group">
+  <label for="shotCount">
+    {{localize "sr4.roll.shots"}}
+    {{> tooltip text=(localize "sr4.tooltip.shots")}}
+  </label>
+  {{#if showFireModeUI}}
+  <select id="shotCount" name="shotCount">
+    {{#each shotOptions}}
+    <option value="{{this}}">{{this}}</option>
+    {{/each}}
+  </select>
+  {{else}}
+  <span>1</span>
+  <input type="hidden" id="shotCount" name="shotCount" value="1" />
+  {{/if}}
+</div>
+
+{{#if maxAmmo}}
+<div class="form-group">
+  <label>
+    {{localize "sr4.weapon.ammo"}}
+    {{> tooltip text=(localize "sr4.tooltip.ammoInsufficient")}}
+  </label>
+  <span id="ammoDisplay" class="ammo-remaining"{{#if ammoInsufficient}} style="color: var(--sr4-red)"{{/if}}>
+    {{ currentAmmo }}/{{ maxAmmo }}
+  </span>
+</div>
+{{/if}}
+
+{{#if showFireModeUI}}
+<div class="form-group recoil-display">
+  <label>{{localize "sr4.roll.recoil"}}</label>
+  <span id="recoilDisplay">0</span>
+  <input type="hidden" id="recoilMalus" name="recoilMalus" value="0" />
+</div>
+
+{{#if hasBurstModes}}
+<div id="burstModeSelector" class="form-group burst-mode-selector" hidden>
+  <label>{{localize "sr4.roll.burstType"}}</label>
+  <div class="burst-mode-radios">
+    <label class="radio-label">
+      <input type="radio" name="burstMode" value="narrow" checked />
+      {{localize "sr4.roll.narrow"}}
+      {{> tooltip text=(localize "sr4.tooltip.burstNarrow")}}
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="burstMode" value="wide" />
+      {{localize "sr4.roll.wide"}}
+      {{> tooltip text=(localize "sr4.tooltip.burstWide")}}
+    </label>
+  </div>
+</div>
+<input type="hidden" id="burstBonus" value="0" />
+<input type="hidden" id="wideDefenseMalus" value="0" />
+{{/if}}
+{{/if}}

@@ -1,6 +1,9 @@
 {{#if edgeAvailable}}
 <div class="form-group">
-  <label for="edge">{{localize "sr4.roll.useEdge"}}</label>
+  <label for="edge">
+    {{localize "sr4.roll.useEdge"}}
+    {{> tooltip text=(localize "sr4.tooltip.edge")}}
+  </label>
   <input type="checkbox" id="edge" name="edge" />
   <span class="edge-count"
     >({{localize "sr4.stats.CURRENTEDGE"}}: {{ currentEdge }})</span

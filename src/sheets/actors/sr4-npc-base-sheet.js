@@ -6,6 +6,8 @@ export class SR4NpcBaseSheet extends foundry.applications.api.HandlebarsApplicat
   /** @type {boolean} */
   editMode = false;
 
+  _listenerAbort = new AbortController();
+
   static DEFAULT_OPTIONS = {
     window: { resizable: true },
     form: { submitOnChange: true, closeOnSubmit: false },
@@ -45,13 +47,13 @@ export class SR4NpcBaseSheet extends foundry.applications.api.HandlebarsApplicat
     const headerControls = frame.querySelector(
       '.window-header .header-control'
     );
-    const toggle = document.createElement('label');
-    toggle.className = 'switch edit-mode-switch';
-    toggle.dataset.tooltip = 'Edit Mode';
-    toggle.innerHTML = `
-      <input type="checkbox" ${this.editMode ? 'checked' : ''}>
-      <span class="slider"></span>
-    `;
+    const html = await foundry.applications.handlebars.renderTemplate(
+      'systems/shadowrun4e/templates/ui/edit-mode-toggle.hbs',
+      { editMode: this.editMode }
+    );
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    const toggle = /** @type {HTMLElement} */ (wrapper.firstElementChild);
     toggle.querySelector('input')?.addEventListener('change', (ev) => {
       this.editMode = /** @type {HTMLInputElement} */ (
         ev.currentTarget
@@ -71,43 +73,59 @@ export class SR4NpcBaseSheet extends foundry.applications.api.HandlebarsApplicat
   _onRender(context, options) {
     super._onRender?.(context, options);
 
+    this._listenerAbort.abort();
+    this._listenerAbort = new AbortController();
+    const { signal } = this._listenerAbort;
+
     this.element
       .querySelectorAll('input[type="number"], input[type="text"]')
       .forEach((input) =>
-        input.addEventListener('focus', () => input.select())
+        input.addEventListener('focus', () => input.select(), { signal })
       );
 
-    this.element
-      .querySelector('[data-edit="img"]')
-      ?.addEventListener('click', () => {
+    this.element.querySelector('[data-edit="img"]')?.addEventListener(
+      'click',
+      () => {
         new foundry.applications.apps.FilePicker.implementation({
           type: 'image',
           current: this.actor.img,
           callback: (path) => this.actor.update({ img: path }),
         }).browse();
-      });
+      },
+      { signal }
+    );
 
     // Generic drag-drop: reads data-drop-type from the zone to determine
     // which system field to update (e.g. data-drop-type="ownerUuid").
     this.element.querySelectorAll('.actor-drop-zone').forEach((zone) => {
-      zone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        zone.classList.add('dragover');
-      });
-      zone.addEventListener('dragleave', () =>
-        zone.classList.remove('dragover')
+      zone.addEventListener(
+        'dragover',
+        (e) => {
+          e.preventDefault();
+          zone.classList.add('dragover');
+        },
+        { signal }
       );
-      zone.addEventListener('drop', async (e) => {
-        e.preventDefault();
-        zone.classList.remove('dragover');
-        // @ts-ignore — TextEditor is a Foundry VTT global
-        const data = TextEditor.getDragEventData(e);
-        if (data?.type === 'Actor') {
-          const field = zone.dataset.dropType;
-          if (field)
-            await this.actor.update({ [`system.${field}`]: data.uuid });
-        }
-      });
+      zone.addEventListener(
+        'dragleave',
+        () => zone.classList.remove('dragover'),
+        { signal }
+      );
+      zone.addEventListener(
+        'drop',
+        async (e) => {
+          e.preventDefault();
+          zone.classList.remove('dragover');
+          // @ts-ignore — TextEditor is a Foundry VTT global
+          const data = TextEditor.getDragEventData(e);
+          if (data?.type === 'Actor') {
+            const field = zone.dataset.dropType;
+            if (field)
+              await this.actor.update({ [`system.${field}`]: data.uuid });
+          }
+        },
+        { signal }
+      );
     });
   }
 
