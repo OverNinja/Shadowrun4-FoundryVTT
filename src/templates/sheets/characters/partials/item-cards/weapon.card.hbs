@@ -82,7 +82,7 @@
     </button>
     {{/if}}
     <span class="item-property">
-      <strong>{{localize "sr4.ammo.loaded"}}</strong>
+      <strong>{{localize "sr4.ammo.loaded"}}{{> tooltip text=(localize "sr4.tooltip.loadedAmmo")}}</strong>
       <select name="system.loadedAmmoId">
         <option value="">—</option>
         {{#each this.availableAmmo as |a|}}

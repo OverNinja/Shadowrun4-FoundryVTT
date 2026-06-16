@@ -23,6 +23,7 @@ import {
   handleSkillRoll,
   handleFreeRoll,
   openActionDialog,
+  reloadWeapon,
   getGame,
 } from '@utils/index.js';
 import { SpellcastingFlow } from '@flows/spellcasting-flow.js';
@@ -37,6 +38,7 @@ import { SpellcastingFlow } from '@flows/spellcasting-flow.js';
  *   openActionDialog: Function,
  * }} dialogUtility
  * @property {typeof SpellcastingFlow} SpellcastingFlow
+ * @property {typeof reloadWeapon} reloadWeapon
  */
 globalThis.sr4 = {
   config: SR4,
@@ -47,6 +49,7 @@ globalThis.sr4 = {
     openActionDialog,
   },
   SpellcastingFlow,
+  reloadWeapon,
 };
 
 registerHooks();

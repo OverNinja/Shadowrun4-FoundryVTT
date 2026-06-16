@@ -154,7 +154,6 @@
       "pending": "Erwarteter Schaden",
       "result": "Ergebnis",
       "physical": "Körperlich (K)",
-      "stun": "Geistig (G)",
       "chatPotential": "{attacker} → {defender}: {hits} Treffer, potentiell {damage} {type}",
       "chatResult": "{attacker} → {defender}: {base} {type} − {soaked} resistet = {final} {type}",
       "chatDirectSpell": "{attacker} → {defender}: {spell} — {damage} {type}",
@@ -417,6 +416,10 @@
         "unknownAttacker": "Unbekannt",
         "noValidActors": "Keine gültigen Akteure als Verteidiger verfügbar."
       },
+      "ammoTracking": {
+        "name": "Munitionsverfolgung",
+        "hint": "Wenn aktiv, verfolgen Waffen die Munition und ziehen sie bei jedem Angriff ab. Leere Waffen können nur nachgeladen werden. Burst-Feuer-Boni werden proportional reduziert wenn nicht genug Munition vorhanden ist."
+      },
       "applyDamageWorkflow": {
         "name": "Schaden: Bestätigungs-Workflow",
         "hint": "Wenn aktiv, wird vor dem Anwenden von Schaden ein Dialog zur Bestätigung oder Anpassung angezeigt. Deaktivieren wendet Schaden sofort an."
@@ -625,9 +628,10 @@
       "smartlink": "+2 Würfel. Erfordert ein implantiertes Smartlink-System und eine kompatible Waffe.",
       "edge": "1 Edge ausgeben. Fügt den maximalen Edge-Wert zum Würfelpool hinzu; 6er werden einmal neu gewürfelt.",
       "shots": "Anzahl der verschossenen Patronen. Jede Patrone nach der ersten erhöht den Rückstoß um 1, reduziert durch den RC-Wert der Waffe.",
-      "burstNarrow": "+N Schaden, abhängig von der Schussanzahl (3→+2, 6→+4, 10→+6).",
+      "burstNarrow": "+N Schaden, abhängig von der Schussanzahl (3→+2, 6→+5, 10→+9).",
       "burstWide": "-N Würfel auf den Verteidigungswurf des Verteidigers, abhängig von der Schussanzahl (3→−2, 6→−5, 10→−9).",
-      "ammoInsufficient": "Aktueller Munitionsstand. Reicht die Munition nicht für die gewählte Schussanzahl, wird der Angriff trotzdem normal durchgeführt."
+      "ammoInsufficient": "Aktueller Munitionsstand. Bei aktiver Munitionsverfolgung: Burst-Feuer-Boni werden für jede fehlende Patrone reduziert; eine leere Waffe blockiert den Angriff und bietet nur das Nachladen an.",
+      "loadedAmmo": "Munitions-Items aus dem Kompendium oder dem Item-Verzeichnis auf das Charaktersheet ziehen, um sie hier auswählen zu können."
     },
     "vehicle": {
       "accel": "Beschl.",
@@ -656,6 +660,8 @@
     "weapon": {
       "ammo": "Munition",
       "ammoFeed": "Zuführung",
+      "emptyHint": "Keine Munition mehr vorhanden. Waffe nachladen um fortzufahren.",
+      "emptyTitle": "Waffe leer",
       "reload": "Nachladen",
       "currentAmmo": "Mun.",
       "maxAmmo": "Max",

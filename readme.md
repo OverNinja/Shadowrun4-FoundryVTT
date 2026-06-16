@@ -2,30 +2,57 @@
 
 A custom implementation of **Shadowrun 4th Edition** for Foundry Virtual Tabletop.
 
-This system is currently focused on:
-
-- Character management
-- Dice rolling
-- Skills
-- Weapons
-- Armor
-- Magic groundwork
-- Token Action HUD (companion plugin)
-- Compendium-driven content
-
----
-
 # Features
 
-## Core System
+## Actors
 
-- Shadowrun 4E actor sheets
-- Item-based skills
-- Weapons and armor
-- Roll dialogs with Edge support
+- Player character, NPC, Spirit, and Vehicle actor sheets
+- Attribute and skill management
+- Condition monitors (Physical / Stun)
+- Lifestyle field
+- Edit-mode toggle for locked sheets
+
+## Items
+
+- Skills, Weapons (melee & ranged), Armor, Ammo
+- Implants (Cyberware / Bioware), Commlinks, Autosofts
+- Spells, Powers, Actions
+- Gear (generic item type)
+
+## Roll System
+
+- Roll dialogs with dice pool modifiers
+- Edge support (spend / Rule of Six)
 - Extended tests
-- Condition monitors
-- Localization support (EN / DE)
+- Weapon attacks (fire mode, burst, full-auto)
+- Spell casting & drain rolls
+- Free rolls and action rolls
+- Combat defense rolls with automatic soak
+
+## Combat
+
+- SR4Combat: initiative pass tracking
+- SR4CombatTracker: pass display and inactive-combatant dimming
+- GM defender picker for untargeted attacks
+- Configurable damage application workflow (world setting)
+
+## Active Effects
+
+- Native Foundry ActiveEffect integration
+- Predefined effect templates: Blind, Blind Flare Compensation, Knocked Down
+- Attack and defense modifiers via effects
+- Optional Foundry default effect sheet (GM setting)
+
+## Settings
+
+- Configurable NPC default skill list
+- Damage application workflow toggle
+- Optional Foundry default effect sheet for GMs
+
+## Localization
+
+- English and German
+- Full localization of all actor and item types
 
 ## Token Action HUD
 
@@ -49,6 +76,7 @@ Included packs:
 - Spells
 - Melee Weapons
 - Ranged Weapons
+- Ammo
 - Cyberware
 - Bioware
 - Powers
@@ -261,54 +289,6 @@ This allows:
 - Easier automation
 - HUD integration
 - Dynamic roll handling
-
----
-
-# Roll System
-
-The system currently supports:
-
-- Standard rolls
-- Edge
-- Rule of Six
-- Extended tests
-- Weapon attacks
-- Free rolls
-- Action rolls
-
-Roll dialogs are separated from roll execution logic.
-
----
-
-# Token Action HUD
-
-Custom integration for:
-
-- Skill rolls
-- Weapon attacks
-- Actions
-- Monitor controls
-- Free rolls
-
-Implemented through a custom RollHandler.
-
----
-
-# Localization
-
-Supported languages:
-
-- English
-- German
-
-Translation files:
-
-```text
-src/lang/en.json
-src/lang/de.json
-```
-
----
 
 ---
 

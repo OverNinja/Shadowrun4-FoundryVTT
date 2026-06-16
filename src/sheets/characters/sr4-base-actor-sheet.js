@@ -1,4 +1,4 @@
-import { handleAttackRoll } from '@utils/index';
+import { handleAttackRoll, reloadWeapon } from '@utils/index';
 
 export default class SR4BaseActorSheet extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.sheets.ActorSheetV2
@@ -211,11 +211,8 @@ export default class SR4BaseActorSheet extends foundry.applications.api.Handleba
 
   static async _onReloadWeapon(event, target) {
     const itemId = target.closest('[data-item-id]')?.dataset.itemId;
-    const weapon = this.actor.items.get(itemId);
-    if (!weapon || !weapon.system.loadedAmmoId) return;
-    // quantity tracks total rounds consumed shot-by-shot; reload only resets the
-    // magazine counter — no quantity deduction (ammo was already counted on fire).
-    await weapon.update({ 'system.currentAmmo': weapon.system.maxAmmo });
+    if (!itemId) return;
+    await reloadWeapon(this.actor, itemId);
   }
 
   static async _onEditAmmo(event, target) {

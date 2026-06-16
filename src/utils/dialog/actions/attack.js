@@ -10,6 +10,7 @@ import {
   renderTemplate,
 } from '../dialogutility';
 import { handleSkillRoll } from './skills';
+import { reloadWeapon } from '../../weapons.js';
 
 /** @typedef {import('@models/index').SR4Weapon} SR4Weapon */
 
@@ -101,6 +102,28 @@ export async function handleAttackRoll(actor, skillName, weapon) {
  * @returns {Promise<void>}
  */
 export async function openAttackDialog(actor, skillName, weapon) {
+  const ammoTracking = /** @type {boolean} */ (
+    game.settings.get('shadowrun4e', 'ammoTracking')
+  );
+
+  if (
+    ammoTracking &&
+    isRangedWeapon(weapon) &&
+    weapon.system.maxAmmo > 0 &&
+    weapon.system.currentAmmo === 0
+  ) {
+    await foundry.applications.api.DialogV2.prompt({
+      window: { title: localize('sr4.weapon.emptyTitle') },
+      content: `<p>${localize('sr4.weapon.emptyHint')}</p>`,
+      ok: {
+        label: localize('sr4.weapon.reload'),
+        callback: async () =>
+          reloadWeapon(actor, /** @type {any} */ (weapon).id),
+      },
+    });
+    return;
+  }
+
   const dice = getSkillDicePool(actor, skillName);
   if (dice === undefined) return;
 
@@ -165,8 +188,13 @@ export async function openAttackDialog(actor, skillName, weapon) {
                 html.querySelector('input[name="burstMode"]:checked')
               )?.value !== 'wide';
             const mods = BURST_MODIFIERS[shots] ?? { narrow: 0, wide: 0 };
-            if (bonusEl) bonusEl.value = String(isNarrow ? mods.narrow : 0);
-            if (malusEl) malusEl.value = String(isNarrow ? 0 : mods.wide);
+            const missing = ammoTracking
+              ? Math.max(0, shots - weapon.system.currentAmmo)
+              : 0;
+            const narrowBonus = Math.max(0, mods.narrow - missing);
+            const wideMalus = Math.max(0, mods.wide - missing);
+            if (bonusEl) bonusEl.value = String(isNarrow ? narrowBonus : 0);
+            if (malusEl) malusEl.value = String(isNarrow ? 0 : wideMalus);
             updateLabel();
           };
 
@@ -237,7 +265,7 @@ export async function openAttackDialog(actor, skillName, weapon) {
         dice,
         weapon
       );
-      if (isRangedWeapon(weapon)) {
+      if (isRangedWeapon(weapon) && ammoTracking) {
         const w = /** @type {any} */ (weapon);
         const a = /** @type {any} */ (actor);
         /** @type {Record<string, Record<string, unknown>>} */

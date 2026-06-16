@@ -153,7 +153,6 @@
       "pending": "Pending Damage",
       "result": "Result",
       "physical": "Physical",
-      "stun": "Stun",
       "chatPotential": "{attacker} → {defender}: {hits} hits, {damage} {type} potential",
       "chatResult": "{attacker} → {defender}: {base} {type} − {soaked} soaked = {final} {type}",
       "chatDirectSpell": "{attacker} → {defender}: {spell} — {damage} {type}",
@@ -420,6 +419,10 @@
         "unknownAttacker": "Unknown",
         "noValidActors": "No valid actors found to select as defender."
       },
+      "ammoTracking": {
+        "name": "Ammo Tracking",
+        "hint": "When enabled, weapons track and deduct ammunition on each attack. Empty weapons can only be reloaded. Burst fire bonuses are reduced proportionally when insufficient ammo is available."
+      },
       "applyDamageWorkflow": {
         "name": "Damage: Confirmation Workflow",
         "hint": "When enabled, a dialog is shown before applying damage, allowing confirmation or adjustment. Disabling applies damage immediately."
@@ -617,9 +620,10 @@
       "smartlink": "+2 dice. Requires an implanted smartlink and a smartlink-compatible weapon.",
       "edge": "Spend 1 Edge. Adds your maximum Edge rating to the dice pool; 6s are rerolled once.",
       "shots": "Number of rounds fired. Each shot beyond the first adds 1 recoil, reduced by the weapon's RC value.",
-      "burstNarrow": "+N damage based on rounds fired (3→+2, 6→+4, 10→+6).",
+      "burstNarrow": "+N damage based on rounds fired (3→+2, 6→+5, 10→+9).",
       "burstWide": "-N dice to the defender's defense roll based on rounds fired (3→−2, 6→−5, 10→−9).",
-      "ammoInsufficient": "Current ammo count. If ammo is insufficient for the selected shot count, the attack is still resolved normally."
+      "ammoInsufficient": "Current ammo count. With Ammo Tracking enabled: burst fire bonuses are reduced for each missing round; an empty weapon blocks the attack and only offers a reload.",
+      "loadedAmmo": "Drag ammo items from the compendium or item directory onto the character sheet to make them available here."
     },
     "vehicle": {
       "accel": "Accel",
@@ -648,6 +652,8 @@
     "weapon": {
       "ammo": "Ammo",
       "ammoFeed": "Feed",
+      "emptyHint": "No ammunition remaining. Reload the weapon to continue.",
+      "emptyTitle": "Weapon Empty",
       "reload": "Reload",
       "currentAmmo": "Ammo",
       "maxAmmo": "Max",

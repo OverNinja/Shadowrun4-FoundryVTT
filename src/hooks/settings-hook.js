@@ -7,32 +7,7 @@ import {
 export class SettingsHook {
   constructor() {
     Hooks.once('init', () => {
-      game.settings.register('shadowrun4e', 'spellWorkflow', {
-        name: 'sr4.settings.spellWorkflow.name',
-        hint: 'sr4.settings.spellWorkflow.hint',
-        scope: 'client',
-        config: true,
-        type: Boolean,
-        default: true,
-      });
-
-      game.settings.register('shadowrun4e', 'autoSustainEffect', {
-        name: 'sr4.settings.autoSustainEffect.name',
-        hint: 'sr4.settings.autoSustainEffect.hint',
-        scope: 'client',
-        config: true,
-        type: Boolean,
-        default: true,
-      });
-
-      game.settings.register('shadowrun4e', 'liveInitiativeReduction', {
-        name: 'sr4.settings.liveInitiativeReduction.name',
-        hint: 'sr4.settings.liveInitiativeReduction.hint',
-        scope: 'world',
-        config: true,
-        type: Boolean,
-        default: true,
-      });
+      // --- Combat ---
 
       game.settings.register('shadowrun4e', 'combatDefenseWorkflow', {
         name: 'sr4.settings.combatDefenseWorkflow.name',
@@ -74,6 +49,46 @@ export class SettingsHook {
         default: true,
       });
 
+      game.settings.register('shadowrun4e', 'ammoTracking', {
+        name: 'sr4.settings.ammoTracking.name',
+        hint: 'sr4.settings.ammoTracking.hint',
+        scope: 'world',
+        config: true,
+        type: Boolean,
+        default: true,
+      });
+
+      game.settings.register('shadowrun4e', 'liveInitiativeReduction', {
+        name: 'sr4.settings.liveInitiativeReduction.name',
+        hint: 'sr4.settings.liveInitiativeReduction.hint',
+        scope: 'world',
+        config: true,
+        type: Boolean,
+        default: true,
+      });
+
+      // --- Magic ---
+
+      game.settings.register('shadowrun4e', 'spellWorkflow', {
+        name: 'sr4.settings.spellWorkflow.name',
+        hint: 'sr4.settings.spellWorkflow.hint',
+        scope: 'client',
+        config: true,
+        type: Boolean,
+        default: true,
+      });
+
+      game.settings.register('shadowrun4e', 'autoSustainEffect', {
+        name: 'sr4.settings.autoSustainEffect.name',
+        hint: 'sr4.settings.autoSustainEffect.hint',
+        scope: 'client',
+        config: true,
+        type: Boolean,
+        default: true,
+      });
+
+      // --- System / UI ---
+
       game.settings.register('shadowrun4e', 'useDefaultEffectSheet', {
         name: 'sr4.settings.useDefaultEffectSheet.name',
         hint: 'sr4.settings.useDefaultEffectSheet.hint',
@@ -93,6 +108,8 @@ export class SettingsHook {
         type: NpcSkillsMenu,
         restricted: true,
       });
+
+      // --- Hidden (no config UI) ---
 
       game.settings.register('shadowrun4e', 'npcDefaultSkills', {
         scope: 'world',

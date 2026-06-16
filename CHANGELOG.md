@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.1](https://github.com/Tarislowatsch/sr4foundry/compare/v1.3.0...v1.3.1) (2026-06-16)
+
+# [1.3.0](https://github.com/Tarislowatsch/sr4foundry/compare/v1.2.0...v1.3.0) (2026-06-16)
+
+
+### Features
+
+* **combat:** add configurable ammo tracking ([f38f0f5](https://github.com/Tarislowatsch/sr4foundry/commit/f38f0f5c08db27e048381604df263fe8fac6d150))
+
 # [1.2.0](https://github.com/Tarislowatsch/sr4foundry/compare/v1.1.0...v1.2.0) (2026-06-14)
 
 
