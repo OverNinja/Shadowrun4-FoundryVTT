@@ -166,14 +166,13 @@ function getRollParameters(actor, dialog, smartlinkOverride) {
 
 /**
  * @param {RollParameters} rollParameters
- * @param {boolean} smartlink
  * @returns {number}
  */
-export function determineBoni(rollParameters, smartlink) {
+export function determineBoni(rollParameters) {
   const edge = rollParameters.explode ? rollParameters.maxEdge : 0;
   return (
     (rollParameters.specialization ? 2 : 0) +
-    (rollParameters.smartlink || smartlink ? 2 : 0) +
+    (rollParameters.smartlink ? 2 : 0) +
     edge
   );
 }
@@ -190,7 +189,7 @@ export function computeFinalPool(baseDice, rollParameters, recoilMalus = 0) {
     rollParameters.bonus -
     rollParameters.malus -
     recoilMalus +
-    determineBoni(rollParameters, rollParameters.smartlink)
+    determineBoni(rollParameters)
   );
 }
 

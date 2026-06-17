@@ -18,29 +18,19 @@ function makeParams(overrides = {}) {
 
 describe('determineBoni', () => {
   it('returns 0 with no bonuses active', () => {
-    expect(determineBoni(makeParams(), false)).toBe(0);
+    expect(determineBoni(makeParams())).toBe(0);
   });
 
   it('adds +2 for specialization', () => {
-    expect(determineBoni(makeParams({ specialization: true }), false)).toBe(2);
+    expect(determineBoni(makeParams({ specialization: true }))).toBe(2);
   });
 
-  it('adds +2 for smartlink on params', () => {
-    expect(determineBoni(makeParams({ smartlink: true }), false)).toBe(2);
-  });
-
-  it('adds +2 for smartlink override argument', () => {
-    expect(determineBoni(makeParams(), true)).toBe(2);
-  });
-
-  it('does not double-count smartlink from both sources', () => {
-    expect(determineBoni(makeParams({ smartlink: true }), true)).toBe(2);
+  it('adds +2 for smartlink', () => {
+    expect(determineBoni(makeParams({ smartlink: true }))).toBe(2);
   });
 
   it('adds edge dice when explode is true', () => {
-    expect(
-      determineBoni(makeParams({ explode: true, maxEdge: 4 }), false)
-    ).toBe(4);
+    expect(determineBoni(makeParams({ explode: true, maxEdge: 4 }))).toBe(4);
   });
 
   it('stacks all bonuses', () => {
@@ -50,7 +40,7 @@ describe('determineBoni', () => {
       explode: true,
       maxEdge: 5,
     });
-    expect(determineBoni(params, false)).toBe(2 + 2 + 5);
+    expect(determineBoni(params)).toBe(2 + 2 + 5);
   });
 });
 

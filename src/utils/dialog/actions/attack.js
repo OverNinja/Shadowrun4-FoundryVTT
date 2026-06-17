@@ -117,8 +117,7 @@ export async function openAttackDialog(actor, skillName, weapon) {
       content: `<p>${localize('sr4.weapon.emptyHint')}</p>`,
       ok: {
         label: localize('sr4.weapon.reload'),
-        callback: async () =>
-          reloadWeapon(actor, /** @type {any} */ (weapon).id),
+        callback: async () => reloadWeapon(actor, weapon.id),
       },
     });
     return;
@@ -266,12 +265,10 @@ export async function openAttackDialog(actor, skillName, weapon) {
         weapon
       );
       if (isRangedWeapon(weapon) && ammoTracking) {
-        const w = /** @type {any} */ (weapon);
-        const a = /** @type {any} */ (actor);
         /** @type {Record<string, Record<string, unknown>>} */
         const byId = {};
         if (weapon.system.maxAmmo > 0) {
-          byId[w.id] = {
+          byId[weapon.id] = {
             'system.currentAmmo': Math.max(
               0,
               weapon.system.currentAmmo - shots
@@ -279,13 +276,13 @@ export async function openAttackDialog(actor, skillName, weapon) {
           };
         }
         if (weapon.system.loadedAmmoId) {
-          const ammo = a.items?.get(weapon.system.loadedAmmoId);
+          const ammo = actor.items?.get(weapon.system.loadedAmmoId);
           if (ammo) {
             const newQty = Math.max(0, ammo.system.quantity - shots);
             byId[ammo.id] = { 'system.quantity': newQty };
             if (newQty === 0) {
-              byId[w.id] ??= {};
-              byId[w.id]['system.loadedAmmoId'] = '';
+              byId[weapon.id] ??= {};
+              byId[weapon.id]['system.loadedAmmoId'] = '';
             }
           }
         }
@@ -293,7 +290,7 @@ export async function openAttackDialog(actor, skillName, weapon) {
           _id: id,
           ...data,
         }));
-        if (batch.length) await a.updateEmbeddedDocuments('Item', batch);
+        if (batch.length) await actor.updateEmbeddedDocuments('Item', batch);
       }
       return result;
     },

@@ -1,5 +1,8 @@
 import { SR4 } from '../../config.js';
 
+/** @typedef {import('@models/index').SR4RollResult} SR4RollResult */
+/** @typedef {import('@models/index').SR4RollOptions} SR4RollOptions */
+
 const ROLL_RESULTS_TEMPLATE =
   'systems/shadowrun4e/templates/dicerolls/roll-results.hbs';
 
@@ -41,18 +44,17 @@ export class DiceUtility {
   /**
    * Rolls a dice pool and displays the result in chat.
    *
-   * @param {import('@models/index').SR4RollOptions} options
+   * @param {SR4RollOptions} options
    * @returns {Promise<{successes: number, isGlitch: boolean}>} The number of successes.
    */
   static async rollAndShow(options) {
     options.numDice = Math.max(1, options.numDice);
 
-    const roll = await new Roll(this.rollFormula(options)).roll();
+    const roll = await new Roll(buildRollFormula(options)).roll();
 
     const { successes, failures, rolls } = DiceUtility.determineSuccess(roll);
-    const isGlitch = failures >= successes;
 
-    this.showResults({
+    await this.showResults({
       successes,
       failures,
       rolls,
@@ -60,24 +62,24 @@ export class DiceUtility {
       options: { ...options, reroll: false },
     });
 
-    return { successes, isGlitch };
+    return { successes, isGlitch: isGlitch({ failures, rolls }) };
   }
 
   /**
    * Rolls additional dice for a follow-up (reroll or extended test) and
    * displays the result in chat, accumulating previous successes.
    *
-   * @param {import('@models/index').SR4RollOptions} options
+   * @param {SR4RollOptions} options
    * @returns {Promise<number>}
    */
   static async followUpRoll(options) {
-    const roll = await new Roll(this.rollFormula(options)).roll();
+    const roll = await new Roll(buildRollFormula(options)).roll();
     const { successes, failures, rolls } = DiceUtility.determineSuccess(roll);
     if (options.explode && options.actor) {
-      options.actor.useEdge();
+      await options.actor.useEdge();
     }
     const totalSuccesses = successes + (options.prevSuccesses ?? 0);
-    this.showResults({
+    await this.showResults({
       successes: totalSuccesses,
       failures,
       rolls,
@@ -107,11 +109,6 @@ export class DiceUtility {
   // Roll formula & result evaluation (delegates to free functions)
   // ---------------------------------------------------------------------------
 
-  /** @param {import('@models/index').SR4RollOptions} options @returns {string} */
-  static rollFormula(options) {
-    return buildRollFormula(options);
-  }
-
   /** @param {Roll} roll @returns {SR4RollResult} */
   static determineSuccess(roll) {
     let successes = 0;
@@ -126,21 +123,6 @@ export class DiceUtility {
       failures += isFailure ? 1 : 0;
     }
     return { successes, failures, rolls };
-  }
-
-  /** @param {number} roll */
-  static getResults(roll) {
-    return evaluateDie(roll);
-  }
-
-  /** @param {SR4RollResult} results @param {boolean} [reroll] */
-  static glitchCheck(results, reroll = false) {
-    return isGlitch(results, reroll);
-  }
-
-  /** @param {SR4RollResult} results @param {boolean} [reroll] */
-  static criticalGlitchCheck(results, reroll = false) {
-    return isCriticalGlitch(results, reroll);
   }
 
   // ---------------------------------------------------------------------------
@@ -160,27 +142,32 @@ export class DiceUtility {
     const { successes, failures, rolls, roll, options } = data;
     const { edgeAvailable, reroll, actor, skillName, extended } = options;
 
-    const isCriticalGlitch = this.criticalGlitchCheck(
-      { successes, failures, rolls },
-      reroll
-    );
-    const isGlitch = this.glitchCheck({ successes, failures, rolls }, reroll);
+    const glitch = isGlitch({ failures, rolls }, reroll);
+    const critGlitch = glitch && successes === 0;
 
     const templateData = {
       successes,
       failures,
-      isCriticalGlitch,
-      isGlitch,
+      isCriticalGlitch: critGlitch,
+      isGlitch: glitch,
       showCombined: reroll || extended,
       actorName: actor?.name,
       skillName,
     };
+
+    let targetId = /** @type {string|null} */ (null);
+    let hookId = /** @type {number|undefined} */ (undefined);
 
     try {
       const content = await foundry.applications.handlebars.renderTemplate(
         ROLL_RESULTS_TEMPLATE,
         templateData
       );
+
+      hookId = Hooks.once('renderChatMessageHTML', (chatMessage, html) => {
+        if (chatMessage.id !== targetId) return;
+        html.querySelector('.dice-total').textContent = String(successes);
+      });
 
       const message = await roll.toMessage({
         speaker: ChatMessage.getSpeaker(),
@@ -191,8 +178,8 @@ export class DiceUtility {
             edgeAvailable: edgeAvailable ?? false,
             extended: extended ?? false,
             reroll: reroll ?? false,
-            isCriticalGlitch,
-            isGlitch,
+            isCriticalGlitch: critGlitch,
+            isGlitch: glitch,
             successes,
             rolledDice: rolls.length,
             options,
@@ -200,30 +187,14 @@ export class DiceUtility {
         },
       });
 
-      if (!message) return;
-
-      this.mutateChatHook(successes, message.id);
+      if (!message) {
+        Hooks.off('renderChatMessageHTML', hookId);
+        return;
+      }
+      targetId = message.id;
     } catch (err) {
+      if (hookId !== undefined) Hooks.off('renderChatMessageHTML', hookId);
       console.error('Roll rendering failed:', err);
     }
-  }
-
-  // ---------------------------------------------------------------------------
-  // Helpers
-  // ---------------------------------------------------------------------------
-
-  /**
-   * Registers a one-time hook to overwrite the Foundry dice total display with
-   * the SR4 success count for a specific chat message.
-   *
-   * @param {number} successes
-   * @param {string | null} messageId
-   * @returns {void}
-   */
-  static mutateChatHook(successes, messageId) {
-    Hooks.once('renderChatMessageHTML', (chatMessage, html) => {
-      if (chatMessage.id !== messageId) return;
-      html.querySelector('.dice-total').textContent = String(successes);
-    });
   }
 }

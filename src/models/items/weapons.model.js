@@ -37,6 +37,7 @@ const fields = foundry.data.fields;
 
 /**
  * @typedef {object} SR4Weapon
+ * @property {string} id
  * @property {string} name
  * @property {string} type
  * @property {SR4RangedWeaponSystem | SR4MeleeWeaponSystem} system
