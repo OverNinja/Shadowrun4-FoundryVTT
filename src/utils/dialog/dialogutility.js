@@ -267,7 +267,7 @@ export function createDialogParameters(
   const hasSmartlink = weapon ? resolveSmartlink(weapon) : false;
   const malus = ignoreModifiers
     ? 0
-    : (actor.system.derivedStats.dicePoolModifier ?? 0);
+    : -(actor.system.derivedStats.dicePoolModifier ?? 0);
   return {
     currentEdge: actor.getAttribute('CURRENTEDGE'),
     edgeAvailable: actor.getAttribute('CURRENTEDGE') > 0,

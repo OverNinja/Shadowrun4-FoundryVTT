@@ -340,6 +340,7 @@
     "power": {
       "cost": "Cost",
       "geas": "Geas",
+      "hasRating": "Rated",
       "nopowers": "This is where I keep my powers, if I had any",
       "rating": "Rating",
       "source": "Source",

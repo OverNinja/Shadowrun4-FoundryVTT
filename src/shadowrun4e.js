@@ -55,6 +55,8 @@ globalThis.sr4 = {
 registerHooks();
 
 Hooks.once('init', async function () {
+  registerHelpers();
+
   await registerCharacterPartials();
   await registerActorPartials();
   await registerItemPartials();
@@ -167,8 +169,6 @@ Hooks.once('init', async function () {
   DocumentSheetConfig.registerSheet(Item, 'sr4', SR4SkillsSheet, {
     types: ['Skill'],
   });
-
-  registerHelpers();
 });
 
 Hooks.once('i18nInit', () => {

@@ -38,6 +38,11 @@ export class SR4PowerData extends foundry.abstract.TypeDataModel {
       }),
     };
   }
+
+  get totalCost() {
+    const self = /** @type {SR4Power} */ (/** @type {unknown} */ (this));
+    return self.hasRating ? self.cost * self.rating : self.cost;
+  }
 }
 
 /**

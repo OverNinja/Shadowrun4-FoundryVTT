@@ -190,7 +190,10 @@ export default class SR4CharacterSheet extends SR4BaseActorSheet {
       implants: items.filter((i) => i.type === 'Implant'),
       spells: items.filter((i) => i.type === 'Spell'),
       powers,
-      totalPowerCost: powers.reduce((sum, p) => sum + (p.system.cost ?? 0), 0),
+      totalPowerCost: powers.reduce(
+        (sum, p) => sum + (p.system.totalCost ?? 0),
+        0
+      ),
       armor: items.filter((i) => i.type === 'Armor'),
       actions: items.filter((i) => i.type === 'Action'),
       foci: items.filter((i) => i.type === 'Focus' || i.type === 'Fetish'),

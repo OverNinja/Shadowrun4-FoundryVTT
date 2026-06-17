@@ -6,7 +6,8 @@
     <table class="item-stats-table">
       <thead>
         <tr>
-          <th>{{localize 'sr4.power.rating'}}</th>
+          <th>{{localize 'sr4.power.hasRating'}}</th>
+          {{#if system.hasRating}}<th>{{localize 'sr4.power.rating'}}</th>{{/if}}
           <th>{{localize 'sr4.power.cost'}}</th>
           <th>{{localize 'sr4.power.totalCost'}}</th>
           <th>{{localize 'sr4.power.geas'}}</th>
@@ -15,7 +16,12 @@
       </thead>
       <tbody>
         <tr>
+          <td>
+            <input type="checkbox" class="sr4-checkbox" name="system.hasRating" {{#if system.hasRating}}checked{{/if}} />
+          </td>
+          {{#if system.hasRating}}
           <td><input type="number" name="system.rating" value="{{ system.rating }}" min="1" /></td>
+          {{/if}}
           <td><input type="number" name="system.cost" value="{{ system.cost }}" min="0" step="0.25" /></td>
           <td class="computed">{{ system.totalCost }}</td>
           <td>

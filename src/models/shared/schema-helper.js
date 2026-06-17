@@ -45,7 +45,7 @@ function realmField(initial = 0) {
  * Minimal derived stats shared by all actor types.
  * @typedef {object} SR4BaseDerivedStats
  * @property {number}        physical        - Physical monitor max
- * @property {number}        woundModifier   - Wound penalty magnitude (positive)
+ * @property {number}        woundModifier   - Wound penalty (negative; 0 = no penalty)
  * @property {number}        dicePoolModifier - Combined modifier (wounds + effects)
  * @property {SR4RealmValues} initiative
  * @property {string}        passesString    - Initiative passes e.g. "1/1/1"

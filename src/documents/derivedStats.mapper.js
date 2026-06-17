@@ -17,8 +17,10 @@ export function computeSpiritDerivedStats(systemData) {
   );
 
   derivedStats.woundModifier =
-    Math.floor(monitor.physical.value / SR4.rules.woundModifierDivisor) +
-    Math.floor(monitor.stun.value / SR4.rules.woundModifierDivisor);
+    -(
+      Math.floor(monitor.physical.value / SR4.rules.woundModifierDivisor) +
+      Math.floor(monitor.stun.value / SR4.rules.woundModifierDivisor)
+    ) || 0;
   derivedStats.dicePoolModifier =
     derivedStats.woundModifier + systemData.modifiers.generalModifier;
 
@@ -44,9 +46,8 @@ export function computeVehicleDerivedStats(systemData) {
     SR4.rules.conditionMonitorBase + systemData.body / 2
   );
 
-  derivedStats.woundModifier = Math.floor(
-    monitor.physical.value / SR4.rules.woundModifierDivisor
-  );
+  derivedStats.woundModifier =
+    -Math.floor(monitor.physical.value / SR4.rules.woundModifierDivisor) || 0;
   derivedStats.dicePoolModifier =
     derivedStats.woundModifier + systemData.modifiers.generalModifier;
 
@@ -133,7 +134,9 @@ export function computeDerivedStats(actorData) {
 function getWoundModifier(monitor, woundMod) {
   const divisor = SR4.rules.woundModifierDivisor + (woundMod ?? 0);
   return (
-    Math.floor(monitor.physical.value / divisor) +
-    Math.floor(monitor.stun.value / divisor)
+    -(
+      Math.floor(monitor.physical.value / divisor) +
+      Math.floor(monitor.stun.value / divisor)
+    ) || 0
   );
 }

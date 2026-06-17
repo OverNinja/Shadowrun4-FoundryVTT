@@ -246,7 +246,7 @@ export class SR4Actor extends foundry.documents.Actor {
       const combatant = combat.combatants.find((c) => c.actor?.id === self.id);
       if (!combatant || combatant.initiative === null) continue;
       await combatant.update({
-        initiative: Math.max(0, combatant.initiative - delta),
+        initiative: Math.max(0, combatant.initiative + delta),
       });
     }
   }

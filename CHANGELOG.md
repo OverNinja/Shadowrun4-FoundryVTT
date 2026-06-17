@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.2](https://github.com/Tarislowatsch/sr4foundry/compare/v1.4.1...v1.4.2) (2026-06-17)
+
+## [1.4.1](https://github.com/Tarislowatsch/sr4foundry/compare/v1.4.0...v1.4.1) (2026-06-17)
+
+
+### Bug Fixes
+
+* **init:** registerHelpers früher aufrufen; SR4ActiveEffectSheet auf DocumentSheetV2 migrieren ([4a7ce29](https://github.com/Tarislowatsch/sr4foundry/commit/4a7ce2911d9b807f0c9e2a48a35334c8b4c3a8c9))
+
 # [1.4.0](https://github.com/Tarislowatsch/sr4foundry/compare/v1.3.3...v1.4.0) (2026-06-17)
 
 

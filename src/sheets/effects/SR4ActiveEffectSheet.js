@@ -11,11 +11,8 @@ const MODE_NUMBERS = { multiply: 1, add: 2, override: 5 };
  */
 
 export default class SR4ActiveEffectSheet extends foundry.applications.api.HandlebarsApplicationMixin(
-  foundry.applications.api.ApplicationV2
+  foundry.applications.api.DocumentSheetV2
 ) {
-  /** @type {foundry.documents.ActiveEffect} */
-  document;
-
   /**
    * @param {SR4ActiveEffectSheetOptions} [options]
    */
@@ -24,7 +21,6 @@ export default class SR4ActiveEffectSheet extends foundry.applications.api.Handl
       options.id = `sr4-effect-${options.document.id}`;
     }
     super(options);
-    this.document = options.document;
   }
 
   /** @returns {string} */

@@ -337,6 +337,7 @@
     "power": {
       "cost": "Kosten",
       "geas": "Geas",
+      "hasRating": "Hat Stufe",
       "nopowers": "Keine Kräfte vorhanden",
       "rating": "Stufe",
       "source": "Quelle",
