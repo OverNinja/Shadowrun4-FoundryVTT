@@ -1,5 +1,13 @@
 # Changelog
 
+# [1.4.0](https://github.com/Tarislowatsch/sr4foundry/compare/v1.3.3...v1.4.0) (2026-06-17)
+
+
+### Features
+
+* **ammo:** add damageOverride for replace-type ammunition ([3b615a4](https://github.com/Tarislowatsch/sr4foundry/commit/3b615a4a8d563696554783ae0c8219c3e54187d4))
+* **packs:** extract ammunition from gear into dedicated compendium ([230ca2a](https://github.com/Tarislowatsch/sr4foundry/commit/230ca2a0d8f94410c835c2df5901100687b3870c))
+
 ## [1.3.3](https://github.com/Tarislowatsch/sr4foundry/compare/v1.3.2...v1.3.3) (2026-06-17)
 
 

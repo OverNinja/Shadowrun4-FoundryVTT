@@ -7,6 +7,9 @@ const fields = foundry.data.fields;
  * @property {number} damageBonus
  * @property {number} apBonus
  * @property {string} damageTypeOverride
+ * @property {number|null} damageOverride - Absolute damage that replaces the
+ *   weapon's base value (e.g. Stick-n-Shock 6S). `null` means no override and
+ *   {@link SR4AmmoSystem.damageBonus} is applied additively instead.
  * @property {number} quantity
  */
 
@@ -17,6 +20,11 @@ export class SR4AmmoData extends foundry.abstract.TypeDataModel {
       damageBonus: new fields.NumberField({ initial: 0, integer: true }),
       apBonus: new fields.NumberField({ initial: 0, integer: true }),
       damageTypeOverride: new fields.StringField({ initial: '', blank: true }),
+      damageOverride: new fields.NumberField({
+        initial: null,
+        nullable: true,
+        integer: true,
+      }),
     };
   }
 }

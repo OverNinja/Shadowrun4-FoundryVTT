@@ -39,7 +39,7 @@ A custom implementation of **Shadowrun 4th Edition** for Foundry Virtual Tableto
 ## Active Effects
 
 - Native Foundry ActiveEffect integration
-- Predefined effect templates: Blind, Blind Flare Compensation, Knocked Down
+- Predefined effect templates: Sustain, Disoriented, Blind, Blind Flare Compensation, Knocked Down
 - Attack and defense modifiers via effects
 - Optional Foundry default effect sheet (GM setting)
 
@@ -81,6 +81,7 @@ Included packs:
 - Bioware
 - Powers
 - Armors
+- Gear
 - Metatypes
 - Actions
 
@@ -226,11 +227,14 @@ Builds:
 ```text
 src/
 ├── assets/
+├── documents/
 ├── effects/
+├── flows/
 ├── hooks/
 ├── lang/
 ├── models/
 ├── sheets/
+├── styles/
 ├── templates/
 └── utils/
 

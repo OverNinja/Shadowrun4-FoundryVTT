@@ -6,6 +6,7 @@ const PACKS = [
   'skills',
   'programs',
   'gear',
+  'ammo',
   'spells',
   'metatypes',
   'melee_weapons',

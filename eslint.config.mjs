@@ -39,6 +39,7 @@ export default [
         Dialog: 'readonly',
 
         FormApplication: 'readonly',
+        Handlebars: 'readonly',
 
         canvas: 'readonly',
         foundry: 'readonly',

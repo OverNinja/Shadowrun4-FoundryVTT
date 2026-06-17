@@ -60,6 +60,7 @@
     "ammo": {
       "apBonus": "AP Bonus",
       "damageBonus": "Damage Bonus",
+      "damageOverride": "Damage Override",
       "damageTypeOverride": "Damage Type Override",
       "effective": "Effective",
       "loaded": "Loaded Ammo",

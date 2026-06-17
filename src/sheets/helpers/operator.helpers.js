@@ -4,6 +4,7 @@
  *
  * Registered helpers:
  * - `eq`  — strict equality (`a === b`)
+ * - `ne`  — strict inequality (`a !== b`)
  * - `add` — addition (`a + b`)
  * - `gte` — greater-than-or-equal (`a >= b`)
  *
@@ -23,6 +24,21 @@ export function operatorHelpers() {
    */
   Handlebars.registerHelper('eq', function (a, b) {
     return a === b;
+  });
+
+  /**
+   * Handlebars helper `ne`.
+   * Returns `true` when both operands are strictly unequal.
+   *
+   * @example
+   * // {{#if (ne ammo.damageOverride null)}}...{{/if}}
+   *
+   * @param {unknown} a - Left-hand operand.
+   * @param {unknown} b - Right-hand operand.
+   * @returns {boolean} `true` if `a !== b`, otherwise `false`.
+   */
+  Handlebars.registerHelper('ne', function (a, b) {
+    return a !== b;
   });
 
   /**

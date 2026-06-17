@@ -61,6 +61,7 @@
     "ammo": {
       "apBonus": "AP Bonus",
       "damageBonus": "Schadensbonus",
+      "damageOverride": "Schaden überschreiben",
       "damageTypeOverride": "Schadenstyp",
       "effective": "Effektiv",
       "loaded": "Geladene Munition",

@@ -6,6 +6,7 @@
       <thead>
         <tr>
           <th>{{localize 'sr4.ammo.damageBonus'}}</th>
+          <th>{{localize 'sr4.ammo.damageOverride'}}</th>
           <th>{{localize 'sr4.ammo.apBonus'}}</th>
           <th>{{localize 'sr4.ammo.damageTypeOverride'}}</th>
           <th>{{localize 'sr4.ammo.quantity'}}</th>
@@ -17,6 +18,7 @@
       <tbody>
         <tr>
           <td><input type="number" name="system.damageBonus" value="{{ system.damageBonus }}" /></td>
+          <td><input type="number" name="system.damageOverride" value="{{ system.damageOverride }}" placeholder="—" /></td>
           <td><input type="number" name="system.apBonus" value="{{ system.apBonus }}" /></td>
           <td>
             <select name="system.damageTypeOverride">

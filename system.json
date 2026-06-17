@@ -9,7 +9,7 @@
     "verified": "14"
   },
   "description": "Shadowrun 4th Edition System for Foundry VTT",
-  "download": "https://github.com/Tarislowatsch/Shadowrun4-FoundryVTT/releases/download/v1.3.3/shadowrun4e.zip",
+  "download": "https://github.com/Tarislowatsch/Shadowrun4-FoundryVTT/releases/download/v1.4.0/shadowrun4e.zip",
   "esmodules": [
     "shadowrun4e.js"
   ],
@@ -96,6 +96,13 @@
       "type": "Item"
     },
     {
+      "label": "SR4 Ammo",
+      "name": "ammo",
+      "path": "packs/ammo",
+      "system": "shadowrun4e",
+      "type": "Item"
+    },
+    {
       "label": "SR4 Powers",
       "name": "powers",
       "path": "packs/powers",
@@ -136,5 +143,5 @@
     "style.css"
   ],
   "title": "Shadowrun 4th Edition",
-  "version": "1.3.3"
+  "version": "1.4.0"
 }

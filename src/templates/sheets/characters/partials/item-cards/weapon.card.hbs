@@ -92,8 +92,13 @@
     </span>
     <span class="item-property{{#unless this.loadedAmmo}} item-property--empty{{/unless}}">
       {{#if this.loadedAmmo}}
-      <strong>{{localize "sr4.ammo.damageBonus"}}</strong>
-      {{#if (gte this.loadedAmmo.damageBonus 0)}}+{{/if}}{{ this.loadedAmmo.damageBonus }}
+        {{#if (ne this.loadedAmmo.damageOverride null)}}
+        <strong>{{localize "sr4.ammo.damageOverride"}}</strong>
+        {{ this.loadedAmmo.damageOverride }}
+        {{else}}
+        <strong>{{localize "sr4.ammo.damageBonus"}}</strong>
+        {{#if (gte this.loadedAmmo.damageBonus 0)}}+{{/if}}{{ this.loadedAmmo.damageBonus }}
+        {{/if}}
       {{/if}}
     </span>
     <span class="item-property{{#unless this.loadedAmmo.displayDamageTypeOverride}} item-property--empty{{/unless}}">

@@ -89,7 +89,11 @@ export class SR4RangedWeaponData extends foundry.abstract.TypeDataModel {
     const ammo = self.loadedAmmoId
       ? (actor?.items?.get(self.loadedAmmoId) ?? null)
       : null;
-    self.effectiveDamage = self.damage + (ammo?.system.damageBonus ?? 0);
+    const ammoDamageOverride = ammo?.system.damageOverride;
+    self.effectiveDamage =
+      typeof ammoDamageOverride === 'number'
+        ? ammoDamageOverride
+        : self.damage + (ammo?.system.damageBonus ?? 0);
     self.effectiveAP = self.ap + (ammo?.system.apBonus ?? 0);
     self.effectiveDamageType =
       ammo?.system.damageTypeOverride || self.damageType;

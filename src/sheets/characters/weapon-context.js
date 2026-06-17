@@ -27,8 +27,11 @@ export function buildWeaponContext(items) {
           ? (ammoById.get(w.system.loadedAmmoId) ?? null)
           : null;
 
+      const ammoDamageOverride = loadedAmmoItem?.system.damageOverride;
       const effectiveDamage =
-        (w.system?.damage ?? 0) + (loadedAmmoItem?.system.damageBonus ?? 0);
+        typeof ammoDamageOverride === 'number'
+          ? ammoDamageOverride
+          : (w.system?.damage ?? 0) + (loadedAmmoItem?.system.damageBonus ?? 0);
       const effectiveAP =
         (w.system?.ap ?? 0) + (loadedAmmoItem?.system.apBonus ?? 0);
       const effectiveDamageType =
@@ -58,6 +61,10 @@ export function buildWeaponContext(items) {
           ? {
               name: loadedAmmoItem.name,
               damageBonus: loadedAmmoItem.system.damageBonus ?? 0,
+              damageOverride:
+                typeof ammoDamageOverride === 'number'
+                  ? ammoDamageOverride
+                  : null,
               apBonus: loadedAmmoItem.system.apBonus ?? 0,
               displayDamageTypeOverride: loadedAmmoItem.system
                 .damageTypeOverride

@@ -14001,31 +14001,6 @@
   },
   {
     "data": {
-      "name": "Ammo: APDS",
-      "system": {
-        "avail": 16,
-        "availability": "16F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_apds",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>70",
-        "quantity": 0,
-        "rating": 0,
-        "source": "SR4, Page 323"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
       "name": "Ammo: Assault Cannon",
       "system": {
         "avail": 16,
@@ -14039,106 +14014,6 @@
         "modable": false,
         "mods": [],
         "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>450",
-        "quantity": 0,
-        "rating": 0,
-        "source": "SR4, Page 323"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Explosive Rounds",
-      "system": {
-        "avail": 8,
-        "availability": "8F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_explosive_rounds",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>50",
-        "quantity": 0,
-        "rating": 0,
-        "source": "SR4, Page 323"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: EX-Explosive Rounds",
-      "system": {
-        "avail": 12,
-        "availability": "12F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_exexplosive_rounds",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>100",
-        "quantity": 0,
-        "rating": 0,
-        "source": "SR4, Page 323"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Flechette Rounds",
-      "system": {
-        "avail": 2,
-        "availability": "2R",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_flechette_rounds",
-        "legality": "R",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>100",
-        "quantity": 0,
-        "rating": 0,
-        "source": "SR4, Page 323"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Gel Rounds",
-      "system": {
-        "avail": 4,
-        "availability": "4R",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_gel_rounds",
-        "legality": "R",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>30",
         "quantity": 0,
         "rating": 0,
         "source": "SR4, Page 323"
@@ -14201,31 +14076,6 @@
   },
   {
     "data": {
-      "name": "Ammo: Stick-n-Shock",
-      "system": {
-        "avail": 5,
-        "availability": "5R",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_sticknshock",
-        "legality": "R",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>80",
-        "quantity": 0,
-        "rating": 0,
-        "source": "SR4, Page 324"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
       "name": "Ammo: Tracer",
       "system": {
         "avail": 5,
@@ -14276,81 +14126,6 @@
   },
   {
     "data": {
-      "name": "Ammo: AV Rounds",
-      "system": {
-        "avail": 18,
-        "availability": "18F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_av_rounds",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>120",
-        "quantity": 0,
-        "rating": 0,
-        "source": "AR, Page 34"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Capsule Rounds",
-      "system": {
-        "avail": 4,
-        "availability": "4",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_capsule_rounds",
-        "legality": "",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>30",
-        "quantity": 0,
-        "rating": 0,
-        "source": "AR, Page 34"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Frangible Rounds",
-      "system": {
-        "avail": 6,
-        "availability": "6R",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_frangible_rounds",
-        "legality": "R",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>50",
-        "quantity": 0,
-        "rating": 0,
-        "source": "AR, Page 34"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
       "name": "Ammo: Hi-C Plastic Rounds",
       "system": {
         "avail": 8,
@@ -14367,81 +14142,6 @@
         "quantity": 0,
         "rating": 0,
         "source": "AR, Page 34"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Hollow Point Rounds",
-      "system": {
-        "avail": 6,
-        "availability": "6F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_hollow_point_rounds",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>50",
-        "quantity": 0,
-        "rating": 0,
-        "source": "AR, Page 34"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Silver Bullets",
-      "system": {
-        "avail": 12,
-        "availability": "12R",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_silver_bullets",
-        "legality": "R",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>250",
-        "quantity": 0,
-        "rating": 0,
-        "source": "AR, Page 34"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Subsonic Rounds",
-      "system": {
-        "avail": 10,
-        "availability": "10F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_subsonic_rounds",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>40",
-        "quantity": 0,
-        "rating": 0,
-        "source": "AR, Page 35"
       },
       "type": "Item"
     },
@@ -14489,56 +14189,6 @@
         "modable": false,
         "mods": [],
         "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>75",
-        "quantity": 0,
-        "rating": 0,
-        "source": "AR, Page 35"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Flare Rounds",
-      "system": {
-        "avail": 6,
-        "availability": "6",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_flare_rounds",
-        "legality": "",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>25",
-        "quantity": 0,
-        "rating": 0,
-        "source": "AR, Page 35"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Shock Lock Rounds",
-      "system": {
-        "avail": 10,
-        "availability": "10F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_shock_lock_rounds",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>70",
         "quantity": 0,
         "rating": 0,
         "source": "AR, Page 35"
@@ -17451,56 +17101,6 @@
   },
   {
     "data": {
-      "name": "Ammo: Anti-Tank Rounds",
-      "system": {
-        "avail": 22,
-        "availability": "22F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_antitank_rounds",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>170",
-        "quantity": 0,
-        "rating": 0,
-        "source": "WAR, Page 156"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Armor-Piercing Flechette",
-      "system": {
-        "avail": 18,
-        "availability": "18F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_armorpiercing_flechette",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>160",
-        "quantity": 0,
-        "rating": 0,
-        "source": "WAR, Page 156"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
       "name": "Ammo: High-Power Rounds",
       "system": {
         "avail": 20,
@@ -17536,56 +17136,6 @@
         "equipped": false,
         "label": "sr4.gear.ammo_rfid_rounds",
         "legality": "",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>20",
-        "quantity": 0,
-        "rating": 0,
-        "source": "WAR, Page 156"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Sensor Rounds",
-      "system": {
-        "avail": 5,
-        "availability": "5R",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_sensor_rounds",
-        "legality": "R",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>30",
-        "quantity": 0,
-        "rating": 0,
-        "source": "WAR, Page 156"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Suppression Rounds",
-      "system": {
-        "avail": 4,
-        "availability": "4R",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_suppression_rounds",
-        "legality": "R",
         "modable": false,
         "mods": [],
         "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>20",
@@ -27226,31 +26776,6 @@
   },
   {
     "data": {
-      "name": "Ammo: APDS (2050)",
-      "system": {
-        "avail": 14,
-        "availability": "14F",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_apds_2050",
-        "legality": "F",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>70",
-        "quantity": 0,
-        "rating": 0,
-        "source": "2050, Page 174"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
       "name": "Ammo: Assault Cannon (2050)",
       "system": {
         "avail": 10,
@@ -27289,31 +26814,6 @@
         "modable": false,
         "mods": [],
         "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>200",
-        "quantity": 0,
-        "rating": 0,
-        "source": "2050, Page 174"
-      },
-      "type": "Item"
-    },
-    "documentClass": "Item",
-    "flags": {},
-    "uuid": ""
-  },
-  {
-    "data": {
-      "name": "Ammo: Flechette Rounds (2050)",
-      "system": {
-        "avail": 3,
-        "availability": "3R",
-        "capacity": null,
-        "cost": 0,
-        "description": "",
-        "equipped": false,
-        "label": "sr4.gear.ammo_flechette_rounds_2050",
-        "legality": "R",
-        "modable": false,
-        "mods": [],
-        "notes": "Kostenformel: 10</costfor>\r\n\t\t\t<cost>100",
         "quantity": 0,
         "rating": 0,
         "source": "2050, Page 174"
