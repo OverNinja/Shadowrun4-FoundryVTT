@@ -1,4 +1,7 @@
-<label class="switch edit-mode-switch" data-tooltip="Edit Mode">
-  <input type="checkbox" {{#if editMode}}checked{{/if}}>
-  <span class="slider"></span>
-</label>
+<div class="edit-toggle-wrapper">
+  <i id="edit-mode-icon" class="fa-solid fa-pen"></i>
+  <label class="switch edit-mode-switch" data-tooltip="Edit Mode">
+    <input type="checkbox" {{#if editMode}}checked{{/if}}>
+    <span class="slider"></span>
+  </label>
+</div>

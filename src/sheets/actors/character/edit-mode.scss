@@ -43,9 +43,14 @@ input:checked + .slider:before {
   transform: translateX(18px);
 }
 
+input[readonly] {
+  cursor: default;
+  user-select: none;
+}
+
 #edit-mode-icon {
   color: var(--sr4-teal);
-  margin-left: 20px;
+  margin-right: 10px;
 }
 .edit-toggle-wrapper {
   display: flex;

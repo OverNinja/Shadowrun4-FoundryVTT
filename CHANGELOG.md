@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.2](https://github.com/Tarislowatsch/sr4foundry/compare/v1.3.1...v1.3.2) (2026-06-17)
+
+
+### Bug Fixes
+
+* **ui:** disable cursor and selection on readonly inputs ([346ea3d](https://github.com/Tarislowatsch/sr4foundry/commit/346ea3d3d7a918e658680e9d4fe73addc61b04ed))
+
+
+### Features
+
+* **ui:** add pen icon to edit mode toggle ([3b18c3a](https://github.com/Tarislowatsch/sr4foundry/commit/3b18c3a3e329709ba67d7e1720063ace7c574302))
+
 ## [1.3.1](https://github.com/Tarislowatsch/sr4foundry/compare/v1.3.0...v1.3.1) (2026-06-16)
 
 # [1.3.0](https://github.com/Tarislowatsch/sr4foundry/compare/v1.2.0...v1.3.0) (2026-06-16)
