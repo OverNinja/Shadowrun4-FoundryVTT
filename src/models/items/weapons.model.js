@@ -1,4 +1,9 @@
 import { genericItemSchema, genericWeaponSchema } from '@models/shared';
+import {
+  AP_HALF_TYPES,
+  computeRangedWeaponDerived,
+  computeMeleeWeaponDerived,
+} from '@models/shared/weapon-armor-derived';
 
 const fields = foundry.data.fields;
 
@@ -22,17 +27,36 @@ const fields = foundry.data.fields;
  * @property {string} ammoFeed
  * @property {string} range
  * @property {string} loadedAmmoId
+ * @property {string[]} installedModIds
+ * @property {number} effectiveDamage
+ * @property {number} effectiveAP
+ * @property {number} effectiveRC
+ * @property {boolean} effectiveSmartlink
+ * @property {string} effectiveDamageType
+ * @property {boolean} effectiveApHalf
+ * @property {string} effectiveArmorType
+ * @property {string|null} loadedAmmoName
+ * @property {boolean} modSlotWarning
+ * @property {number} totalCost
+ */
+
+/**
+ * @typedef {object} SR4MeleeWeaponFields
+ * @property {number} reach
+ * @property {boolean} noStrengthBonus - When true, the Strength damage bonus is not applied.
+ * @property {string[]} installedModIds
  * @property {number} effectiveDamage
  * @property {number} effectiveAP
  * @property {string} effectiveDamageType
  * @property {boolean} effectiveApHalf
  * @property {string} effectiveArmorType
- * @property {string|null} loadedAmmoName
+ * @property {boolean} modSlotWarning
+ * @property {number} totalCost
  */
 
 /**
  * @typedef {SR4WeaponSystemBase & SR4RangedWeaponFields} SR4RangedWeaponSystem
- * @typedef {SR4WeaponSystemBase & { reach: number }} SR4MeleeWeaponSystem
+ * @typedef {SR4WeaponSystemBase & SR4MeleeWeaponFields} SR4MeleeWeaponSystem
  */
 
 /**
@@ -54,12 +78,7 @@ const fields = foundry.data.fields;
  * @property {string} ammoFeed - Feed type abbreviation (e.g. "c", "m", "belt", "cy", "d")
  * @property {string} range
  */
-export const AP_HALF_TYPES = new Set([
-  'ELECTRICITY',
-  'FIRE',
-  'LASER',
-  'STUN_HALF',
-]);
+export { AP_HALF_TYPES };
 
 export class SR4RangedWeaponData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -90,23 +109,17 @@ export class SR4RangedWeaponData extends foundry.abstract.TypeDataModel {
     const ammo = self.loadedAmmoId
       ? (actor?.items?.get(self.loadedAmmoId) ?? null)
       : null;
-    const ammoDamageOverride = ammo?.system.damageOverride;
-    self.effectiveDamage =
-      typeof ammoDamageOverride === 'number'
-        ? ammoDamageOverride
-        : self.damage + (ammo?.system.damageBonus ?? 0);
-    self.effectiveAP = self.ap + (ammo?.system.apBonus ?? 0);
-    self.effectiveDamageType =
-      ammo?.system.damageTypeOverride || self.damageType;
-    self.effectiveApHalf = AP_HALF_TYPES.has(self.effectiveDamageType);
-    self.effectiveArmorType = self.effectiveApHalf ? 'impact' : self.armorType;
-    self.loadedAmmoName = ammo?.name ?? null;
+
+    const mods = resolveWeaponMods(self.installedModIds, actor);
+
+    Object.assign(self, computeRangedWeaponDerived(self, ammo, mods));
   }
 }
 
 /**
  * DataModel for melee weapons (type: "Melee Weapon").
  * @property {number} reach
+ * @property {boolean} noStrengthBonus
  */
 export class SR4MeleeWeaponData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -114,6 +127,7 @@ export class SR4MeleeWeaponData extends foundry.abstract.TypeDataModel {
       ...genericItemSchema(),
       ...genericWeaponSchema(),
       reach: new fields.NumberField({ initial: 0, integer: true }),
+      noStrengthBonus: new fields.BooleanField({ initial: false }),
       armorType: new fields.StringField({
         initial: 'impact',
         choices: ['ballistic', 'impact'],
@@ -124,12 +138,36 @@ export class SR4MeleeWeaponData extends foundry.abstract.TypeDataModel {
 
   prepareDerivedData() {
     const self = /** @type {any} */ (this);
-    self.effectiveDamage = self.damage;
-    self.effectiveAP = self.ap;
-    self.effectiveDamageType = self.damageType;
-    self.effectiveApHalf = AP_HALF_TYPES.has(self.effectiveDamageType);
-    self.effectiveArmorType = self.effectiveApHalf ? 'impact' : self.armorType;
+    const actor = this.parent?.parent ?? null;
+
+    const strengthBonus = actor
+      ? Math.ceil((actor.getAttribute('STRENGTH') ?? 0) / 2)
+      : 0;
+    const meleeDamageModifier = actor
+      ? (actor.system.modifiers?.meleeDamageModifier ?? 0)
+      : 0;
+    const unarmedDamageModifier = actor
+      ? (actor.system.modifiers?.unarmedDamageModifier ?? 0)
+      : 0;
+
+    const mods = resolveWeaponMods(self.installedModIds, actor);
+
+    Object.assign(
+      self,
+      computeMeleeWeaponDerived(self, mods, {
+        strengthBonus,
+        meleeDamageModifier,
+        unarmedDamageModifier,
+      })
+    );
   }
+}
+
+/** @param {string[]} ids @param {any} actor */
+function resolveWeaponMods(ids, actor) {
+  return (ids ?? [])
+    .map((id) => actor?.items?.get(id))
+    .filter((m) => m?.type === 'Weapon Mod');
 }
 
 const RANGED_WEAPON_TYPE = 'Ranged Weapon';
@@ -215,6 +253,13 @@ export const Shootingmodes = Object.freeze({
  * @enum {string}
  * @readonly
  */
+export const WeaponMountPoints = Object.freeze({
+  /** @type {string} */ top: 'sr4.weaponmod.mountPoints.top',
+  /** @type {string} */ barrel: 'sr4.weaponmod.mountPoints.barrel',
+  /** @type {string} */ under: 'sr4.weaponmod.mountPoints.under',
+  /** @type {string} */ internal: 'sr4.weaponmod.mountPoints.internal',
+});
+
 export const DamageTypes = Object.freeze({
   /** @type {string} */ PHYSICAL: 'sr4.damage.physical',
   /** @type {string} */ STUN: 'sr4.damage.stun',

@@ -14,6 +14,7 @@
       "@effects/*": ["./src/effects/*"],
       "@flows/*": ["./src/flows/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@importer/*": ["./src/importer/*"],
       "@models/*": ["./src/models/*"],
       "@sheets/*": ["./src/sheets/*"],
       "@utils/*": ["./src/utils/*"]

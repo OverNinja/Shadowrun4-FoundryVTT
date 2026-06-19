@@ -5,6 +5,7 @@ import {
   MeleeAttackskill,
   DamageTypes,
   Shootingmodes,
+  WeaponMountPoints,
   SpellTypes,
   SpellCategories,
   SpellCombatTypes,
@@ -15,6 +16,10 @@ import {
 } from '@models/index';
 import { SR4EffectTargets, EFFECT_TEMPLATES } from '@effects/index';
 import SR4ActiveEffectSheet from '@sheets/effects/SR4ActiveEffectSheet';
+import {
+  buildModPoolFromCollection,
+  resolveModsAndAvailability,
+} from '@sheets/shared/mod-resolution';
 
 export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.sheets.ItemSheetV2
@@ -38,6 +43,9 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
       toggleEffect: SR4ItemSheet.#onToggleEffect,
       editEffect: SR4ItemSheet.#onEditEffect,
       deleteEffect: SR4ItemSheet.#onDeleteEffect,
+      addMod: SR4ItemSheet.#onAddMod,
+      removeMod: SR4ItemSheet.#onRemoveMod,
+      createMod: SR4ItemSheet.#onCreateMod,
     },
   };
 
@@ -84,6 +92,23 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
     commlink: {
       template: 'systems/shadowrun4e/templates/sheets/items/commlink.sheet.hbs',
     },
+    program: {
+      template: 'systems/shadowrun4e/templates/sheets/items/program.sheet.hbs',
+    },
+    quality: {
+      template: 'systems/shadowrun4e/templates/sheets/items/quality.sheet.hbs',
+    },
+    weaponmod: {
+      template:
+        'systems/shadowrun4e/templates/sheets/items/weaponmod.sheet.hbs',
+    },
+    armormod: {
+      template: 'systems/shadowrun4e/templates/sheets/items/armormod.sheet.hbs',
+    },
+    vehiclemod: {
+      template:
+        'systems/shadowrun4e/templates/sheets/items/vehiclemod.sheet.hbs',
+    },
   };
 
   _configureRenderOptions(options) {
@@ -122,13 +147,46 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
       context.availableAmmo = [];
     }
 
-    if (this.item.type === 'Ranged Weapon') {
+    if (
+      this.item.type === 'Ranged Weapon' ||
+      this.item.type === 'Melee Weapon'
+    ) {
       /** @type {any} */
       const live = this.document.system;
       context.system.effectiveDamage = live.effectiveDamage;
       context.system.effectiveAP = live.effectiveAP;
       context.system.effectiveArmorType = live.effectiveArmorType;
       context.system.loadedAmmoName = live.loadedAmmoName;
+      context.system.effectiveRC = live.effectiveRC;
+      context.system.effectiveSmartlink = live.effectiveSmartlink;
+      context.system.usedModSlots = live.usedModSlots;
+      context.system.modSlotWarning = live.modSlotWarning;
+      context.system.totalCost = live.totalCost;
+
+      const { installedMods, availableMods } = this._resolveItemMods(
+        'Weapon Mod',
+        live.installedModIds
+      );
+      context.availableWeaponMods = availableMods;
+      context.installedMods = installedMods;
+    }
+
+    if (this.item.type === 'Armor') {
+      /** @type {any} */
+      const live = this.document.system;
+      context.system.effectiveBallistic = live.effectiveBallistic;
+      context.system.effectiveImpact = live.effectiveImpact;
+      context.system.maxCapacity = live.maxCapacity;
+      context.system.usedCapacity = live.usedCapacity;
+      context.system.capacityWarning = live.capacityWarning;
+      context.system.totalCost = live.totalCost;
+
+      const { installedMods, availableMods } = this._resolveItemMods(
+        'Armor Mod',
+        live.installedModIds
+      );
+      context.availableArmorMods = availableMods;
+      context.installedMods = installedMods;
     }
 
     if (this.item.type === 'Power') {
@@ -137,9 +195,37 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
       context.system.totalCost = live.totalCost;
     }
 
+    if (this.item.type === 'Weapon Mod') {
+      context.mountpoints = WeaponMountPoints;
+    }
+
     this._prepareActionsEffectsContext(context);
 
     return context;
+  }
+
+  /**
+   * Resolves installed/available mods of a given type for this item, using
+   * the shared mod-resolution helper. Single place for both weapon-mod and
+   * armor-mod (and any future mod type) lookups — previously these were two
+   * hand-copied blocks differing only in the type string.
+   *
+   * @param {string} modType - e.g. 'Weapon Mod', 'Armor Mod'
+   * @param {string[]} installedModIds
+   */
+  _resolveItemMods(modType, installedModIds) {
+    if (!this.item.parent) {
+      return { installedMods: [], availableMods: [] };
+    }
+    const pool = buildModPoolFromCollection(this.item.parent.items, modType);
+    const allClaimed = new Set();
+    for (const item of this.item.parent.items) {
+      if (!item.system?.installedModIds) continue;
+      for (const id of item.system.installedModIds) {
+        allClaimed.add(id);
+      }
+    }
+    return resolveModsAndAvailability(pool, installedModIds, allClaimed);
   }
 
   _onRender(context, options) {
@@ -278,7 +364,10 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
     } else {
       const tpl = EFFECT_TEMPLATES[key];
       if (!tpl) return;
-      effectData = { ...tpl, name: game.i18n.localize(tpl.name) };
+      effectData = {
+        ...foundry.utils.deepClone(tpl),
+        name: game.i18n.localize(tpl.name),
+      };
     }
 
     await this.item.createEmbeddedDocuments('ActiveEffect', [
@@ -308,5 +397,42 @@ export default class SR4ItemSheet extends foundry.applications.api.HandlebarsApp
     const id = target.closest('[data-effect-id]')?.dataset.effectId;
     if (!id) return;
     await this.item.deleteEmbeddedDocuments('ActiveEffect', [id]);
+  }
+
+  // -- Mods (installed on this host item) -------------------------------------
+
+  static async #onAddMod(event, target) {
+    const modId = target.value;
+    if (!modId) return;
+    target.value = '';
+    const current = this.document.system.installedModIds ?? [];
+    if (current.includes(modId)) return;
+    await this.item.update({
+      'system.installedModIds': [...current, modId],
+    });
+  }
+
+  static async #onRemoveMod(event, target) {
+    const modId =
+      target.dataset.modId ?? target.closest('[data-mod-id]')?.dataset.modId;
+    if (!modId) return;
+    const current = this.document.system.installedModIds ?? [];
+    await this.item.update({
+      'system.installedModIds': current.filter((id) => id !== modId),
+    });
+  }
+
+  static async #onCreateMod(event, target) {
+    const modType = target.dataset.itemType;
+    if (!modType || !this.item.parent) return;
+    const [mod] = await this.item.parent.createEmbeddedDocuments('Item', [
+      { name: game.i18n.localize(`TYPES.Item.${modType}`), type: modType },
+    ]);
+    if (!mod) return;
+    const current = this.document.system.installedModIds ?? [];
+    await this.item.update({
+      'system.installedModIds': [...current, mod.id],
+    });
+    mod.sheet?.render(true);
   }
 }

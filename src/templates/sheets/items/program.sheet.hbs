@@ -1,0 +1,45 @@
+<div class="item-sheet-body">
+  {{> "item-sheet-header" nameKey="sr4.item.name"}}
+
+  <table class="item-stats-table">
+    <thead>
+      <tr>
+        <th>{{localize 'sr4.program.category'}}</th>
+        <th>{{localize 'sr4.program.complexform'}}</th>
+        <th>{{localize 'sr4.program.maxrating'}}</th>
+        <th>{{localize 'sr4.item.avail'}}</th>
+        <th>{{localize 'sr4.item.legality'}}</th>
+        <th>{{localize 'sr4.item.cost'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <input type="text" name="system.category" value="{{ system.category }}" />
+        </td>
+        <td>
+          <input
+            type="checkbox"
+            class="sr4-checkbox"
+            data-field="system.complexform"
+            {{#if system.complexform}}checked{{/if}}
+          />
+        </td>
+        <td>
+          <input type="number" name="system.maxrating" value="{{ system.maxrating }}" />
+        </td>
+        <td>
+          <input type="text" name="system.avail" value="{{ system.avail }}" />
+        </td>
+        <td>
+          <input type="text" name="system.legality" value="{{ system.legality }}" />
+        </td>
+        <td>
+          <input type="number" name="system.cost" value="{{ system.cost }}" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  {{> "item-textareas"}}
+</div>

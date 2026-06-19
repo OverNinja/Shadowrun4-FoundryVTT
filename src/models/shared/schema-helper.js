@@ -47,6 +47,7 @@ function realmField(initial = 0) {
  * @property {number}        physical        - Physical monitor max
  * @property {number}        woundModifier   - Wound penalty (negative; 0 = no penalty)
  * @property {number}        dicePoolModifier - Combined modifier (wounds + effects)
+ * @property {number}        meleeDamageBonus - Strength melee damage bonus (ceil(STR/2))
  * @property {SR4RealmValues} initiative
  * @property {string}        passesString    - Initiative passes e.g. "1/1/1"
  */
@@ -59,6 +60,7 @@ export function baseDerivedStatsFields() {
     physical: new fields.NumberField({ initial: 10, integer: true }),
     woundModifier: new fields.NumberField({ initial: 0, integer: true }),
     dicePoolModifier: new fields.NumberField({ initial: 0, integer: true }),
+    meleeDamageBonus: new fields.NumberField({ initial: 0, integer: true }),
     initiative: realmField(1),
     passesString: new fields.StringField({ initial: '1/0/0' }),
   };
@@ -163,6 +165,13 @@ export class SR4SheetStatsData extends fields.SchemaField {
  * @property {number} generalModifier
  * @property {number} attackModifier
  * @property {number} defenseModifier
+ * @property {number} meleeDefenseModifier
+ * @property {number} rangedDefenseModifier
+ * @property {number} dodgeModifier
+ * @property {number} blockModifier
+ * @property {number} parryModifier
+ * @property {number} meleeDamageModifier
+ * @property {number} unarmedDamageModifier
  */
 
 export const modifiersField = () =>
@@ -176,6 +185,19 @@ export const modifiersField = () =>
     generalModifier: new fields.NumberField({ initial: 0, integer: true }),
     attackModifier: new fields.NumberField({ initial: 0, integer: true }),
     defenseModifier: new fields.NumberField({ initial: 0, integer: true }),
+    meleeDefenseModifier: new fields.NumberField({ initial: 0, integer: true }),
+    rangedDefenseModifier: new fields.NumberField({
+      initial: 0,
+      integer: true,
+    }),
+    dodgeModifier: new fields.NumberField({ initial: 0, integer: true }),
+    blockModifier: new fields.NumberField({ initial: 0, integer: true }),
+    parryModifier: new fields.NumberField({ initial: 0, integer: true }),
+    meleeDamageModifier: new fields.NumberField({ initial: 0, integer: true }),
+    unarmedDamageModifier: new fields.NumberField({
+      initial: 0,
+      integer: true,
+    }),
     soakBonus: new fields.NumberField({ initial: 0, integer: true }),
   });
 
@@ -211,5 +233,7 @@ export function genericWeaponSchema() {
     attackSkill: new fields.StringField({ initial: '' }),
     damageType: new fields.StringField({ initial: '' }),
     damage: new fields.NumberField({ initial: 0, integer: true }),
+    installedModIds: new fields.ArrayField(new fields.StringField()),
+    modSlots: new fields.NumberField({ initial: 6, integer: true }),
   };
 }

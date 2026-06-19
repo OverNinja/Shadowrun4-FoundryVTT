@@ -10,6 +10,7 @@ export default class SR4VehicleSheet extends SR4SummonedEntitySheet {
       rollAutonomous: SR4VehicleSheet.#onRollAutonomous,
       attackRoll: SR4VehicleSheet.#onAttackRoll,
       clearRigger: SR4VehicleSheet.#onClearRigger,
+      createVehicleMod: SR4VehicleSheet.#onCreateVehicleMod,
     },
   };
 
@@ -28,20 +29,57 @@ export default class SR4VehicleSheet extends SR4SummonedEntitySheet {
     const actorData = this.document.toObject(false);
     const items = actorData.items || [];
 
+    /** @type {any} */
+    const live = this.document.system;
     const s = actorData.system;
     const vehicleStats = [
-      { label: 'sr4.vehicle.body', name: 'system.body', value: s.body },
-      { label: 'sr4.vehicle.pilot', name: 'system.pilot', value: s.pilot },
-      { label: 'sr4.vehicle.armor', name: 'system.armor', value: s.armor },
-      { label: 'sr4.vehicle.sensor', name: 'system.sensor', value: s.sensor },
+      {
+        label: 'sr4.vehicle.body',
+        name: 'system.body',
+        value: s.body,
+        effective: live.effectiveBody,
+      },
+      {
+        label: 'sr4.vehicle.pilot',
+        name: 'system.pilot',
+        value: s.pilot,
+        effective: live.effectivePilot,
+      },
+      {
+        label: 'sr4.vehicle.armor',
+        name: 'system.armor',
+        value: s.armor,
+        effective: live.effectiveArmor,
+      },
+      {
+        label: 'sr4.vehicle.sensor',
+        name: 'system.sensor',
+        value: s.sensor,
+        effective: live.effectiveSensor,
+      },
       {
         label: 'sr4.vehicle.handling',
         name: 'system.handling',
         value: s.handling,
+        effective: live.effectiveHandling,
       },
-      { label: 'sr4.vehicle.speed', name: 'system.speed', value: s.speed },
-      { label: 'sr4.vehicle.accel', name: 'system.accel', value: s.accel },
+      {
+        label: 'sr4.vehicle.speed',
+        name: 'system.speed',
+        value: s.speed,
+        effective: live.effectiveSpeed,
+      },
+      {
+        label: 'sr4.vehicle.accel',
+        name: 'system.accel',
+        value: s.accel,
+        effective: live.effectiveAccel,
+      },
     ];
+
+    const vehicleMods = items
+      .filter((i) => i.type === 'Vehicle Mod')
+      .map((i) => ({ id: i._id, name: i.name, system: i.system }));
 
     return {
       editMode: this.editMode,
@@ -60,6 +98,10 @@ export default class SR4VehicleSheet extends SR4SummonedEntitySheet {
         (i) => i.type === 'Ranged Weapon' || i.type === 'Melee Weapon'
       ),
       vehicleStats,
+      vehicleMods,
+      usedSlots: live.usedSlots ?? 0,
+      slotWarning: live.slotWarning ?? false,
+      totalModCost: live.totalModCost ?? 0,
     };
   }
 
@@ -132,5 +174,15 @@ export default class SR4VehicleSheet extends SR4SummonedEntitySheet {
 
   static async #onClearRigger() {
     await this.actor.update({ 'system.riggerUuid': '' });
+  }
+
+  static async #onCreateVehicleMod() {
+    const [item] = await this.actor.createEmbeddedDocuments('Item', [
+      {
+        name: game.i18n.localize('TYPES.Item.Vehicle Mod'),
+        type: 'Vehicle Mod',
+      },
+    ]);
+    item?.sheet?.render(true);
   }
 }

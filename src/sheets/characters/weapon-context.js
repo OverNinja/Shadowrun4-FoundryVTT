@@ -1,79 +1,92 @@
+import { Attackskill, DamageTypes, Shootingmodes } from '@models/index';
 import {
-  Attackskill,
-  DamageTypes,
-  Shootingmodes,
-  AP_HALF_TYPES,
-} from '@models/index';
+  computeRangedWeaponDerived,
+  computeMeleeWeaponDerived,
+} from '@models/shared/weapon-armor-derived';
+import {
+  buildModPoolFromItems,
+  resolveModsAndAvailability,
+} from '@sheets/shared/mod-resolution';
 
 /**
  * Maps raw item source data into weapon view-model objects for character/NPC sheets.
- * Computes all five effective fields (damage, AP, damageType, apHalf, armorType)
- * from stored source data + loaded ammo, mirroring SR4RangedWeaponData.prepareDerivedData().
  *
  * @param {any[]} items - Flat item array from actor.toObject(false)
+ * @param {{ meleeDmgBonus?: number, meleeDamageModifier?: number, unarmedDamageModifier?: number }} [opts]
  * @returns {any[]}
  */
-export function buildWeaponContext(items) {
+export function buildWeaponContext(
+  items,
+  { meleeDmgBonus = 0, meleeDamageModifier = 0, unarmedDamageModifier = 0 } = {}
+) {
   const availableAmmo = items
     .filter((i) => i.type === 'Ammo')
     .map((i) => ({ id: i._id, name: i.name, system: i.system }));
   const ammoById = new Map(availableAmmo.map((a) => [a.id, a]));
 
-  return items
-    .filter((i) => i.type === 'Ranged Weapon' || i.type === 'Melee Weapon')
-    .map((w) => {
-      const loadedAmmoItem =
-        w.type === 'Ranged Weapon' && w.system?.loadedAmmoId
-          ? (ammoById.get(w.system.loadedAmmoId) ?? null)
-          : null;
+  const weaponModPool = buildModPoolFromItems(items, 'Weapon Mod');
+  const weapons = items.filter(
+    (i) => i.type === 'Ranged Weapon' || i.type === 'Melee Weapon'
+  );
+  const allClaimedIds = new Set(
+    weapons.flatMap((w) => w.system?.installedModIds ?? [])
+  );
 
-      const ammoDamageOverride = loadedAmmoItem?.system.damageOverride;
-      const effectiveDamage =
-        typeof ammoDamageOverride === 'number'
-          ? ammoDamageOverride
-          : (w.system?.damage ?? 0) + (loadedAmmoItem?.system.damageBonus ?? 0);
-      const effectiveAP =
-        (w.system?.ap ?? 0) + (loadedAmmoItem?.system.apBonus ?? 0);
-      const effectiveDamageType =
-        loadedAmmoItem?.system.damageTypeOverride || w.system?.damageType || '';
-      const effectiveApHalf = AP_HALF_TYPES.has(effectiveDamageType);
-      const effectiveArmorType = effectiveApHalf
-        ? 'impact'
-        : (w.system?.armorType ?? '');
+  return weapons.map((w) => {
+    const { installedMods: mods, availableMods } = resolveModsAndAvailability(
+      weaponModPool,
+      w.system?.installedModIds,
+      allClaimedIds
+    );
 
-      return {
-        ...w,
-        system: {
-          ...w.system,
-          effectiveDamage,
-          effectiveAP,
-          effectiveDamageType,
-          effectiveApHalf,
-          effectiveArmorType,
-        },
-        displayAttackSkill:
-          Attackskill[w.system?.attackSkill] ?? w.system?.attackSkill ?? '',
-        displayDamageType:
-          DamageTypes[effectiveDamageType] ?? effectiveDamageType ?? '',
-        displayMode: Shootingmodes[w.system?.mode] ?? w.system?.mode ?? '',
-        availableAmmo: w.type === 'Ranged Weapon' ? availableAmmo : [],
-        loadedAmmo: loadedAmmoItem
-          ? {
-              name: loadedAmmoItem.name,
-              damageBonus: loadedAmmoItem.system.damageBonus ?? 0,
-              damageOverride:
-                typeof ammoDamageOverride === 'number'
-                  ? ammoDamageOverride
-                  : null,
-              apBonus: loadedAmmoItem.system.apBonus ?? 0,
-              displayDamageTypeOverride: loadedAmmoItem.system
-                .damageTypeOverride
-                ? (DamageTypes[loadedAmmoItem.system.damageTypeOverride] ??
-                  loadedAmmoItem.system.damageTypeOverride)
+    const loadedAmmoItem =
+      w.type === 'Ranged Weapon' && w.system?.loadedAmmoId
+        ? (ammoById.get(w.system.loadedAmmoId) ?? null)
+        : null;
+
+    const derived =
+      w.type === 'Ranged Weapon'
+        ? computeRangedWeaponDerived(w.system, loadedAmmoItem, mods)
+        : computeMeleeWeaponDerived(w.system, mods, {
+            strengthBonus: meleeDmgBonus,
+            meleeDamageModifier,
+            unarmedDamageModifier,
+          });
+
+    const ammoDamageOverride = loadedAmmoItem?.system.damageOverride;
+
+    return {
+      ...w,
+      system: {
+        ...w.system,
+        ...derived,
+      },
+      displayAttackSkill:
+        Attackskill[w.system?.attackSkill] ?? w.system?.attackSkill ?? '',
+      displayDamageType:
+        DamageTypes[derived.effectiveDamageType] ??
+        derived.effectiveDamageType ??
+        '',
+      displayMode: Shootingmodes[w.system?.mode] ?? w.system?.mode ?? '',
+      availableAmmo: w.type === 'Ranged Weapon' ? availableAmmo : [],
+      availableWeaponMods: availableMods,
+      installedMods: mods,
+      loadedAmmo: loadedAmmoItem
+        ? {
+            name: loadedAmmoItem.name,
+            damageBonus: loadedAmmoItem.system.damageBonus ?? 0,
+            damageOverride:
+              typeof ammoDamageOverride === 'number'
+                ? ammoDamageOverride
                 : null,
-              quantity: loadedAmmoItem.system.quantity ?? 0,
-            }
-          : null,
-      };
-    });
+            apBonus: loadedAmmoItem.system.apBonus ?? 0,
+            displayDamageTypeOverride: loadedAmmoItem.system.damageTypeOverride
+              ? (DamageTypes[loadedAmmoItem.system.damageTypeOverride] ??
+                loadedAmmoItem.system.damageTypeOverride)
+              : null,
+            quantity: loadedAmmoItem.system.quantity ?? 0,
+          }
+        : null,
+    };
+  });
 }

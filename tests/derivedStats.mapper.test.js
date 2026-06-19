@@ -271,6 +271,17 @@ describe('computeDerivedStats', () => {
       const result = computeDerivedStats(data);
       expect(result.composure).toBe(7);
     });
+
+    it.each([
+      [5, 3],
+      [4, 2],
+      [1, 1],
+      [6, 3],
+    ])('meleeDamageBonus = ceil(STR/2): STR %i → %i', (strength, expected) => {
+      const data = makeActorData({ STRENGTH: strength });
+      const result = computeDerivedStats(data);
+      expect(result.meleeDamageBonus).toBe(expected);
+    });
   });
 
   describe('sheetStats side-effects', () => {

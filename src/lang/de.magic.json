@@ -1,0 +1,147 @@
+{
+  "sr4": {
+    "critterPower": {
+      "noPowers": "Keine Kritterkräfte",
+      "powers": "Kritterkräfte"
+    },
+    "magic": {
+      "adept": "Adept",
+      "adjustDV": "Entzugswert anpassen",
+      "drainAttribute": "Entzugs Attribut",
+      "drainPool": "Entzugspool",
+      "drainValue": "Entzugswert",
+      "drainboni": {
+        "label": "Entzugsbonus",
+        "spellcasting": "Zauberei",
+        "summoning": "Beschwörung"
+      },
+      "magician": "Magier",
+      "mentorspirit": "Mentor",
+      "powerpoints": "Kraftpunkte",
+      "powers": "Kräfte",
+      "spells": "Zauber",
+      "totem": "Totem",
+      "tradition": "Tradition",
+      "traditionBonus": "Traditionsbonus"
+    },
+    "power": {
+      "actions": {
+        "create": "Verknüpfte Aktion hinzufügen",
+        "label": "Aktionen"
+      },
+      "cost": "Kosten",
+      "costPerLevel": "Kosten/Stufe",
+      "geas": "Geas",
+      "noActions": "Keine verknüpften Aktionen",
+      "nopowers": "Keine Kräfte vorhanden",
+      "rating": "Stufe",
+      "ratingMode": {
+        "label": "Stufenmodus",
+        "none": "Ohne Stufe",
+        "rated": "Mit Stufe",
+        "ratedNoCost": "Mit Stufe (kostenlos)"
+      },
+      "source": "Quelle",
+      "tooltip": {
+        "cost": "Kraftpunktekosten. Bei gestuften Kräften Kosten pro Stufe.",
+        "rating": "Investierte Kraftstufe.",
+        "source": "Regelwerkreferenz, z.B. SR4 S. 172",
+        "totalCost": "Gesamte Kraftpunkte für diese Kraft."
+      },
+      "totalCost": "Gesamtkosten",
+      "totalcost": "Gesamtkosten"
+    },
+    "spell": {
+      "applyHits": "Netto-Erfolge einsetzen",
+      "applyHitsHint": "Jeder eingesetzte Erfolg erhöht den Zauber-SW und den Entzugs-EW um 1.",
+      "cast": "Zaubern",
+      "categories": {
+        "COMBAT": "Kampfzauber",
+        "DETECTION": "Detektionszauber",
+        "GEOMANCY": "Geomantie",
+        "HEALTH": "Heilzauber",
+        "ILLUSION": "Illusionszauber",
+        "MANIPULATION": "Manipulationszauber",
+        "combat": "Kampfzauber",
+        "detection": "Detektionszauber",
+        "geomancy": "Geomantie",
+        "health": "Heilzauber",
+        "illusion": "Illusionszauber",
+        "manipulation": "Manipulationszauber"
+      },
+      "category": "Kategorie",
+      "combatType": "Kampftyp",
+      "combatTypes": {
+        "DIRECT": "Direkt",
+        "INDIRECT": "Indirekt",
+        "direct": "Direkt",
+        "indirect": "Indirekt"
+      },
+      "damage": "Schaden",
+      "damagetype": "Schadensart",
+      "draindialogtitle": "Entzugsprobe",
+      "duration": "Dauer",
+      "durations": {
+        "INSTANT": "S",
+        "PERMANENT": "P",
+        "SUSTAINED": "A",
+        "instant": "S",
+        "permanent": "P",
+        "sustained": "A"
+      },
+      "dv": "Entzugswert",
+      "element": "Element",
+      "elements": {
+        "ACID": "Säure",
+        "BLAST": "Druckwelle",
+        "ELECTRICITY": "Elektrizität",
+        "FIRE": "Feuer",
+        "ICE": "Eis",
+        "LIGHT": "Licht",
+        "METAL": "Metall",
+        "RADIATION": "Strahlung",
+        "SAND": "Sand",
+        "SMOKE": "Rauch",
+        "SOUND": "Schall",
+        "WATER": "Wasser",
+        "acid": "Säure",
+        "blast": "Druckwelle",
+        "electricity": "Elektrizität",
+        "fire": "Feuer",
+        "ice": "Eis",
+        "light": "Licht",
+        "metal": "Metall",
+        "radiation": "Strahlung",
+        "sand": "Sand",
+        "smoke": "Rauch",
+        "sound": "Schall",
+        "water": "Wasser"
+      },
+      "force": "Kraft",
+      "forcedialogtitle": "Zauberkraft auswählen",
+      "netHits": "Netto-Erfolge",
+      "noEffect": "Zauber hat keinen Effekt (vollständig widerstanden)",
+      "noSpells": "Keine Zauber vorhanden",
+      "noTargets": "Kein gültiges Ziel ausgewählt — Schaden nicht angewendet",
+      "range": "Reichweite",
+      "ranges": {
+        "AREA": "F",
+        "LOS": "S",
+        "SELF": "S",
+        "TOUCH": "B",
+        "area": "F",
+        "los": "S",
+        "self": "S",
+        "touch": "B"
+      },
+      "source": "Quelle",
+      "type": "Typ",
+      "types": {
+        "MANA": "M",
+        "PHYSICAL": "K",
+        "mana": "M",
+        "physical": "K"
+      }
+    }
+  }
+}

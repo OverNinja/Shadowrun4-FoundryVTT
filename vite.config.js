@@ -75,6 +75,7 @@ export default defineConfig(({ mode }) => {
         '@effects': path.resolve('src/effects'),
         '@documents': path.resolve('src/documents'),
         '@flows': path.resolve('src/flows'),
+        '@importer': path.resolve('src/importer'),
       },
     },
     plugins: [

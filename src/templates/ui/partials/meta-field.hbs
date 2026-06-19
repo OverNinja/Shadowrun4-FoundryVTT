@@ -1,0 +1,10 @@
+<div class="meta-field">
+  <label>{{localize label}}</label>
+  <input
+    type="{{#if numeric}}number{{else}}text{{/if}}"
+    name="{{name}}"
+    value="{{value}}"
+    data-dtype="{{#if numeric}}Number{{else}}String{{/if}}"
+    {{#unless editMode}}readonly{{/unless}}
+  />
+</div>

@@ -1,0 +1,148 @@
+{
+  "sr4": {
+    "critterPower": {
+      "noPowers": "No critter powers",
+      "powers": "Critter Powers"
+    },
+    "magic": {
+      "adept": "Adept",
+      "adjustDV": "Adjust DV",
+      "drainAttribute": "Drain attribute",
+      "drainPool": "Drain pool",
+      "drainValue": "Drain value",
+      "drainboni": {
+        "label": "Drain Bonus",
+        "spellcasting": "Spellcasting",
+        "summoning": "Summoning"
+      },
+      "magician": "Magician",
+      "mentorspirit": "Mentor spirit",
+      "powerpoints": "Power Points",
+      "powers": "Powers",
+      "spells": "Spells",
+      "totem": "Totem",
+      "tradition": "Tradition",
+      "traditionBonus": "Tradition Bonus"
+    },
+    "power": {
+      "actions": {
+        "create": "Add linked action",
+        "label": "Actions"
+      },
+      "cost": "Cost",
+      "costPerLevel": "Cost/Level",
+      "geas": "Geas",
+      "noActions": "No linked actions",
+      "nopowers": "This is where I keep my powers, if I had any",
+      "rating": "Rating",
+      "ratingMode": {
+        "label": "Rating",
+        "none": "No Rating",
+        "rated": "Rated",
+        "ratedNoCost": "Rated (No Cost)"
+      },
+      "source": "Source",
+      "tooltip": {
+        "cost": "Power Point cost. When rated, this is the cost per level.",
+        "rating": "Invested rating level.",
+        "source": "Rulebook reference, e.g. SR4 p. 172",
+        "totalCost": "Total Power Points spent on this power."
+      },
+      "totalCost": "Total Cost",
+      "totalcost": "Total Cost"
+    },
+    "spell": {
+      "applyHits": "Net hits to apply",
+      "applyHitsHint": "Each applied hit adds +1 to spell DV and +1 to Drain DV.",
+      "cast": "Cast",
+      "categories": {
+        "COMBAT": "Combat",
+        "DETECTION": "Detection",
+        "GEOMANCY": "Geomancy",
+        "HEALTH": "Health",
+        "ILLUSION": "Illusion",
+        "MANIPULATION": "Manipulation",
+        "combat": "Combat",
+        "detection": "Detection",
+        "geomancy": "Geomancy",
+        "health": "Health",
+        "illusion": "Illusion",
+        "manipulation": "Manipulation"
+      },
+      "category": "Category",
+      "combatType": "Combat Type",
+      "combatTypes": {
+        "DIRECT": "Direct",
+        "INDIRECT": "Indirect",
+        "direct": "Direct",
+        "indirect": "Indirect"
+      },
+      "damage": "Damage",
+      "damagetype": "Damage Type",
+      "drainValue": "Drain Value",
+      "draindialogtitle": "Drain Resistance Test",
+      "duration": "Duration",
+      "durations": {
+        "INSTANT": "I",
+        "PERMANENT": "P",
+        "SUSTAINED": "S",
+        "instant": "I",
+        "permanent": "P",
+        "sustained": "S"
+      },
+      "dv": "Drain Value",
+      "element": "Element",
+      "elements": {
+        "ACID": "Acid",
+        "BLAST": "Blast",
+        "ELECTRICITY": "Electricity",
+        "FIRE": "Fire",
+        "ICE": "Ice",
+        "LIGHT": "Light",
+        "METAL": "Metal",
+        "RADIATION": "Radiation",
+        "SAND": "Sand",
+        "SMOKE": "Smoke",
+        "SOUND": "Sound",
+        "WATER": "Water",
+        "acid": "Acid",
+        "blast": "Blast",
+        "electricity": "Electricity",
+        "fire": "Fire",
+        "ice": "Ice",
+        "light": "Light",
+        "metal": "Metal",
+        "radiation": "Radiation",
+        "sand": "Sand",
+        "smoke": "Smoke",
+        "sound": "Sound",
+        "water": "Water"
+      },
+      "force": "Force",
+      "forcedialogtitle": "Select Spell Force",
+      "netHits": "Net hits",
+      "noEffect": "Spell has no effect (fully resisted)",
+      "noSpells": "Character has no spells",
+      "noTargets": "No valid targets selected — damage not applied",
+      "range": "Range",
+      "ranges": {
+        "AREA": "A",
+        "LOS": "LOS",
+        "SELF": "S",
+        "TOUCH": "T",
+        "area": "A",
+        "los": "LOS",
+        "self": "S",
+        "touch": "T"
+      },
+      "source": "Source",
+      "type": "Type",
+      "types": {
+        "MANA": "M",
+        "PHYSICAL": "P",
+        "mana": "M",
+        "physical": "P"
+      }
+    }
+  }
+}

@@ -6,6 +6,8 @@ export async function registerActorPartials() {
     { path: `${basePath}/critter-powers.hbs`, name: 'critter-powers' },
     { path: `${basePath}/attribute-cell.hbs`, name: 'attribute-cell' },
     { path: `${basePath}/status-track-card.hbs`, name: 'status-track-card' },
+    { path: `${basePath}/actor-link-row.hbs`, name: 'actor-link-row' },
+    { path: `${basePath}/npc-skills-section.hbs`, name: 'npc-skills-section' },
   ];
 
   await Promise.all(

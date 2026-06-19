@@ -11,6 +11,7 @@ import {
 import { SR4EffectTargets } from '@effects/index';
 import SR4ActiveEffectSheet from '@sheets/effects/SR4ActiveEffectSheet';
 import { buildWeaponContext } from './weapon-context.js';
+import { buildArmorContext } from './armor-context.js';
 import { buildComputedStats, sortSkillsByLabel } from './actor-context.js';
 import SR4BaseActorSheet from './sr4-base-actor-sheet.js';
 
@@ -42,9 +43,9 @@ export default class SR4CharacterSheet extends SR4BaseActorSheet {
         'systems/shadowrun4e/templates/sheets/characters/partials/tabs/main.tab.hbs',
       scrollable: [''],
     },
-    skills: {
+    bio: {
       template:
-        'systems/shadowrun4e/templates/sheets/characters/partials/tabs/skills.tab.hbs',
+        'systems/shadowrun4e/templates/sheets/characters/partials/tabs/bio.tab.hbs',
       scrollable: [''],
     },
     weapons: {
@@ -92,7 +93,7 @@ export default class SR4CharacterSheet extends SR4BaseActorSheet {
     primary: {
       tabs: [
         { id: 'main', icon: 'fas fa-user', label: 'sr4.tab.main' },
-        { id: 'skills', icon: 'fas fa-dice-d20', label: 'sr4.tab.skills' },
+        { id: 'bio', icon: 'fas fa-id-card', label: 'sr4.tab.bio' },
         { id: 'weapons', icon: 'fas fa-crosshairs', label: 'sr4.tab.weapons' },
         { id: 'defense', icon: 'fas fa-shield-alt', label: 'sr4.tab.defense' },
         {
@@ -140,7 +141,7 @@ export default class SR4CharacterSheet extends SR4BaseActorSheet {
   async _preparePartContext(partId, context) {
     switch (partId) {
       case 'main':
-      case 'skills':
+      case 'bio':
       case 'weapons':
       case 'defense':
       case 'inventory':
@@ -164,7 +165,6 @@ export default class SR4CharacterSheet extends SR4BaseActorSheet {
         uuid: actorData._id,
       },
       system: actorData.system,
-      meleeDmgBonus: Math.ceil((actorData.system.sheetStats.STRENGTH ?? 0) / 2),
       flags: actorData.flags,
       config: CONFIG.SR4,
       traditions: Traditions,
@@ -182,8 +182,13 @@ export default class SR4CharacterSheet extends SR4BaseActorSheet {
 
   _getItemContext(items) {
     const powers = this._enrichItemContext(items, 'Power');
+    const sys = this.document.system;
     return {
-      weapons: buildWeaponContext(items),
+      weapons: buildWeaponContext(items, {
+        meleeDmgBonus: sys.derivedStats.meleeDamageBonus ?? 0,
+        meleeDamageModifier: sys.modifiers?.meleeDamageModifier ?? 0,
+        unarmedDamageModifier: sys.modifiers?.unarmedDamageModifier ?? 0,
+      }),
       skills: sortSkillsByLabel(items),
       items: items.filter((i) => i.type === 'Item'),
       implants: this._enrichItemContext(items, 'Implant'),
@@ -193,7 +198,8 @@ export default class SR4CharacterSheet extends SR4BaseActorSheet {
         (sum, p) => sum + (p.system.totalCost ?? 0),
         0
       ),
-      armor: items.filter((i) => i.type === 'Armor'),
+      armor: buildArmorContext(items),
+      qualities: items.filter((i) => i.type === 'Quality'),
       actions: items.filter((i) => i.type === 'Action'),
       foci: items.filter((i) => i.type === 'Focus' || i.type === 'Fetish'),
       commlinks: items.filter((i) => i.type === 'Commlink'),

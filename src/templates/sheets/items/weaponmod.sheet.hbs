@@ -1,0 +1,61 @@
+
+  <div class="item-sheet-body">
+    {{> "item-sheet-header" nameKey="sr4.weaponmod.name"}}
+
+    <table class="item-stats-table">
+      <thead>
+        <tr>
+          <th>{{localize 'sr4.weaponmod.damageBonus'}}</th>
+          <th>{{localize 'sr4.weaponmod.apBonus'}}</th>
+          <th>{{localize 'sr4.weaponmod.rcBonus'}}</th>
+          <th>{{localize 'sr4.weaponmod.mount'}}</th>
+          <th>{{localize 'sr4.weaponmod.slotCost'}}</th>
+          <th>{{localize 'sr4.item.rating'}}</th>
+          <th>{{localize 'sr4.item.avail'}}</th>
+          <th>{{localize 'sr4.item.legality'}}</th>
+          <th>{{localize 'sr4.item.cost'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="number" name="system.damageBonus" value="{{ system.damageBonus }}" /></td>
+          <td><input type="number" name="system.apBonus" value="{{ system.apBonus }}" /></td>
+          <td><input type="number" name="system.rcBonus" value="{{ system.rcBonus }}" /></td>
+          <td>
+            <select name="system.mount">
+              {{selectOptions mountpoints selected=system.mount localize=true}}
+            </select>
+          </td>
+          <td><input type="number" name="system.slotCost" value="{{ system.slotCost }}" /></td>
+          <td><input type="number" name="system.rating" value="{{ system.rating }}" placeholder="—" /></td>
+          <td><input type="number" name="system.avail" value="{{ system.avail }}" /></td>
+          <td><input type="text" name="system.legality" value="{{ system.legality }}" /></td>
+          <td><input type="number" name="system.cost" value="{{ system.cost }}" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="item-stats-table">
+      <thead>
+        <tr>
+          <th>{{localize 'sr4.weaponmod.grantsSmartlink'}}</th>
+          <th>{{localize 'sr4.weaponmod.modeOverride'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input type="checkbox" class="sr4-checkbox" data-field="system.grantsSmartlink" {{#if system.grantsSmartlink}}checked{{/if}} />
+          </td>
+          <td>
+            <select name="system.modeOverride">
+              <option value="" {{#unless system.modeOverride}}selected{{/unless}}>—</option>
+              {{selectOptions shootingmodes selected=system.modeOverride localize=true}}
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    {{> "item-textareas"}}
+  </div>

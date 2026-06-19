@@ -22,19 +22,12 @@
     </div>
   </div>
 
-  <div class="actor-link-row">
-    <label>{{localize 'sr4.spirit.summoner'}}</label>
-    <div class="actor-drop-zone" data-drop-type="ownerUuid">
-      {{#if ownerName}}
-        <span class="linked-actor-name">{{ownerName}}</span>
-        {{#if editMode}}
-          <button type="button" class="link-clear" data-action="clearOwner"><i class="fas fa-times"></i></button>
-        {{/if}}
-      {{else}}
-        <span class="drop-hint">{{localize 'sr4.spirit.dropSummoner'}}</span>
-      {{/if}}
-    </div>
-  </div>
+  {{> "actor-link-row"
+      linkLabel="sr4.spirit.summoner"
+      dropType="ownerUuid"
+      linkedName=ownerName
+      clearAction="clearOwner"
+      dropHint="sr4.spirit.dropSummoner"}}
 
   <hr />
 
@@ -64,23 +57,7 @@
 
   {{> "critter-powers" critterPowers=critterPowers editMode=editMode}}
 
-  <div class="npc-section">
-    <h3>{{localize 'sr4.tab.skills'}}</h3>
-    {{#if skills}}
-      {{#each skills as |skill|}}
-      <div class="item-card" data-item-id="{{skill._id}}">
-        <div class="item-row">
-          <span class="item-name roll-skill" data-action="rollSkill" data-skill-name="{{skill.name}}">{{skill.name}}</span>
-          <span class="item-property">{{skill.system.rating}}</span>
-          {{> item-edit-btn itemId=skill._id}}
-          {{> item-delete-btn itemId=skill._id}}
-        </div>
-      </div>
-      {{/each}}
-    {{else}}
-      <p class="empty-list">{{localize 'sr4.spirit.noSkills'}}</p>
-    {{/if}}
-  </div>
+  {{> "npc-skills-section" skills=skills emptyKey="sr4.spirit.noSkills"}}
 
   <div class="npc-section">
     <h3>{{localize 'sr4.item.notes'}}</h3>

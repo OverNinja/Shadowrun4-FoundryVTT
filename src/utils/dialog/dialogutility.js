@@ -34,6 +34,11 @@ export function attackTemplatePath() {
 }
 
 /** @returns {string} */
+export function meleeAttackTemplatePath() {
+  return 'systems/shadowrun4e/templates/dicerolls/melee-attack-dialog.hbs';
+}
+
+/** @returns {string} */
 export function defenseTemplatePath() {
   return 'systems/shadowrun4e/templates/dicerolls/defense-dialog.hbs';
 }

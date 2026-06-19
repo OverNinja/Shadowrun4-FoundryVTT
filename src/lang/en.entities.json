@@ -1,0 +1,54 @@
+{
+  "sr4": {
+    "spirit": {
+      "attributes": "Attributes",
+      "dropSummoner": "Drop actor to link summoner",
+      "force": "Force",
+      "name": "Name",
+      "noPowers": "No powers",
+      "noSkills": "No skills",
+      "ownerUuid": "Summoner UUID",
+      "powers": "Powers",
+      "services": "Services",
+      "summoner": "Summoner",
+      "type": "Spirit Type"
+    },
+    "sprite": {
+      "attributes": "Attributes",
+      "compiler": "Compiler",
+      "dropCompiler": "Drop actor to link compiler",
+      "name": "Name",
+      "noPowers": "No powers",
+      "noSkills": "No skills",
+      "ownerUuid": "Compiler UUID",
+      "powers": "Powers",
+      "rating": "Rating",
+      "tasks": "Tasks",
+      "type": "Sprite Type"
+    },
+    "vehicle": {
+      "accel": "Accel",
+      "armor": "Armor",
+      "autonomous": "Autonomous",
+      "autosofts": "Autosofts",
+      "availability": "Avail.",
+      "body": "Body",
+      "cost": "Cost",
+      "dropRigger": "Drop actor to link rigger",
+      "handling": "Handling",
+      "name": "Name",
+      "noAutosofts": "No autosofts installed",
+      "noDicePool": "No dice — add autosofts or increase Pilot",
+      "pilot": "Pilot",
+      "pilotPoolHint": "Autonomous pool",
+      "pilotRoll": "Pilot Roll",
+      "rigger": "Rigger",
+      "riggerUuid": "Rigger UUID",
+      "rollAutonomous": "Roll autonomous",
+      "sensor": "Sensor",
+      "speed": "Speed",
+      "stats": "Vehicle Stats",
+      "type": "Type"
+    }
+  }
+}

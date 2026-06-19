@@ -1,0 +1,35 @@
+<div class="item-sheet-body">
+  {{> "item-sheet-header" nameKey="sr4.item.name"}}
+
+  <table class="item-stats-table">
+    <thead>
+      <tr>
+        <th>{{localize 'sr4.quality.category'}}</th>
+        <th>{{localize 'sr4.quality.bp'}}</th>
+        <th>{{localize 'sr4.quality.limit'}}</th>
+        <th>{{localize 'sr4.item.source'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <select name="system.category">
+            <option value="Positive" {{#if (eq system.category "Positive")}}selected{{/if}}>{{localize 'sr4.quality.positive'}}</option>
+            <option value="Negative" {{#if (eq system.category "Negative")}}selected{{/if}}>{{localize 'sr4.quality.negative'}}</option>
+          </select>
+        </td>
+        <td>
+          <input type="number" name="system.bp" value="{{ system.bp }}" />
+        </td>
+        <td>
+          <input type="number" name="system.limit" value="{{ system.limit }}" />
+        </td>
+        <td>
+          <input type="text" name="system.source" value="{{ system.source }}" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  {{> "item-textareas"}}
+</div>

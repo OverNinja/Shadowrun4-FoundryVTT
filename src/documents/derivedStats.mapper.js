@@ -24,6 +24,7 @@ function computeSummonedEntityStats(systemData, initiative) {
     ) || 0;
   derivedStats.dicePoolModifier =
     derivedStats.woundModifier + systemData.modifiers.generalModifier;
+  derivedStats.meleeDamageBonus = Math.ceil((sheetStats.STRENGTH ?? 0) / 2);
 
   derivedStats.initiative.physical = initiative.physical;
   derivedStats.initiative.astral = initiative.astral;
@@ -140,6 +141,7 @@ export function computeDerivedStats(actorData) {
   derivedStats.liftCarry = sheetStats.STRENGTH + sheetStats.BODY;
   derivedStats.memory = sheetStats.LOGIC + sheetStats.INTUITION;
   derivedStats.composure = sheetStats.WILLPOWER + sheetStats.CHARISMA;
+  derivedStats.meleeDamageBonus = Math.ceil(sheetStats.STRENGTH / 2);
 
   return derivedStats;
 }

@@ -50,19 +50,21 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   min-height: 26px;
   font-size: 0.78rem;
 
-  > span + span {
+  > span:not(.item-property):not(.item-name) + span:not(.item-property) {
     border-left: 1px solid var(--sr4-border-dim);
     padding-left: 0.4rem;
   }
+}
 
-  > span:last-of-type {
-    border-left: none;
-    padding-left: 0;
-  }
+.item-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem;
 }
 
 /* ---------------- PROPERTY ---------------- */
@@ -354,5 +356,48 @@ a.item-toggle-equip {
     gap: 0.3rem;
     font-size: 0.65rem;
     border: 1px solid var(--sr4-border-dim);
+  }
+}
+
+/* ---------------- MODS (actor card) ---------------- */
+
+.item-card-mods {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.5rem;
+  margin-top: 0.35rem;
+  padding-top: 0.3rem;
+  border-top: 1px solid var(--sr4-border-dim);
+  font-size: 0.68rem;
+
+  .mod-entry {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 1px 4px;
+    background: rgba(0, 128, 128, 0.1);
+    border: 1px solid var(--sr4-border-subtle);
+    border-radius: 3px;
+  }
+
+  .mod-name {
+    color: var(--sr4-text);
+  }
+
+  .mod-add-select {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    background: transparent;
+    border: 1px solid var(--sr4-border-dim);
+    border-radius: 3px;
+    color: var(--sr4-text);
+    padding: 1px 4px;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: var(--sr4-teal);
+    }
   }
 }

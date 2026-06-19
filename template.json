@@ -14,13 +14,17 @@
       "Spell",
       "Commlink",
       "Program",
+      "Quality",
       "Fetish",
       "Focus",
       "Action",
       "Power",
       "Vehicle",
       "Autosoft",
-      "Ammo"
+      "Ammo",
+      "Weapon Mod",
+      "Armor Mod",
+      "Vehicle Mod"
     ]
   }
 }

@@ -1,0 +1,85 @@
+<div class="sr4-xml-importer" style="display:flex; flex-direction:column; height:100%; padding:8px; box-sizing:border-box; gap:8px;">
+  <p style="margin:0; opacity:0.8;">{{localize "sr4.importer.hint"}}</p>
+
+  <label style="display:flex; flex-direction:column; gap:4px;">
+    <strong>{{localize "sr4.importer.upload"}}</strong>
+    <input type="file" data-files multiple accept=".xml" />
+  </label>
+
+  {{#if hasSources}}
+    <fieldset style="margin:0; padding:6px 8px; border:1px solid var(--color-border-light-tertiary, #999); border-radius:4px;">
+      <legend>{{localize "sr4.importer.sourceBooks"}}</legend>
+      <p style="margin:0 0 4px; opacity:0.7; font-size:0.9em;">
+        {{localize "sr4.importer.sourceBooksHint"}}
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:6px 12px;">
+        {{#each sources}}
+          <label style="display:flex; align-items:center; gap:4px;">
+            <input type="checkbox" data-source-filter="{{code}}" {{#if enabled}}checked{{/if}} />
+            {{code}}
+          </label>
+        {{/each}}
+      </div>
+    </fieldset>
+  {{/if}}
+
+  <div class="preview" style="overflow-y:auto; flex:1; border:1px solid var(--color-border-light-tertiary, #999); border-radius:4px; padding:6px;">
+    {{#if hasData}}
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="text-align:left;">
+            <th></th>
+            <th>{{localize "sr4.importer.colCategory"}}</th>
+            <th style="text-align:right;">{{localize "sr4.importer.colCount"}}</th>
+            <th>{{localize "sr4.importer.colTarget"}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each types}}
+            <tr style="background:var(--color-cool-5, #f0f0f0);">
+              <td>
+                <input type="checkbox" data-type-toggle="{{typeId}}" checked />
+              </td>
+              <td colspan="3"><strong>{{name}}</strong></td>
+            </tr>
+            {{#each subcategories}}
+              {{#if showHeader}}
+                <tr>
+                  <td style="padding-left:16px;">
+                    <input type="checkbox" data-subcat-toggle="{{subcategoryId}}" data-type="{{../typeId}}" checked />
+                  </td>
+                  <td colspan="3" style="padding-left:16px;">{{name}}</td>
+                </tr>
+              {{/if}}
+              {{#each groups}}
+                <tr style="opacity:{{#if count}}1{{else}}0.5{{/if}};">
+                  <td style="padding-left:{{indent}}px;">
+                    <input type="checkbox" data-group="{{id}}" data-type="{{typeId}}"
+                      {{#if subcategoryId}}data-subcat="{{subcategoryId}}"{{/if}}
+                      {{#if count}}checked{{else}}disabled{{/if}} />
+                  </td>
+                  <td style="padding-left:{{indent}}px;">{{source}}</td>
+                  <td style="text-align:right;">{{count}}</td>
+                  <td style="opacity:0.7; font-size:0.9em;">{{compendiumLabel}}</td>
+                </tr>
+              {{/each}}
+            {{/each}}
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <p style="opacity:0.7; margin:0;">{{localize "sr4.importer.empty"}}</p>
+    {{/if}}
+  </div>
+
+  <label style="display:flex; align-items:center; gap:6px;">
+    <input type="checkbox" name="skipDuplicates" checked />
+    <span>{{localize "sr4.importer.skipDuplicates"}}</span>
+  </label>
+
+  <footer class="sheet-footer flexrow" style="flex-shrink:0;">
+    <button type="button" data-action="import" {{#unless hasData}}disabled{{/unless}}>
+      <i class="fas fa-file-import"></i> {{localize "sr4.importer.import"}}
+    </button>
+  </footer>
+</div>

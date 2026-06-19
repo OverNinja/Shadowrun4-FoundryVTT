@@ -5,6 +5,7 @@ import {
   SR4SpiritData,
   SR4SpriteData,
   SR4AmmoData,
+  SR4ArmorModData,
   SR4RangedWeaponData,
   SR4MeleeWeaponData,
   SR4ArmorData,
@@ -17,6 +18,10 @@ import {
   SR4AutosoftData,
   SR4CritterPowerData,
   SR4PowerData,
+  SR4ProgramData,
+  SR4QualityData,
+  SR4VehicleModData,
+  SR4WeaponModData,
 } from '@models/index';
 
 /**
@@ -56,12 +61,16 @@ export class DataModelRegistrationHook {
       Action: SR4ActionData,
       Autosoft: SR4AutosoftData,
       Gear: SR4GenericItemData,
-      Program: SR4GenericItemData,
+      Program: SR4ProgramData,
+      Quality: SR4QualityData,
       Focus: SR4GenericItemData,
       Fetish: SR4GenericItemData,
       Item: SR4GenericItemData,
       CritterPower: SR4CritterPowerData,
       Power: SR4PowerData,
+      'Weapon Mod': SR4WeaponModData,
+      'Armor Mod': SR4ArmorModData,
+      'Vehicle Mod': SR4VehicleModData,
     });
   }
 }

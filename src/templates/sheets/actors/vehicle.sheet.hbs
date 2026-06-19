@@ -24,19 +24,12 @@
   </div>
 
   {{!-- Rigger Link --}}
-  <div class="actor-link-row">
-    <label>{{localize 'sr4.vehicle.rigger'}}</label>
-    <div class="actor-drop-zone" data-drop-type="riggerUuid">
-      {{#if riggerName}}
-        <span class="linked-actor-name">{{riggerName}}</span>
-        {{#if editMode}}
-          <button type="button" class="link-clear" data-action="clearRigger"><i class="fas fa-times"></i></button>
-        {{/if}}
-      {{else}}
-        <span class="drop-hint">{{localize 'sr4.vehicle.dropRigger'}}</span>
-      {{/if}}
-    </div>
-  </div>
+  {{> "actor-link-row"
+      linkLabel="sr4.vehicle.rigger"
+      dropType="riggerUuid"
+      linkedName=riggerName
+      clearAction="clearRigger"
+      dropHint="sr4.vehicle.dropRigger"}}
 
   <hr />
 
@@ -90,6 +83,33 @@
     {{else}}
       <p class="empty-list">{{localize 'sr4.vehicle.noAutosofts'}}</p>
     {{/if}}
+  </div>
+
+  {{!-- Vehicle Mods --}}
+  <div class="npc-section">
+    <h3>{{localize 'sr4.vehiclemod.mods'}}</h3>
+    <small>{{localize 'sr4.vehiclemod.slotsUsed'}}: {{ usedSlots }} / {{ system.body }}
+      {{#if slotWarning}}
+        <i class="fas fa-exclamation-triangle warning" data-tooltip="{{localize 'sr4.vehiclemod.slotWarning'}}"></i>
+      {{/if}}
+    </small>
+    {{#if vehicleMods}}
+      {{#each vehicleMods as |mod|}}
+      <div class="item-card" data-item-id="{{mod.id}}">
+        <div class="item-row">
+          <span class="item-name">{{mod.name}}</span>
+          <span class="item-property">{{localize 'sr4.vehiclemod.slotCost'}}: {{mod.system.slotCost}}</span>
+          {{> item-edit-btn itemId=mod.id}}
+          {{> item-delete-btn itemId=mod.id}}
+        </div>
+      </div>
+      {{/each}}
+    {{else}}
+      <p class="empty-list">{{localize 'sr4.vehiclemod.noMods'}}</p>
+    {{/if}}
+    <button type="button" data-action="createVehicleMod">
+      <i class="fas fa-plus"></i> {{localize 'sr4.vehiclemod.add'}}
+    </button>
   </div>
 
   {{!-- Weapons --}}

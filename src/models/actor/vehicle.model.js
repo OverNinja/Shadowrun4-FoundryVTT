@@ -3,6 +3,7 @@ import {
   monitorField,
   baseDerivedStatsFields,
   modifiersField,
+  sumModField,
 } from '@models/shared';
 
 /**
@@ -26,6 +27,16 @@ import {
  * @property {number}  speed
  * @property {number}  accel
  * @property {string}  riggerUuid
+ * @property {number}  effectiveHandling
+ * @property {number}  effectiveSpeed
+ * @property {number}  effectiveAccel
+ * @property {number}  effectiveArmor
+ * @property {number}  effectiveSensor
+ * @property {number}  effectiveBody
+ * @property {number}  effectivePilot
+ * @property {number}  usedSlots
+ * @property {boolean} slotWarning
+ * @property {number}  totalModCost
  * @property {import('@models/shared').SR4Modifiers} modifiers
  * @property {SR4VehicleDerivedStats} derivedStats
  * @property {{ physical: import('@models/shared').SR4Monitor }} conditionMonitor
@@ -57,5 +68,22 @@ export class SR4VehicleData extends foundry.abstract.TypeDataModel {
         physical: monitorField(),
       }),
     };
+  }
+
+  prepareDerivedData() {
+    const self = /** @type {any} */ (this);
+    const actor = this.parent ?? null;
+    const mods = (actor?.items ?? []).filter((i) => i.type === 'Vehicle Mod');
+
+    self.effectiveHandling = self.handling + sumModField(mods, 'handlingBonus');
+    self.effectiveSpeed = self.speed + sumModField(mods, 'speedBonus');
+    self.effectiveAccel = self.accel + sumModField(mods, 'accelBonus');
+    self.effectiveArmor = self.armor + sumModField(mods, 'armorBonus');
+    self.effectiveSensor = self.sensor + sumModField(mods, 'sensorBonus');
+    self.effectiveBody = self.body + sumModField(mods, 'bodyBonus');
+    self.effectivePilot = self.pilot + sumModField(mods, 'pilotBonus');
+    self.usedSlots = sumModField(mods, 'slotCost');
+    self.slotWarning = self.usedSlots > self.body;
+    self.totalModCost = sumModField(mods, 'cost');
   }
 }

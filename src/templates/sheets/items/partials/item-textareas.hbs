@@ -1,10 +1,4 @@
 <div class="item-textareas">
-  <div>
-    <label>{{localize 'sr4.item.notes'}}</label>
-    <textarea name="system.notes">{{ system.notes }}</textarea>
-  </div>
-  <div>
-    <label>{{localize 'sr4.item.description'}}</label>
-    <textarea name="system.description">{{ system.description }}</textarea>
-  </div>
+  {{> textarea-field label='sr4.item.notes' name='system.notes' value=system.notes}}
+  {{> textarea-field label='sr4.item.description' name='system.description' value=system.description}}
 </div>

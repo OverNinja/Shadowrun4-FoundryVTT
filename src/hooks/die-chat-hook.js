@@ -1,4 +1,5 @@
 import { DiceUtility, showEdgeDialog } from '@utils/index';
+import { isResponsibleForActor } from '@utils/actor-ownership.js';
 
 /**
  * Registers the renderChatMessageHTML hook that injects Edge / extended-test
@@ -21,13 +22,9 @@ export class DieChatHook {
     const flags = chatMessage.flags?.sr4;
     if (!flags) return;
 
-    const actor = flags.actorId ? game.actors.get(flags.actorId) : null;
+    if (!flags.actorId || !isResponsibleForActor(flags.actorId)) return;
 
-    const isOwner = actor
-      ? actor.testUserPermission(game.user, 'OWNER')
-      : false;
-
-    if (!isOwner) return;
+    const actor = game.actors.get(flags.actorId);
 
     const {
       edgeAvailable,

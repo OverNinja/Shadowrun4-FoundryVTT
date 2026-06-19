@@ -1,0 +1,44 @@
+<div class="tab bio {{ tab.cssClass }}" data-group="primary" data-tab="bio">
+  <section class="bio-description">
+    <h3>{{localize 'sr4.bio.physicalDescription'}}</h3>
+    <div class="info-columns">
+      {{> meta-field label='sr4.metadata.metatype' name='system.descriptionAndNotes.metatype' value=system.descriptionAndNotes.metatype editMode=editMode}}
+      {{> meta-field label='sr4.metadata.gender' name='system.descriptionAndNotes.gender' value=system.descriptionAndNotes.gender editMode=editMode}}
+      {{> meta-field label='sr4.metadata.age' name='system.metaData.age' value=system.metaData.age numeric=true editMode=editMode}}
+      {{> meta-field label='sr4.metadata.height' name='system.descriptionAndNotes.height' value=system.descriptionAndNotes.height editMode=editMode}}
+      {{> meta-field label='sr4.metadata.weight' name='system.descriptionAndNotes.weight' value=system.descriptionAndNotes.weight editMode=editMode}}
+      {{> meta-field label='sr4.metadata.eyes' name='system.descriptionAndNotes.eyes' value=system.descriptionAndNotes.eyes editMode=editMode}}
+      {{> meta-field label='sr4.metadata.hair' name='system.descriptionAndNotes.hair' value=system.descriptionAndNotes.hair editMode=editMode}}
+      {{> meta-field label='sr4.metadata.skin' name='system.descriptionAndNotes.skin' value=system.descriptionAndNotes.skin editMode=editMode}}
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="bio-text">
+    <div class="item-textareas">
+      {{> textarea-field label='sr4.bio.bio' name='system.descriptionAndNotes.bio' value=system.descriptionAndNotes.bio}}
+      {{> textarea-field label='sr4.bio.notes' name='system.descriptionAndNotes.notes' value=system.descriptionAndNotes.notes}}
+    </div>
+  </section>
+
+  <hr />
+
+  <section class="inventory-section">
+    <h3>{{localize 'sr4.bio.qualities'}}</h3>
+    {{#if editMode}}
+    <div style="margin-bottom: 0.5rem;">
+      {{> item-create-btn btnAction="createItem" btnItemType="Quality" btnTooltip="sr4.quality.create"}}
+    </div>
+    {{/if}}
+    {{#if qualities}}
+    <ul class="item-list">
+      {{#each qualities as |item|}}
+      {{> "quality-card"}}
+      {{/each}}
+    </ul>
+    {{else}}
+    <p class="empty-list">{{localize 'sr4.quality.noQualities'}}</p>
+    {{/if}}
+  </section>
+</div>

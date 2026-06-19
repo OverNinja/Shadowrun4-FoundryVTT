@@ -2,30 +2,34 @@
   "TYPES": {
     "Actor": {
       "character": "Charakter",
+      "device": "Gerät",
       "npc": "NSC",
-      "vehicle": "Fahrzeug",
       "spirit": "Geist",
       "sprite": "Sprite",
-      "device": "Gerät"
+      "vehicle": "Fahrzeug"
     },
     "Item": {
-      "Ranged Weapon": "Fernkampfwaffe",
-      "Melee Weapon": "Nahkampfwaffe",
-      "Implant": "Implantat",
-      "Item": "Gegenstand",
-      "Gear": "Ausrüstung",
+      "Action": "Aktion",
+      "Ammo": "Munition",
       "Armor": "Panzerung",
-      "Skill": "Fertigkeit",
-      "Spell": "Zauber",
+      "Autosoft": "Autosoft",
       "Commlink": "Commlink",
-      "Program": "Programm",
       "Fetish": "Fetisch",
       "Focus": "Fokus",
-      "Action": "Aktion",
+      "Gear": "Ausrüstung",
+      "Implant": "Implantat",
+      "Item": "Gegenstand",
+      "Melee Weapon": "Nahkampfwaffe",
       "Power": "Kraft",
+      "Program": "Programm",
+      "Quality": "Gabe/Handicap",
+      "Ranged Weapon": "Fernkampfwaffe",
+      "Skill": "Fertigkeit",
+      "Spell": "Zauber",
       "Vehicle": "Fahrzeug",
-      "Autosoft": "Autosoft",
-      "Ammo": "Munition"
+      "Weapon Mod": "Waffenmodifikation",
+      "Armor Mod": "Panzerungsmodifikation",
+      "Vehicle Mod": "Fahrzeugmodifikation"
     }
   },
   "sr4": {
@@ -60,49 +64,6 @@
       "source": "Quelle",
       "type": "Typ"
     },
-    "ammo": {
-      "apBonus": "AP Bonus",
-      "damageBonus": "Schadensbonus",
-      "damageOverride": "Schaden überschreiben",
-      "damageTypeOverride": "Schadenstyp",
-      "effective": "Effektiv",
-      "loaded": "Geladene Munition",
-      "name": "Munitionsname",
-      "none": "Keine",
-      "quantity": "Patronen",
-      "type": "Munition"
-    },
-    "armor": {
-      "armor": "Panzerung",
-      "armoravailability": "Verfügbarkeit",
-      "armorcapacity": "Kapazität",
-      "armorcost": "Kosten",
-      "armorlegality": "Legalität",
-      "armorname": "Panzerung",
-      "armornotes": "Notizen",
-      "armorrating": "Panzerungswert",
-      "armortype": "Panzerungstyp",
-      "ballisticarmor": "Ballistische Panzerung",
-      "impactarmor": "Aufprallpanzerung",
-      "noarmors": "Keine Panzerungen vorhanden"
-    },
-    "attack": {
-      "archery": "Projektilwaffen",
-      "automatics": "Schnellfeuerwaffen",
-      "blades": "Klingenwaffen",
-      "clubs": "Knüppel",
-      "cyberimplants": "Cyberwaffen",
-      "exoticmelee": "Exotische Nahkampfwaffe",
-      "exoticranged": "Exotische Fernkampfwaffe",
-      "heavyweapons": "Schwere Waffen",
-      "longarms": "Gewehre",
-      "none": "Keine",
-      "pistols": "Pistolen",
-      "ritualspellcasting": "Ritualzauberei",
-      "spellcasting": "Spruchzauberei",
-      "throwingweapons": "Wurfwaffen",
-      "unarmed": "Waffenloser Kampf"
-    },
     "attributeAbr": {
       "agility": "GES",
       "body": "KON",
@@ -117,14 +78,11 @@
       "strength": "STR",
       "willpower": "WIL"
     },
-    "autosoft": {
-      "clearsight": "Weitblick",
-      "clearsoft": "Clearsoft",
-      "electronicWarfare": "Elektronische Kriegsführung",
-      "maneuvering": "Manövrierung",
-      "target": "Ziel",
-      "targeting": "Zielerfassung",
-      "type": "Typ"
+    "bio": {
+      "bio": "Biografie",
+      "notes": "Notizen",
+      "physicalDescription": "Beschreibung",
+      "qualities": "Gaben & Handicaps"
     },
     "bonus": {
       "generalModifier": "Allgemeiner Modifikator",
@@ -137,64 +95,16 @@
       "simpleHp": "Einfache HP (nur physisch)",
       "stun": "Geistiger Zustandsmonitor"
     },
-    "critterPower": {
-      "noPowers": "Keine Kritterkräfte",
-      "powers": "Kritterkräfte"
-    },
-    "damage": {
-      "PHYSICAL": "Körperlich (K)",
-      "STUN": "Geistig (G)",
-      "actordead": "{name} ist tot!",
-      "actoroverflow": "{name} ist bewusstlos und am Ausbluten!",
-      "actorunconscious": "{name} ist bewusstlos!",
-      "apply": "Schaden hinzufügen",
-      "damagesummary": "{name} erleidet {amount} {type}-Schaden durch {reason}.",
-      "decisiontitle": "Schaden modifizieren?",
-      "electricity": "Elektrizität",
-      "fire": "Feuer",
-      "laser": "Laser",
-      "modify": "Schaden modifizieren",
-      "pending": "Erwarteter Schaden",
-      "result": "Ergebnis",
-      "physical": "Körperlich (K)",
-      "chatPotential": "{attacker} → {defender}: {hits} Treffer, potentiell {damage} {type}",
-      "chatResult": "{attacker} → {defender}: {base} {type} − {soaked} resistet = {final} {type}",
-      "chatDirectSpell": "{attacker} → {defender}: {spell} — {damage} {type}",
-      "reason": {
-        "combat": "Kampf",
-        "drain": "Entzug",
-        "spell": "Zauber"
-      },
-      "electricityHint": "Elektrizität: –2 auf alle Würfelpools für 2 + Nettoerfolge Runden. KON + WIL (3) gegen Bewusstlosigkeit.",
-      "resisted": "{name} hat dem Schaden Widerstanden",
-      "stun": "Geistig (G)",
-      "stun_half": "Geistig (Halbiert)"
-    },
-    "defense": {
-      "attackSuccesses": "Erfolge des Angriffs",
-      "defend": "Abwehr",
-      "fullDefense": "Volle Abwehr",
-      "hits": "Treffer",
-      "netDamage": "Schaden",
-      "result": "Verteidigungsprobe Ergebnis",
-      "skill": "Verteidigungsfertigkeit",
-      "skill1": "Verteidigungsfertigkeit 1",
-      "skill2": "Verteidigungsfertigkeit 2",
-      "title": "Verteidigungsprobe",
-      "wideBurstMalus": "Streufeuer"
-    },
-    "combat": {
-      "initiativePass": "Initiativdurchgang {pass} / {maxPass}"
-    },
     "effect": {
       "active": "Aktiv",
       "add": "Effekt hinzufügen",
       "addFromTemplate": "— Effekt hinzufügen —",
-      "templates": "Vorlagen",
-      "existing": "Bestehende Effekte",
       "attribute": "Attribut",
       "changeIcon": "Klicken zum Icon ändern",
+      "delete": "Löschen",
       "duration": "Dauer (Runden)",
+      "edit": "Bearbeiten",
+      "existing": "Bestehende Effekte",
       "mode": {
         "add": "Bonus / Malus",
         "label": "Modus",
@@ -208,25 +118,18 @@
       "showOnToken": "Am Token anzeigen",
       "source": "Quelle",
       "templates": {
-        "disoriented": "Desorientiert (Elektrizität)",
-        "sustain": "Aufrechterhalten",
         "blind": "Geblendet",
         "blindFlareComp": "Geblendet (Blendschutz)",
-        "knockedDown": "Am Boden"
+        "disoriented": "Desorientiert (Elektrizität)",
+        "knockedDown": "Am Boden",
+        "sustain": "Aufrechterhalten"
       },
       "value": "Wert"
     },
     "effectTarget": {
-      "generalModifier": "Allgemeiner Würfelpool-Modifikator",
       "attackModifier": "Angriffs-Würfelpool-Modifikator",
-      "defenseModifier": "Verteidigungs-Würfelpool-Modifikator"
-    },
-    "commlink": {
-      "firewall": "Firewall",
-      "noCommlinks": "Kein Commlink vorhanden",
-      "os": "System",
-      "response": "Reaktion",
-      "signal": "Signal"
+      "defenseModifier": "Verteidigungs-Würfelpool-Modifikator",
+      "generalModifier": "Allgemeiner Würfelpool-Modifikator"
     },
     "inventory": {
       "armor": "Panzerung",
@@ -242,35 +145,18 @@
       "vehicles": "Fahrzeuge",
       "weapons": "Waffen"
     },
-    "matrix": {
-      "attribute": "Attribut",
-      "biofeedbackFilter": "Biofeedback-Filter",
-      "bonus": "Bonus",
-      "commlinks": "Commlinks",
-      "complexForms": "Komplexe Formen",
-      "firewall": "Firewall",
-      "livingPersona": "Living Persona",
-      "noComplexForms": "Keine komplexen Formen vorhanden",
-      "noSoftware": "Keine Software vorhanden",
-      "response": "Reaktion",
-      "signal": "Signal",
-      "software": "Software",
-      "system": "System",
-      "technomancer": "Technomancer",
-      "threading": "Threading",
-      "threadingHint": "Software + Resonanz würfeln",
-      "vrMatrixInitiative": "VR Matrix-Initiative",
-      "vrMatrixInitiativePasses": "VR Matrix-Ini-Pässe"
-    },
     "item": {
       "actionPart1": "Aktion Teil 1",
       "actionPart2": "Aktion Teil 2",
       "actionType": "Aktionsart",
       "avail": "Verfügbarkeit",
       "capacity": "Kapazität",
+      "clearLink": "Verknüpfung entfernen",
       "cost": "Kosten",
       "create": "Item erstellen",
+      "delete": "Löschen",
       "description": "Beschreibung",
+      "edit": "Bearbeiten",
       "legality": "Legalität",
       "name": "Name",
       "noItems": "Hier würde ich meine Gegenstände aufbewahren, wenn ich welche hätte",
@@ -278,29 +164,10 @@
       "rating": "Stufe",
       "rating1": "Rating Teil 1",
       "rating2": "Rating Teil 2",
+      "toggleEquip": "An-/Ablegen",
       "type": {
         "Action": "Handlung"
       }
-    },
-    "magic": {
-      "adept": "Adept",
-      "adjustDV": "Entzugswert anpassen",
-      "drainAttribute": "Entzugs Attribut",
-      "drainPool": "Entzugspool",
-      "drainValue": "Entzugswert",
-      "drainboni": {
-        "label": "Entzugsbonus",
-        "spellcasting": "Zauberei",
-        "summoning": "Beschwörung"
-      },
-      "magician": "Magier",
-      "mentorspirit": "Mentor",
-      "powerpoints": "Kraftpunkte",
-      "powers": "Kräfte",
-      "spells": "Zauber",
-      "totem": "Totem",
-      "tradition": "Tradition",
-      "traditionBonus": "Traditionsbonus"
     },
     "metadata": {
       "age": "Alter",
@@ -321,159 +188,17 @@
       "totalKarma": "Gesamtkarma",
       "weight": "Gewicht"
     },
-    "modifiers": {
-      "defense": "Verteidigungsmodifikatoren",
-      "initiative": {
-        "astralBonus": "Astraler Bonus",
-        "astralPasses": "Astrale Pässe (Bonus)",
-        "currentAstral": "Astrale Initiative",
-        "currentMatrix": "Matrix Initiative",
-        "currentPasses": "Aktuelle Pässe",
-        "currentPhysical": "Physische Initiative",
-        "matrixBonus": "Matrix Bonus",
-        "matrixPasses": "Matrix Pässe (Bonus)",
-        "physicalBonus": "Physischer Bonus",
-        "physicalPasses": "Physische Pässe (Bonus)",
-        "title": "Initiativmodifikatoren"
-      },
-      "overview": "Übersicht",
-      "woundModifier": "Aktueller Wundmodifikator"
-    },
-    "power": {
-      "cost": "Kosten",
-      "costPerLevel": "Kosten/Stufe",
-      "geas": "Geas",
-      "actions": {
-        "label": "Aktionen",
-        "create": "Verknüpfte Aktion hinzufügen"
-      },
-      "noActions": "Keine verknüpften Aktionen",
-      "nopowers": "Keine Kräfte vorhanden",
-      "rating": "Stufe",
-      "ratingMode": {
-        "label": "Stufenmodus",
-        "none": "Ohne Stufe",
-        "rated": "Mit Stufe",
-        "ratedNoCost": "Mit Stufe (kostenlos)"
-      },
-      "source": "Quelle",
-      "totalCost": "Gesamtkosten",
-      "totalcost": "Gesamtkosten",
-      "tooltip": {
-        "cost": "Kraftpunktekosten. Bei gestuften Kräften Kosten pro Stufe.",
-        "rating": "Investierte Kraftstufe.",
-        "source": "Regelwerkreferenz, z.B. SR4 S. 172",
-        "totalCost": "Gesamte Kraftpunkte für diese Kraft."
-      }
-    },
-    "roll": {
-      "amount": "Würfelanzahl",
-      "bonus": "Bonus",
-      "combined_successes": "Gesamterfolge",
-      "criticalGlitch": "Kritischer Patzer!",
-      "dialogTitle": "Shadowrun-Probe",
-      "diceResults": "Würfelergebnisse",
-      "diceRollMessage": "Probe mit W6",
-      "drainResistanceTest": "Entzugsprobe",
-      "edge": {
-        "add-dice": "Edge-Würfel hinzufügen",
-        "cancel": "Abbrechen",
-        "criticalGlitch": "Kritischen Patzer zu Patzer abschwächen",
-        "dialogTitle": "Edge einsetzen",
-        "glitch": "Patzer! Probe fehlgeschlagen",
-        "reroll": "Alle Fehlschläge neu würfeln",
-        "use": "Edge verwenden",
-        "useEdgePrompt": "Edge einsetzen?"
-      },
-      "errorRenderingTemplate": "Fehler beim Rendern des Templates",
-      "errorRollingDice": "Fehler beim Würfeln",
-      "explode": "Regel der Sechs",
-      "extended": "Erweiterte Probe",
-      "failures": "Fehlschläge",
-      "glitch": "Patzer!",
-      "malus": "Malus",
-      "numDice": "Würfelpool",
-      "rollButton": "Würfeln",
-      "rolling": "Würfelt",
-      "smartlink": "Smartlink einsetzen",
-      "specialization": "Spezialisierung",
-      "extendEdge": "Erweitern + Edge",
-      "extendTest": "Erweiterte Probe fortsetzen",
-      "successes": "Erfolge",
-      "useEdge": "Edge einsetzen",
-      "useEdgeButton": "Edge einsetzen?",
-      "fireMode": "Feuermodus",
-      "shots": "Schuss",
-      "recoil": "Rückstoß",
-      "burstType": "Burst-Typ",
-      "narrow": "Konzentriert",
-      "wide": "Gestreut"
-    },
-    "settings": {
-      "autoSustainEffect": {
-        "name": "Automatische Aufrechterhaltung",
-        "hint": "Erstellt automatisch einen Aufrechterhaltungs-Effekt wenn ein aufrechtzuerhaltender Zauber gewirkt wird."
-      },
-      "combatDefenseWorkflow": {
-        "name": "Kampf: Ausweichen-Workflow",
-        "hint": "Wenn aktiv, werden gezielte Tokens nach einem Angriff automatisch zum Ausweichen aufgefordert. Deaktivieren schaltet auch den Schadenswiderstand-Workflow aus."
-      },
-      "combatSoakWorkflow": {
-        "name": "Kampf: Schadenswiderstand-Workflow",
-        "hint": "Wenn aktiv, werden Verteidiger nach dem Ausweichen zum Schadenswiderstand aufgefordert. Erfordert aktiven Ausweichen-Workflow."
-      },
-      "liveInitiativeReduction": {
-        "name": "Live-Initiativreduktion",
-        "hint": "Reduziert den Initiativwert eines Kämpfers automatisch wenn sein Wundmodifikator steigt."
-      },
-      "spellWorkflow": {
-        "name": "Zauber-Workflow",
-        "hint": "Aktiviert den mehrstufigen Zauber-Workflow (Kraftwahl, Wurf, Entzug)."
-      },
-      "gmDefenderPicker": {
-        "name": "Kampf: GM Verteidiger-Auswahl",
-        "hint": "Wenn vor einem Angriff kein Ziel ausgewählt wurde, kann der GM den Verteidiger manuell auswählen um den Ausweichen-Workflow zu starten.",
-        "dialogTitle": "Verteidiger auswählen",
-        "attackerLabel": "Angreifer",
-        "selectLabel": "Verteidiger",
-        "confirm": "Ausweichen starten",
-        "unknownAttacker": "Unbekannt",
-        "noValidActors": "Keine gültigen Akteure als Verteidiger verfügbar."
-      },
-      "ammoTracking": {
-        "name": "Munitionsverfolgung",
-        "hint": "Wenn aktiv, verfolgen Waffen die Munition und ziehen sie bei jedem Angriff ab. Leere Waffen können nur nachgeladen werden. Burst-Feuer-Boni werden proportional reduziert wenn nicht genug Munition vorhanden ist."
-      },
-      "applyDamageWorkflow": {
-        "name": "Schaden: Bestätigungs-Workflow",
-        "hint": "Wenn aktiv, wird vor dem Anwenden von Schaden ein Dialog zur Bestätigung oder Anpassung angezeigt. Deaktivieren wendet Schaden sofort an."
-      },
-      "useDefaultEffectSheet": {
-        "name": "Standard-Effekt-Sheet verwenden",
-        "hint": "Wenn aktiv, öffnen aktive Effekte mit Foundrys eingebautem Sheet statt dem SR4-eigenen."
-      },
-      "npcSkillsMenu": {
-        "name": "NSC-Standardfertigkeiten",
-        "label": "Konfigurieren",
-        "hint": "Legt fest, welche Fertigkeiten neu erstellten NSCs automatisch hinzugefügt werden.",
-        "title": "NSC-Standardfertigkeiten",
-        "filter": "Fertigkeiten filtern…",
-        "toggleAll": "Alle / Keine",
-        "save": "Speichern",
-        "noSkills": "Keine Fertigkeiten im Kompendium gefunden."
-      }
-    },
-    "shooting": {
-      "burst": "SF",
-      "full": "VF",
-      "semi": "HM",
-      "semi-burst": "HM/SF",
-      "semi-burst-full": "HM/SF/VF",
-      "single": "EM"
+    "quality": {
+      "bp": "BP",
+      "category": "Kategorie",
+      "create": "Gabe/Handicap erstellen",
+      "limit": "Limit",
+      "negative": "Negativ",
+      "noQualities": "Keine Gaben & Handicaps",
+      "positive": "Positiv"
     },
     "skills": {
       "active": "Aktive Fertigkeiten",
-      "knowledgeAndComplexForms": "Wissen / Komplexe Formen",
       "attribute": "Attribut",
       "categories": {
         "Fahrzeug": "Fahrzeug",
@@ -494,137 +219,12 @@
       "category": "Kategorie",
       "complexForm": "Komplexe Form",
       "knowledge": "Wissensfertigkeit",
+      "knowledgeAndComplexForms": "Wissen / Komplexe Formen",
       "name": "Name",
       "rating": "Stufe",
       "search": "Skillsuche",
       "source": "Quelle",
       "specializations": "Spezialisation"
-    },
-    "soak": {
-      "ap": "AP",
-      "armor": "Rüstung",
-      "impact": "Aufprall",
-      "incomingDamage": "Eingehender Schaden",
-      "soakBonus": "Widerstandsbonus",
-      "title": "Schadenswiderstand"
-    },
-    "spell": {
-      "cast": "Zaubern",
-      "combatType": "Kampftyp",
-      "combatTypes": {
-        "direct": "Direkt",
-        "DIRECT": "Direkt",
-        "indirect": "Indirekt",
-        "INDIRECT": "Indirekt"
-      },
-      "categories": {
-        "COMBAT": "Kampfzauber",
-        "DETECTION": "Detektionszauber",
-        "GEOMANCY": "Geomantie",
-        "HEALTH": "Heilzauber",
-        "ILLUSION": "Illusionszauber",
-        "MANIPULATION": "Manipulationszauber",
-        "combat": "Kampfzauber",
-        "detection": "Detektionszauber",
-        "geomancy": "Geomantie",
-        "health": "Heilzauber",
-        "illusion": "Illusionszauber",
-        "manipulation": "Manipulationszauber"
-      },
-      "category": "Kategorie",
-      "damage": "Schaden",
-      "damagetype": "Schadensart",
-      "draindialogtitle": "Entzugsprobe",
-      "duration": "Dauer",
-      "durations": {
-        "INSTANT": "S",
-        "PERMANENT": "P",
-        "SUSTAINED": "A",
-        "instant": "S",
-        "permanent": "P",
-        "sustained": "A"
-      },
-      "dv": "Entzugswert",
-      "element": "Element",
-      "elements": {
-        "ACID": "Säure",
-        "BLAST": "Druckwelle",
-        "ELECTRICITY": "Elektrizität",
-        "FIRE": "Feuer",
-        "ICE": "Eis",
-        "LIGHT": "Licht",
-        "METAL": "Metall",
-        "RADIATION": "Strahlung",
-        "SAND": "Sand",
-        "SMOKE": "Rauch",
-        "SOUND": "Schall",
-        "WATER": "Wasser",
-        "acid": "Säure",
-        "blast": "Druckwelle",
-        "electricity": "Elektrizität",
-        "fire": "Feuer",
-        "ice": "Eis",
-        "light": "Licht",
-        "metal": "Metall",
-        "radiation": "Strahlung",
-        "sand": "Sand",
-        "smoke": "Rauch",
-        "sound": "Schall",
-        "water": "Wasser"
-      },
-      "force": "Kraft",
-      "forcedialogtitle": "Zauberkraft auswählen",
-      "noSpells": "Keine Zauber vorhanden",
-      "range": "Reichweite",
-      "ranges": {
-        "AREA": "F",
-        "LOS": "S",
-        "SELF": "S",
-        "TOUCH": "B",
-        "area": "F",
-        "los": "S",
-        "self": "S",
-        "touch": "B"
-      },
-      "applyHits": "Netto-Erfolge einsetzen",
-      "applyHitsHint": "Jeder eingesetzte Erfolg erhöht den Zauber-SW und den Entzugs-EW um 1.",
-      "netHits": "Netto-Erfolge",
-      "noEffect": "Zauber hat keinen Effekt (vollständig widerstanden)",
-      "noTargets": "Kein gültiges Ziel ausgewählt — Schaden nicht angewendet",
-      "source": "Quelle",
-      "type": "Typ",
-      "types": {
-        "MANA": "M",
-        "PHYSICAL": "K",
-        "mana": "M",
-        "physical": "K"
-      }
-    },
-    "spirit": {
-      "attributes": "Attribute",
-      "dropSummoner": "Akteur ziehen um Beschwörer zu verknüpfen",
-      "force": "Kraft",
-      "name": "Name",
-      "noPowers": "Keine Kräfte",
-      "noSkills": "Keine Fertigkeiten",
-      "ownerUuid": "Beschwörer UUID",
-      "powers": "Kräfte",
-      "services": "Dienste",
-      "summoner": "Beschwörer",
-      "type": "Geisttyp"
-    },
-    "sprite": {
-      "attributes": "Attribute",
-      "compiler": "Kompilierer",
-      "dropCompiler": "Akteur ziehen um Kompilierer zu verknüpfen",
-      "name": "Name",
-      "noPowers": "Keine Kräfte",
-      "noSkills": "Keine Fertigkeiten",
-      "ownerUuid": "Kompilierer UUID",
-      "powers": "Kräfte",
-      "rating": "Stufe",
-      "tasks": "Dienste",
-      "type": "Spritetyp"
     },
     "stats": {
       "AGILITY": "Geschicklichkeit",
@@ -650,6 +250,7 @@
     },
     "tab": {
       "actions": "Aktionen",
+      "bio": "Bio",
       "defense": "Verteidigung",
       "effects": "Effekte",
       "inventory": "Inventar",
@@ -657,75 +258,7 @@
       "main": "Übersicht",
       "matrix": "Matrix",
       "modifiers": "Modifikatoren",
-      "skills": "Fertigkeiten",
       "weapons": "Waffen"
-    },
-    "tooltip": {
-      "specialization": "+2 Würfel, wenn die Fertigkeitsspezialisierung auf diesen Wurf zutrifft.",
-      "smartlink": "+2 Würfel. Erfordert ein implantiertes Smartlink-System und eine kompatible Waffe.",
-      "edge": "1 Edge ausgeben. Fügt den maximalen Edge-Wert zum Würfelpool hinzu; 6er werden einmal neu gewürfelt.",
-      "shots": "Anzahl der verschossenen Patronen. Jede Patrone nach der ersten erhöht den Rückstoß um 1, reduziert durch den RC-Wert der Waffe.",
-      "burstNarrow": "+N Schaden, abhängig von der Schussanzahl (3→+2, 6→+5, 10→+9).",
-      "burstWide": "-N Würfel auf den Verteidigungswurf des Verteidigers, abhängig von der Schussanzahl (3→−2, 6→−5, 10→−9).",
-      "ammoInsufficient": "Aktueller Munitionsstand. Bei aktiver Munitionsverfolgung: Burst-Feuer-Boni werden für jede fehlende Patrone reduziert; eine leere Waffe blockiert den Angriff und bietet nur das Nachladen an.",
-      "loadedAmmo": "Munitions-Items aus dem Kompendium oder dem Item-Verzeichnis auf das Charaktersheet ziehen, um sie hier auswählen zu können."
-    },
-    "vehicle": {
-      "accel": "Beschl.",
-      "armor": "Panzerung",
-      "autonomous": "Autonom",
-      "autosofts": "Autosofts",
-      "availability": "Verf.",
-      "body": "Karosserie",
-      "cost": "Kosten",
-      "dropRigger": "Akteur ziehen um Rigger zu verknüpfen",
-      "handling": "Handhabung",
-      "name": "Name",
-      "noAutosofts": "Keine Autosofts installiert",
-      "noDicePool": "Kein Würfelpool — Autosofts hinzufügen oder Pilot erhöhen",
-      "pilot": "Pilot",
-      "pilotPoolHint": "Autonomer Pool",
-      "pilotRoll": "Pilotenwurf",
-      "rigger": "Rigger",
-      "riggerUuid": "Rigger UUID",
-      "rollAutonomous": "Autonom würfeln",
-      "sensor": "Sensor",
-      "speed": "Geschw.",
-      "stats": "Fahrzeugwerte",
-      "type": "Typ"
-    },
-    "weapon": {
-      "ammo": "Munition",
-      "ammoFeed": "Zuführung",
-      "emptyHint": "Keine Munition mehr vorhanden. Waffe nachladen um fortzufahren.",
-      "emptyTitle": "Waffe leer",
-      "reload": "Nachladen",
-      "currentAmmo": "Mun.",
-      "maxAmmo": "Max",
-      "ap": "PB",
-      "apHalf": "½ Rüstung (effektive Rüstung halbieren)",
-      "armorType": {
-        "ballistic": "Ballistisch",
-        "impact": "Aufprall",
-        "label": "Rüstungstyp"
-      },
-      "attackSkill": "Waffenfertigkeit",
-      "avail": "Verf.",
-      "clip": "Magazin",
-      "cost": "Kosten",
-      "damage": "Schaden",
-      "damageType": "Schadensart",
-      "description": "Beschreibung",
-      "legality": "Legalität",
-      "mode": "Feuermodus",
-      "name": "Waffe",
-      "noWeapons": "Keine Waffen vorhanden",
-      "notes": "Notizen",
-      "range": "Reichweite",
-      "reach": "RW",
-      "recoil": "RK",
-      "smartlink": "Smartlink",
-      "source": "Quelle"
     }
   }
 }

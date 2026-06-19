@@ -332,3 +332,57 @@
     @include sr4-input-focus;
   }
 }
+
+// --------------------------------
+// Mods section (host item sheets)
+// --------------------------------
+
+.mods-section {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--sr4-border-dim);
+
+  > label {
+    @include sr4-label;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .warning {
+    color: var(--sr4-red);
+    font-size: 0.68rem;
+  }
+
+  > small {
+    font-size: 0.68rem;
+    color: var(--sr4-label);
+  }
+
+  select {
+    @include sr4-input;
+    cursor: pointer;
+    @include sr4-input-focus;
+  }
+}
+
+.installed-mods-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.3rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 2px 4px;
+    font-size: 0.72rem;
+
+    &:hover {
+      background: rgba(0, 179, 164, 0.05);
+    }
+
+    span {
+      flex: 1;
+    }
+  }
+}

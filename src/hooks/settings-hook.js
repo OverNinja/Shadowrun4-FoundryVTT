@@ -3,6 +3,7 @@ import {
   NpcSkillsMenu,
   DEFAULT_NPC_SKILLS_JSON,
 } from '../sheets/settings/npc-skills-menu.js';
+import { XmlImporterApp } from '../sheets/importer/importer-app.js';
 
 export class SettingsHook {
   constructor() {
@@ -109,7 +110,23 @@ export class SettingsHook {
         restricted: true,
       });
 
+      game.settings.registerMenu('shadowrun4e', 'xmlImporter', {
+        name: 'sr4.settings.xmlImporter.name',
+        label: 'sr4.settings.xmlImporter.label',
+        hint: 'sr4.settings.xmlImporter.hint',
+        icon: 'fas fa-file-import',
+        type: XmlImporterApp,
+        restricted: true,
+      });
+
       // --- Hidden (no config UI) ---
+
+      game.settings.register('shadowrun4e', 'importerEnabledSources', {
+        scope: 'world',
+        config: false,
+        type: Array,
+        default: [],
+      });
 
       game.settings.register('shadowrun4e', 'npcDefaultSkills', {
         scope: 'world',

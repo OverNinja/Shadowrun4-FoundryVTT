@@ -1,0 +1,78 @@
+{
+  "sr4": {
+    "importer": {
+      "colCategory": "Category",
+      "colCount": "Entries",
+      "colTarget": "Target compendium",
+      "empty": "No entries yet — select one or more XML files.",
+      "hint": "Upload one or more XML statblock files. Detected entries are listed below and imported into dedicated world compendia.",
+      "import": "Import",
+      "parseError": "Could not parse \"{file}\": {error}",
+      "result": "Import complete: {created} created, {skipped} skipped.",
+      "skipDuplicates": "Skip entries whose name already exists in the target compendium",
+      "sourceBooks": "Source books",
+      "sourceBooksHint": "Select which source books to include. This selection is saved for future imports.",
+      "title": "XML Data Importer",
+      "upload": "XML files"
+    },
+    "settings": {
+      "ammoTracking": {
+        "hint": "When enabled, weapons track and deduct ammunition on each attack. Empty weapons can only be reloaded. Burst fire bonuses are reduced proportionally when insufficient ammo is available.",
+        "name": "Ammo Tracking"
+      },
+      "applyDamageWorkflow": {
+        "hint": "When enabled, a dialog is shown before applying damage, allowing confirmation or adjustment. Disabling applies damage immediately.",
+        "name": "Damage: Confirmation Workflow"
+      },
+      "autoSustainEffect": {
+        "hint": "Automatically create a sustain active effect when a sustained spell is cast.",
+        "name": "Auto Sustain Effect"
+      },
+      "combatDefenseWorkflow": {
+        "hint": "When enabled, targeted tokens are automatically prompted to roll defense after an attack. Disabling this also disables the Soak Workflow.",
+        "name": "Combat: Defense Workflow"
+      },
+      "combatSoakWorkflow": {
+        "hint": "When enabled, defenders are prompted to roll soak after defense. Requires Combat: Defense Workflow to be active.",
+        "name": "Combat: Soak Workflow"
+      },
+      "gmDefenderPicker": {
+        "attackerLabel": "Attacker",
+        "confirm": "Start Defense",
+        "dialogTitle": "Select Defender",
+        "hint": "When no token is targeted before an attack, the GM can manually select the defender to trigger the defense flow.",
+        "name": "Combat: GM Defender Picker",
+        "noValidActors": "No valid actors found to select as defender.",
+        "selectLabel": "Defender",
+        "unknownAttacker": "Unknown"
+      },
+      "liveInitiativeReduction": {
+        "hint": "Automatically reduce a combatant's initiative score when their wound modifier increases.",
+        "name": "Live Initiative Reduction"
+      },
+      "npcSkillsMenu": {
+        "filter": "Filter skills…",
+        "hint": "Choose which skills are added to newly created NPCs.",
+        "label": "Configure",
+        "name": "NPC Default Skills",
+        "noSkills": "No skills found in compendium.",
+        "save": "Save",
+        "title": "NPC Default Skills",
+        "toggleAll": "All / None"
+      },
+      "spellWorkflow": {
+        "hint": "Enable the multi-step spellcasting workflow (force selection, roll, drain).",
+        "name": "Spell Workflow"
+      },
+      "useDefaultEffectSheet": {
+        "hint": "When enabled, active effects open with Foundry's built-in sheet instead of the SR4 custom sheet.",
+        "name": "Use Default Effect Sheet"
+      },
+      "xmlImporter": {
+        "hint": "Import items from external XML statblock files into world compendia.",
+        "label": "Open Importer",
+        "name": "XML Data Importer"
+      }
+    }
+  }
+}

@@ -15,7 +15,6 @@ export const EFFECT_TEMPLATES = Object.freeze({
         value: '-2',
       },
     ],
-    disabled: false,
   },
   /** Disoriented by electricity: -2 to all dice pools for 2 + net hits Combat Turns */
   disoriented: {
@@ -30,7 +29,6 @@ export const EFFECT_TEMPLATES = Object.freeze({
       },
     ],
     duration: { turns: 2 },
-    disabled: false,
   },
   /** Blinded (e.g. Flash-Pak): -4 to attack rolls for net hits Combat Turns */
   blind: {
@@ -45,7 +43,6 @@ export const EFFECT_TEMPLATES = Object.freeze({
       },
     ],
     duration: { turns: 1 },
-    disabled: false,
   },
   /** Blinded with flare compensation: -2 to attack rolls for net hits Combat Turns */
   blindFlareComp: {
@@ -60,7 +57,6 @@ export const EFFECT_TEMPLATES = Object.freeze({
       },
     ],
     duration: { turns: 1 },
-    disabled: false,
   },
   /** Knocked down: -2 to all dice pools until standing up */
   knockedDown: {
@@ -74,6 +70,5 @@ export const EFFECT_TEMPLATES = Object.freeze({
         value: '-2',
       },
     ],
-    disabled: false,
   },
 });

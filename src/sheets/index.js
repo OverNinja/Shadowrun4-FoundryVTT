@@ -9,3 +9,4 @@ export * from './partials/partials';
 export * from './helpers/index';
 export { default as SR4SkillsSheet } from './skills/skills-sheet';
 export { default as SR4ActiveEffectSheet } from './effects/SR4ActiveEffectSheet';
+export * from './shared/index';

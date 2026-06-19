@@ -1,0 +1,45 @@
+{
+  "sr4": {
+    "autosoft": {
+      "clearsight": "Weitblick",
+      "clearsoft": "Clearsoft",
+      "electronicWarfare": "Elektronische Kriegsführung",
+      "maneuvering": "Manövrierung",
+      "target": "Ziel",
+      "targeting": "Zielerfassung",
+      "type": "Typ"
+    },
+    "commlink": {
+      "firewall": "Firewall",
+      "noCommlinks": "Kein Commlink vorhanden",
+      "os": "System",
+      "response": "Reaktion",
+      "signal": "Signal"
+    },
+    "matrix": {
+      "attribute": "Attribut",
+      "biofeedbackFilter": "Biofeedback-Filter",
+      "bonus": "Bonus",
+      "commlinks": "Commlinks",
+      "complexForms": "Komplexe Formen",
+      "firewall": "Firewall",
+      "livingPersona": "Living Persona",
+      "noComplexForms": "Keine komplexen Formen vorhanden",
+      "noSoftware": "Keine Software vorhanden",
+      "response": "Reaktion",
+      "signal": "Signal",
+      "software": "Software",
+      "system": "System",
+      "technomancer": "Technomancer",
+      "threading": "Threading",
+      "threadingHint": "Software + Resonanz würfeln",
+      "vrMatrixInitiative": "VR Matrix-Initiative",
+      "vrMatrixInitiativePasses": "VR Matrix-Ini-Pässe"
+    },
+    "program": {
+      "category": "Kategorie",
+      "complexform": "Komplexe Form",
+      "maxrating": "Maximalstufe"
+    }
+  }
+}

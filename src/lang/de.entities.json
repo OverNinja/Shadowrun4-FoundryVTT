@@ -1,0 +1,54 @@
+{
+  "sr4": {
+    "spirit": {
+      "attributes": "Attribute",
+      "dropSummoner": "Akteur ziehen um Beschwörer zu verknüpfen",
+      "force": "Kraft",
+      "name": "Name",
+      "noPowers": "Keine Kräfte",
+      "noSkills": "Keine Fertigkeiten",
+      "ownerUuid": "Beschwörer UUID",
+      "powers": "Kräfte",
+      "services": "Dienste",
+      "summoner": "Beschwörer",
+      "type": "Geisttyp"
+    },
+    "sprite": {
+      "attributes": "Attribute",
+      "compiler": "Kompilierer",
+      "dropCompiler": "Akteur ziehen um Kompilierer zu verknüpfen",
+      "name": "Name",
+      "noPowers": "Keine Kräfte",
+      "noSkills": "Keine Fertigkeiten",
+      "ownerUuid": "Kompilierer UUID",
+      "powers": "Kräfte",
+      "rating": "Stufe",
+      "tasks": "Dienste",
+      "type": "Spritetyp"
+    },
+    "vehicle": {
+      "accel": "Beschl.",
+      "armor": "Panzerung",
+      "autonomous": "Autonom",
+      "autosofts": "Autosofts",
+      "availability": "Verf.",
+      "body": "Karosserie",
+      "cost": "Kosten",
+      "dropRigger": "Akteur ziehen um Rigger zu verknüpfen",
+      "handling": "Handhabung",
+      "name": "Name",
+      "noAutosofts": "Keine Autosofts installiert",
+      "noDicePool": "Kein Würfelpool — Autosofts hinzufügen oder Pilot erhöhen",
+      "pilot": "Pilot",
+      "pilotPoolHint": "Autonomer Pool",
+      "pilotRoll": "Pilotenwurf",
+      "rigger": "Rigger",
+      "riggerUuid": "Rigger UUID",
+      "rollAutonomous": "Autonom würfeln",
+      "sensor": "Sensor",
+      "speed": "Geschw.",
+      "stats": "Fahrzeugwerte",
+      "type": "Typ"
+    }
+  }
+}

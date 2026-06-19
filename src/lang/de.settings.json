@@ -1,0 +1,78 @@
+{
+  "sr4": {
+    "importer": {
+      "colCategory": "Kategorie",
+      "colCount": "Einträge",
+      "colTarget": "Ziel-Kompendium",
+      "empty": "Noch keine Einträge — wähle eine oder mehrere XML-Dateien.",
+      "hint": "Lade eine oder mehrere XML-Statblock-Dateien hoch. Erkannte Einträge werden unten aufgelistet und in eigene Welt-Kompendien importiert.",
+      "import": "Importieren",
+      "parseError": "„{file}“ konnte nicht gelesen werden: {error}",
+      "result": "Import abgeschlossen: {created} erstellt, {skipped} übersprungen.",
+      "skipDuplicates": "Einträge überspringen, deren Name im Ziel-Kompendium bereits existiert",
+      "sourceBooks": "Quellenbücher",
+      "sourceBooksHint": "Wähle die Quellenbücher aus, die importiert werden sollen. Die Auswahl wird für zukünftige Importe gespeichert.",
+      "title": "XML-Datenimporter",
+      "upload": "XML-Dateien"
+    },
+    "settings": {
+      "ammoTracking": {
+        "hint": "Wenn aktiv, verfolgen Waffen die Munition und ziehen sie bei jedem Angriff ab. Leere Waffen können nur nachgeladen werden. Burst-Feuer-Boni werden proportional reduziert wenn nicht genug Munition vorhanden ist.",
+        "name": "Munitionsverfolgung"
+      },
+      "applyDamageWorkflow": {
+        "hint": "Wenn aktiv, wird vor dem Anwenden von Schaden ein Dialog zur Bestätigung oder Anpassung angezeigt. Deaktivieren wendet Schaden sofort an.",
+        "name": "Schaden: Bestätigungs-Workflow"
+      },
+      "autoSustainEffect": {
+        "hint": "Erstellt automatisch einen Aufrechterhaltungs-Effekt wenn ein aufrechtzuerhaltender Zauber gewirkt wird.",
+        "name": "Automatische Aufrechterhaltung"
+      },
+      "combatDefenseWorkflow": {
+        "hint": "Wenn aktiv, werden gezielte Tokens nach einem Angriff automatisch zum Ausweichen aufgefordert. Deaktivieren schaltet auch den Schadenswiderstand-Workflow aus.",
+        "name": "Kampf: Ausweichen-Workflow"
+      },
+      "combatSoakWorkflow": {
+        "hint": "Wenn aktiv, werden Verteidiger nach dem Ausweichen zum Schadenswiderstand aufgefordert. Erfordert aktiven Ausweichen-Workflow.",
+        "name": "Kampf: Schadenswiderstand-Workflow"
+      },
+      "gmDefenderPicker": {
+        "attackerLabel": "Angreifer",
+        "confirm": "Ausweichen starten",
+        "dialogTitle": "Verteidiger auswählen",
+        "hint": "Wenn vor einem Angriff kein Ziel ausgewählt wurde, kann der GM den Verteidiger manuell auswählen um den Ausweichen-Workflow zu starten.",
+        "name": "Kampf: GM Verteidiger-Auswahl",
+        "noValidActors": "Keine gültigen Akteure als Verteidiger verfügbar.",
+        "selectLabel": "Verteidiger",
+        "unknownAttacker": "Unbekannt"
+      },
+      "liveInitiativeReduction": {
+        "hint": "Reduziert den Initiativwert eines Kämpfers automatisch wenn sein Wundmodifikator steigt.",
+        "name": "Live-Initiativreduktion"
+      },
+      "npcSkillsMenu": {
+        "filter": "Fertigkeiten filtern…",
+        "hint": "Legt fest, welche Fertigkeiten neu erstellten NSCs automatisch hinzugefügt werden.",
+        "label": "Konfigurieren",
+        "name": "NSC-Standardfertigkeiten",
+        "noSkills": "Keine Fertigkeiten im Kompendium gefunden.",
+        "save": "Speichern",
+        "title": "NSC-Standardfertigkeiten",
+        "toggleAll": "Alle / Keine"
+      },
+      "spellWorkflow": {
+        "hint": "Aktiviert den mehrstufigen Zauber-Workflow (Kraftwahl, Wurf, Entzug).",
+        "name": "Zauber-Workflow"
+      },
+      "useDefaultEffectSheet": {
+        "hint": "Wenn aktiv, öffnen aktive Effekte mit Foundrys eingebautem Sheet statt dem SR4-eigenen.",
+        "name": "Standard-Effekt-Sheet verwenden"
+      },
+      "xmlImporter": {
+        "hint": "Importiert Items aus externen XML-Statblock-Dateien in Welt-Kompendien.",
+        "label": "Importer öffnen",
+        "name": "XML-Datenimporter"
+      }
+    }
+  }
+}

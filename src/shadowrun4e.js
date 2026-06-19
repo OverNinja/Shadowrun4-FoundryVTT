@@ -17,6 +17,7 @@ import {
   SR4VehicleSheet,
   SR4ActiveEffectSheet,
   registerUIPartials,
+  registerSharedPartials,
 } from '@sheets/index.js';
 import { registerHooks } from '@hooks/index.js';
 import {
@@ -62,6 +63,7 @@ Hooks.once('init', async function () {
   await registerActorPartials();
   await registerItemPartials();
   await registerUIPartials();
+  await registerSharedPartials();
 
   globalThis.sr4 = game.sr4 = Object.assign(game.system, globalThis.sr4);
 
@@ -163,10 +165,14 @@ Hooks.once('init', async function () {
     'Armor',
     'Spell',
     'Program',
+    'Quality',
     'Action',
     'Power',
     'CritterPower',
     'Autosoft',
+    'Weapon Mod',
+    'Armor Mod',
+    'Vehicle Mod',
   ];
 
   DocumentSheetConfig.registerSheet(Item, 'sr4', SR4ItemSheet, {

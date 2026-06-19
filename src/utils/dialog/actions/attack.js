@@ -9,7 +9,7 @@ import {
   localize,
   renderTemplate,
 } from '../dialogutility';
-import { handleSkillRoll } from './skills';
+import { openMeleeAttackDialog } from './melee';
 import { reloadWeapon } from '../../weapons.js';
 
 /** @typedef {import('@models/index').SR4Weapon} SR4Weapon */
@@ -91,7 +91,7 @@ export async function handleAttackRoll(actor, skillName, weapon) {
   if (isRangedWeapon(weapon)) {
     await openAttackDialog(actor, skillName, weapon);
   } else {
-    await handleSkillRoll(actor, skillName, weapon);
+    await openMeleeAttackDialog(actor, skillName, weapon);
   }
 }
 
@@ -127,7 +127,7 @@ export async function openAttackDialog(actor, skillName, weapon) {
   if (dice === undefined) return;
 
   const params = createDialogParameters(actor, dice, weapon);
-  params.malus += actor.system.modifiers.attackModifier;
+  params.malus -= actor.system.modifiers.attackModifier ?? 0;
   const fireModeParams = getFireModeParams(weapon);
   const skill = actor.getSkill(skillName);
 

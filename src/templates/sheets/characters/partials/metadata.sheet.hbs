@@ -8,15 +8,9 @@
         <input type="text" name="name" value="{{actor.name}}" data-dtype="String"/>
       </div>
 
-      <div class="meta-field">
-        <label>{{localize 'sr4.metadata.metatype'}}</label>
-        <input type="text" name="system.descriptionAndNotes.metatype" value="{{system.descriptionAndNotes.metatype}}" data-dtype="String" {{#unless editMode}}readonly{{/unless}} />
-      </div>
+      {{> meta-field label='sr4.metadata.metatype' name='system.descriptionAndNotes.metatype' value=system.descriptionAndNotes.metatype editMode=editMode}}
 
-      <div class="meta-field">
-        <label>{{localize 'sr4.metadata.gender'}}</label>
-        <input type="text" name="system.descriptionAndNotes.gender" value="{{system.descriptionAndNotes.gender}}" data-dtype="String" {{#unless editMode}}readonly{{/unless}} />
-      </div>
+      {{> meta-field label='sr4.metadata.gender' name='system.descriptionAndNotes.gender' value=system.descriptionAndNotes.gender editMode=editMode}}
 
       {{#each system.metaData}}
         <div class="meta-field">

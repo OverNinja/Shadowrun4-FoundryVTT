@@ -20,7 +20,10 @@
     gap: 1rem;
     margin-bottom: 2rem;
   }
+}
 
+.metadata-container,
+.tab.bio {
   .info-columns {
     display: flex;
     flex-wrap: wrap;
@@ -44,5 +47,15 @@
     input {
       max-width: 30rem;
     }
+  }
+}
+
+.tab.bio {
+  section + hr {
+    margin: 1rem 0;
+  }
+
+  .bio-text .item-textareas textarea {
+    min-height: 140px;
   }
 }

@@ -1,0 +1,18 @@
+{
+  "data": {
+    "name": "Programm",
+    "system": {
+      "category": "Common Use",
+      "complexform": true,
+      "description": "",
+      "label": "sr4.programs.programm",
+      "maxrating": null,
+      "programtypes": [],
+      "source": ""
+    },
+    "type": "Program"
+  },
+  "documentClass": "Item",
+  "flags": {},
+  "uuid": "Compendium.sr4e.programs.c855510e-d591-4bc9-a24f-e4ab0a39cf35"
+}

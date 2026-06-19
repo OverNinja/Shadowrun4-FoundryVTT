@@ -23,6 +23,8 @@ export default class SR4BaseActorSheet extends foundry.applications.api.Handleba
       attackRoll: SR4BaseActorSheet._onAttackRoll,
       reloadWeapon: SR4BaseActorSheet._onReloadWeapon,
       editAmmo: SR4BaseActorSheet._onEditAmmo,
+      removeMod: SR4BaseActorSheet._onRemoveMod,
+      createMod: SR4BaseActorSheet._onCreateMod,
       toggleItemEffect: SR4BaseActorSheet._onToggleItemEffect,
       rollAction: SR4BaseActorSheet._onRollAction,
     },
@@ -84,7 +86,7 @@ export default class SR4BaseActorSheet extends foundry.applications.api.Handleba
 
     this.element
       .querySelectorAll(
-        '.item-list input, .item-list select, .weapon-list select'
+        '.item-list input, .item-list select:not(.mod-add-select), .weapon-list select:not(.mod-add-select)'
       )
       .forEach((el) => {
         el.addEventListener(
@@ -113,6 +115,28 @@ export default class SR4BaseActorSheet extends foundry.applications.api.Handleba
           { signal }
         );
       });
+
+    // Installing a mod updates the host item; stop the change from reaching the
+    // actor form, whose submitOnChange would re-validate the whole actor.
+    this.element.querySelectorAll('.mod-add-select').forEach((el) => {
+      el.addEventListener(
+        'change',
+        async (event) => {
+          event.stopPropagation();
+          const target = event.currentTarget;
+          const modId = target.value;
+          const hostId = target.closest('[data-item-id]')?.dataset.itemId;
+          if (!modId || !hostId) return;
+          const host = this.actor.items.get(hostId);
+          const current = host?.system.installedModIds ?? [];
+          if (!host || current.includes(modId)) return;
+          await host.update({
+            'system.installedModIds': [...current, modId],
+          });
+        },
+        { signal }
+      );
+    });
 
     this.element.querySelector('[data-edit="img"]')?.addEventListener(
       'click',
@@ -163,6 +187,8 @@ export default class SR4BaseActorSheet extends foundry.applications.api.Handleba
       'Commlink',
       'Gear',
       'Ammo',
+      'Weapon Mod',
+      'Armor Mod',
       'Action',
     ];
     const options = types
@@ -269,6 +295,34 @@ export default class SR4BaseActorSheet extends foundry.applications.api.Handleba
 
     const actionName = `${item.name} (${action1}${action2 ? ` + ${action2}` : ''})`;
     openActionDialog(this.actor, actionName, numDice);
+  }
+
+  static async _onCreateMod(event, target) {
+    const hostId = target.closest('[data-item-id]')?.dataset.itemId;
+    const modType = target.dataset.itemType;
+    if (!hostId || !modType) return;
+    const host = this.actor.items.get(hostId);
+    if (!host) return;
+    const [mod] = await this.actor.createEmbeddedDocuments('Item', [
+      { name: game.i18n.localize(`TYPES.Item.${modType}`), type: modType },
+    ]);
+    if (!mod) return;
+    const current = host.system.installedModIds ?? [];
+    await host.update({ 'system.installedModIds': [...current, mod.id] });
+    mod.sheet?.render(true);
+  }
+
+  static async _onRemoveMod(event, target) {
+    const modId =
+      target.dataset.modId ?? target.closest('[data-mod-id]')?.dataset.modId;
+    const hostId = target.closest('[data-item-id]')?.dataset.itemId;
+    if (!modId || !hostId) return;
+    const host = this.actor.items.get(hostId);
+    if (!host) return;
+    const current = host.system.installedModIds ?? [];
+    await host.update({
+      'system.installedModIds': current.filter((id) => id !== modId),
+    });
   }
 
   static async _onToggleItemEffect(event, target) {

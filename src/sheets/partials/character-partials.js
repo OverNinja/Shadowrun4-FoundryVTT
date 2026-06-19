@@ -15,11 +15,13 @@ export async function registerCharacterPartials() {
     { path: `${basePath}/item-cards/power.card.hbs`, name: 'power-card' },
     { path: `${basePath}/item-cards/action.card.hbs`, name: 'action-card' },
     { path: `${basePath}/item-cards/commlink.card.hbs`, name: 'commlink-card' },
+    { path: `${basePath}/item-cards/quality.card.hbs`, name: 'quality-card' },
     {
       path: `${basePath}/item-card-actions-effects.hbs`,
       name: 'item-card-actions-effects',
     },
     { path: `${basePath}/tabs/inventory.tab.hbs`, name: 'inventory-tab' },
+    { path: `${basePath}/tabs/bio.tab.hbs`, name: 'bio-tab' },
     { path: `${basePath}/tabs/magic.tab.hbs`, name: 'magic-tab' },
     { path: `${basePath}/tabs/matrix.tab.hbs`, name: 'matrix-tab' },
     { path: `${basePath}/modifier-field.hbs`, name: 'modifier-field' },

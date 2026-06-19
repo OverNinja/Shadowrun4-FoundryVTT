@@ -4,6 +4,7 @@ import {
   isRangedWeapon,
   AP_HALF_TYPES,
   SR4RangedWeaponData,
+  SR4MeleeWeaponData,
 } from '../src/models/items/weapons.model.js';
 
 // ---------------------------------------------------------------------------
@@ -222,5 +223,113 @@ describe('SR4RangedWeaponData.prepareDerivedData', () => {
         expect(w.effectiveAP).toBe(-2);
       });
     });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// SR4MeleeWeaponData.prepareDerivedData
+//
+// Melee effective damage = weaponDamage
+//   + (noStrengthBonus ? 0 : ceil(STR / 2))
+//   + actor.system.modifiers.meleeDamageModifier
+// ---------------------------------------------------------------------------
+
+/**
+ * @param {object} weaponFields – overrides for the weapon's own properties
+ * @param {{ strength?: number, meleeDamageModifier?: number, unarmedDamageModifier?: number }|null} actorStats
+ *   – actor attribute/modifier values, or null for an unowned item
+ */
+function prepareMeleeWeapon(weaponFields = {}, actorStats = null) {
+  const self = Object.assign(Object.create(SR4MeleeWeaponData.prototype), {
+    damage: 4,
+    ap: 0,
+    damageType: 'PHYSICAL',
+    armorType: 'impact',
+    attackSkill: 'blades',
+    noStrengthBonus: false,
+    parent: actorStats
+      ? {
+          parent: {
+            getAttribute: (attr) =>
+              attr === 'STRENGTH' ? (actorStats.strength ?? 0) : 0,
+            system: {
+              modifiers: {
+                meleeDamageModifier: actorStats.meleeDamageModifier ?? 0,
+                unarmedDamageModifier: actorStats.unarmedDamageModifier ?? 0,
+              },
+            },
+          },
+        }
+      : null,
+    ...weaponFields,
+  });
+  self.prepareDerivedData();
+  return self;
+}
+
+describe('SR4MeleeWeaponData.prepareDerivedData', () => {
+  it('adds ceil(STR/2) to weapon damage', () => {
+    const w = prepareMeleeWeapon({ damage: 4 }, { strength: 5 });
+    expect(w.effectiveDamage).toBe(7); // 4 + ceil(5/2)=3
+  });
+
+  it('handles even Strength (no rounding)', () => {
+    const w = prepareMeleeWeapon({ damage: 6 }, { strength: 4 });
+    expect(w.effectiveDamage).toBe(8); // 6 + 2
+  });
+
+  it('adds the melee damage modifier on top of the STR bonus', () => {
+    const w = prepareMeleeWeapon(
+      { damage: 4 },
+      { strength: 5, meleeDamageModifier: 2 }
+    );
+    expect(w.effectiveDamage).toBe(9); // 4 + 3 + 2
+  });
+
+  it('skips the STR bonus when noStrengthBonus is set', () => {
+    const w = prepareMeleeWeapon(
+      { damage: 4, noStrengthBonus: true },
+      { strength: 5 }
+    );
+    expect(w.effectiveDamage).toBe(4); // STR bonus skipped
+  });
+
+  it('still applies the modifier when noStrengthBonus is set', () => {
+    const w = prepareMeleeWeapon(
+      { damage: 4, noStrengthBonus: true },
+      { strength: 5, meleeDamageModifier: 2 }
+    );
+    expect(w.effectiveDamage).toBe(6); // only the +2 modifier
+  });
+
+  it('falls back to plain weapon damage for an unowned item', () => {
+    const w = prepareMeleeWeapon({ damage: 4 }, null);
+    expect(w.effectiveDamage).toBe(4);
+  });
+
+  it('derives apHalf / armorType from the damage type', () => {
+    const w = prepareMeleeWeapon(
+      { damage: 4, damageType: 'ELECTRICITY', armorType: 'ballistic' },
+      { strength: 4 }
+    );
+    expect(w.effectiveDamageType).toBe('ELECTRICITY');
+    expect(w.effectiveApHalf).toBe(true);
+    expect(w.effectiveArmorType).toBe('impact');
+  });
+
+  it('adds unarmedDamageModifier for unarmed weapons', () => {
+    const w = prepareMeleeWeapon(
+      { damage: 4, attackSkill: 'unarmedcombat' },
+      { strength: 5, unarmedDamageModifier: 3 }
+    );
+    expect(w.effectiveDamage).toBe(10); // 4 + 3(STR) + 3(unarmed)
+  });
+
+  it('ignores unarmedDamageModifier for non-unarmed weapons', () => {
+    const w = prepareMeleeWeapon(
+      { damage: 4, attackSkill: 'blades' },
+      { strength: 5, unarmedDamageModifier: 3 }
+    );
+    expect(w.effectiveDamage).toBe(7); // 4 + 3(STR), no unarmed mod
   });
 });

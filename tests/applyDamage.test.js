@@ -142,23 +142,18 @@ describe('ApplyDamageFlow.applyDamage – stun', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Damage type routing — FIRE/ELECTRICITY/STUN_HALF semantic labels
+// Monitor routing
 // ---------------------------------------------------------------------------
-// The isPhysical flag is resolved by the defense flow before applyDamage is
-// called. These tests document which monitor each type targets.
+// applyDamage receives the already-resolved isPhysical boolean (the defense
+// flow maps the damage type via isPhysicalDamageType, which is covered in
+// weapons.model.test.js). Here we only assert that the boolean routes damage
+// to the correct monitor and leaves the other untouched.
 
-describe('ApplyDamageFlow.applyDamage – damage type routing', () => {
+describe('ApplyDamageFlow.applyDamage – monitor routing', () => {
   it.each([
-    // FIRE and LASER count as physical (isPhysicalDamageType returns true)
-    ['FIRE (physical)', true, 'physical'],
-    ['LASER (physical)', true, 'physical'],
-    // ELECTRICITY and STUN_HALF are stun
-    ['ELECTRICITY (stun)', false, 'stun'],
-    ['STUN_HALF (stun)', false, 'stun'],
-    // baseline
-    ['PHYSICAL', true, 'physical'],
-    ['STUN', false, 'stun'],
-  ])('%s → %s monitor', (_label, isPhysical, targetMonitor) => {
+    [true, 'physical'],
+    [false, 'stun'],
+  ])('isPhysical=%s hits the %s monitor', (isPhysical, targetMonitor) => {
     const cm = makeMonitor();
     const { conditionMonitor } = ApplyDamageFlow.applyDamage(
       cm,

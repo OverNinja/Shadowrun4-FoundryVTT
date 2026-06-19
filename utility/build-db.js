@@ -2,18 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const PACKS = [
-  'skills',
-  'programs',
-  'gear',
-  'ammo',
-  'spells',
-  'metatypes',
-  'melee_weapons',
-  'ranged_weapons',
-  'actions',
-  'armors',
-];
+// Only `skills` and `actions` ship as pre-built compendium sources. All other
+// item content (weapons, armor, gear, ammo, spells, programs, …) is created at
+// runtime via the in-app XML importer; see utility/examples for the data shapes.
+const PACKS = ['skills', 'actions'];
 
 function run(cmd) {
   execSync(cmd, { stdio: 'inherit' });

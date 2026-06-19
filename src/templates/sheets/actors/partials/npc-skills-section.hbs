@@ -1,0 +1,17 @@
+<div class="npc-section">
+  <h3>{{localize 'sr4.tab.skills'}}</h3>
+  {{#if skills}}
+    {{#each skills as |skill|}}
+    <div class="item-card" data-item-id="{{skill._id}}">
+      <div class="item-row">
+        <span class="item-name roll-skill" data-action="rollSkill" data-skill-name="{{skill.name}}">{{skill.name}}</span>
+        <span class="item-property">{{skill.system.rating}}</span>
+        {{> item-edit-btn itemId=skill._id}}
+        {{> item-delete-btn itemId=skill._id}}
+      </div>
+    </div>
+    {{/each}}
+  {{else}}
+    <p class="empty-list">{{localize emptyKey}}</p>
+  {{/if}}
+</div>

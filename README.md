@@ -44,8 +44,15 @@ A custom implementation of **Shadowrun 4th Edition** for Foundry Virtual Tableto
 ## Settings
 
 * Configurable NPC default skill list
+* XML Importer (GM tool for bulk item import)
 * Damage application workflow toggle
 * Optional Foundry default effect sheet for GMs
+
+## XML Importer
+
+Oi, if you're a real *chummer*, you've probably got an XML file or two lying around to pull your gear from. The importer lives in the **game settings** (System Settings → "XML Data Importer", GM only) — feed it your statblock XML and it drops weapons, armor, gear, ammo, cyberware, bioware, spells, powers, programs and skills into tidy per-category world compendia.
+
+No data is shipped with the system; bring your own.
 
 ## Localization
 
@@ -69,8 +76,9 @@ Provides quick access to:
 Included packs:
 
 * Skills
+* Actions
 
-The system intentionally ships with only a minimal rules dataset. Additional content can be created manually or imported through external tooling.
+The system intentionally ships with only a minimal rules dataset. Additional content is created at runtime via the built-in [XML Importer](#xml-importer) or authored manually.
 
 ## Developer Workflow
 
@@ -232,7 +240,7 @@ packs/
 
 # Compendium Workflow
 
-The project uses a JSON-first workflow.
+Shipped packs (currently Skills and Actions) use a JSON-first workflow; all other item content is created at runtime via the [XML Importer](#xml-importer).
 
 ## Source JSON
 
@@ -241,6 +249,8 @@ Pack source files live in:
 ```text
 utility/packs/
 ```
+
+Reference shapes for each importable item type live in `utility/examples/`.
 
 ## Build Compendium
 

@@ -1,0 +1,45 @@
+{
+  "sr4": {
+    "autosoft": {
+      "clearsight": "Clearsight",
+      "clearsoft": "Clearsoft",
+      "electronicWarfare": "Electronic Warfare",
+      "maneuvering": "Maneuvering",
+      "target": "Target",
+      "targeting": "Targeting",
+      "type": "Type"
+    },
+    "commlink": {
+      "firewall": "Firewall",
+      "noCommlinks": "This is where I keep my commlinks, if I had any",
+      "os": "System",
+      "response": "Response",
+      "signal": "Signal"
+    },
+    "matrix": {
+      "attribute": "Attribute",
+      "biofeedbackFilter": "Biofeedback Filter",
+      "bonus": "Bonus",
+      "commlinks": "Commlinks",
+      "complexForms": "Complex Forms",
+      "firewall": "Firewall",
+      "livingPersona": "Living Persona",
+      "noComplexForms": "This is where I keep my complex forms, if I had any",
+      "noSoftware": "This is where I keep my software, if I had any",
+      "response": "Response",
+      "signal": "Signal",
+      "software": "Software",
+      "system": "System",
+      "technomancer": "Technomancer",
+      "threading": "Threading",
+      "threadingHint": "Roll Software + Resonance",
+      "vrMatrixInitiative": "VR Matrix Initiative",
+      "vrMatrixInitiativePasses": "VR Matrix Init. Passes"
+    },
+    "program": {
+      "category": "Category",
+      "complexform": "Complex Form",
+      "maxrating": "Max Rating"
+    }
+  }
+}

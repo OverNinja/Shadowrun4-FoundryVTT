@@ -1,5 +1,6 @@
 import { ActionType, Shootingmodes, SR4Attributes } from '@models/index';
 import { buildWeaponContext } from './weapon-context.js';
+import { buildArmorContext } from './armor-context.js';
 import { buildComputedStats, sortSkillsByLabel } from './actor-context.js';
 import SR4BaseActorSheet from './sr4-base-actor-sheet.js';
 
@@ -69,9 +70,15 @@ export default class SR4NpcSheet extends SR4BaseActorSheet {
       attributes: SR4Attributes,
       shootingmodes: Shootingmodes,
       actiontypes: ActionType,
-      weapons: buildWeaponContext(items),
+      weapons: buildWeaponContext(items, {
+        meleeDmgBonus: actorData.system.derivedStats.meleeDamageBonus ?? 0,
+        meleeDamageModifier:
+          actorData.system.modifiers?.meleeDamageModifier ?? 0,
+        unarmedDamageModifier:
+          actorData.system.modifiers?.unarmedDamageModifier ?? 0,
+      }),
       skills: sortSkillsByLabel(items),
-      armor: items.filter((i) => i.type === 'Armor'),
+      armor: buildArmorContext(items),
       critterPowers: this._enrichItemContext(items, 'CritterPower'),
       isTechnomancer: actorData.system.technomancer,
       ...buildComputedStats(actorData, derived),
